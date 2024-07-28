@@ -11,6 +11,14 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
+  shared_preferences: ^2.2.3
+  fluttertoast: ^8.2.6 #
+  logger: ^2.3.0
+  flutter_svg: ^2.0.10+1
+  dio: ^5.4.3+1
+  get: ^4.6.6
+  smooth_page_indicator: ^1.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -24,7 +32,11 @@ flutter:
 
   uses-material-design: true
 
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/intro/
+    - assets/images/team/
+    - assets/images/home/
+    - assets/images/bottom_navigation/
+    - assets/images/settings/
   #   - images/a_dot_ham.jpeg
 
