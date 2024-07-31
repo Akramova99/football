@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:football/presentation/home/pages/base_page.dart';
 import 'package:football/presentation/intro/pages/base_intro_page.dart';
 import 'package:football/root/root_binding.dart';
+import 'package:football/services/db_service.dart';
 import 'package:get/get.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DbService.init();
   runApp(const MyApp());
 }
 
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const BaseIntroPage(),
+      home: DbService.getLoggedIn() ? const BasePage() : const BaseIntroPage(),
       initialBinding: RootBinding(),
     );
   }

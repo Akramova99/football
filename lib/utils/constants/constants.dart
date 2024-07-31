@@ -1,4 +1,8 @@
+import 'package:football/presentation/home/pages/home_pages/pages/calendar_pages/calendar_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/leagues_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/points_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/transfer_page.dart';
 
 const intro = [
   {
@@ -45,27 +49,22 @@ const List homeMenuItems = [
   {
     "image": "assets/images/home/m_team_img.png",
     "label": "Mening Jamoam",
-    "rout": ""
+    "rout": MyTeamPage()
   },
   {
     "image": "assets/images/home/m_taqvim_img.png",
     "label": "Taqvim",
-    "rout": ""
+    "rout": CalendarPage()
   },
   {
     "image": "assets/images/home/m_transfer_img.png",
     "label": "Transfer",
-    "rout": ""
+    "rout": TransferPage()
   },
   {
     "image": "assets/images/home/m_leagues_img.png",
     "label": "Ligalar",
-    "rout": ""
-  },
-  {
-    "image": "assets/images/home/m_points_img.png",
-    "label": "Ochkolar",
-    "rout": ""
+    "rout": LeaguesPage()
   },
 ];
 
@@ -101,3 +100,19 @@ const List settingMenuItems = [
     "rout": ""
   },
 ];
+
+var tactics = [
+  [1, 3, 4, 3],
+  [1, 3, 5, 2],
+  [1, 4, 5, 1],
+  [1, 4, 4, 2]
+];
+
+var tacticsString = ['1-3-4-3', '1-3-5-2', '1-4-5-1', '1-4-4-2'];
+
+Map<int, String> reversePosition = {
+  0: "goalkeeper",
+  1: "defender",
+  2: "midfielder",
+  3: "forward",
+};

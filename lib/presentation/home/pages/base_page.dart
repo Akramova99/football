@@ -3,7 +3,7 @@ import 'package:football/presentation/home/controllers/base_page_controller.dart
 import 'package:football/presentation/home/pages/balance_page.dart';
 import 'package:football/presentation/home/pages/home_page.dart';
 import 'package:football/presentation/home/pages/settings_page.dart';
-import 'package:football/presentation/home/pages/statistics_page.dart';
+import 'package:football/presentation/home/pages/statistics/pages/statistics_page.dart';
 import 'package:football/presentation/widgets/custom_bottom_navigation_item.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
@@ -24,11 +24,20 @@ class _BasePageState extends State<BasePage> {
       return Scaffold(
           body: PageView(
             controller: controller.pageController,
-            children: const [
-              HomePage(),
-              BalancePage(),
-              StatisticsPage(),
-              SettingsPage()
+            children: [
+              HomePage(
+                key: PageStorageKey("home"),
+                pageController: controller.pageController,
+              ),
+              BalancePage(
+                key: PageStorageKey("balance"),
+              ),
+              StatisticsPage(
+                key: PageStorageKey("statistics"),
+              ),
+              SettingsPage(
+                key: PageStorageKey("setting"),
+              )
             ],
             onPageChanged: (index) {
               controller.onPageChange(index);

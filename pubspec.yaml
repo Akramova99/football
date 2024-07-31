@@ -38,5 +38,6 @@ flutter:
     - assets/images/home/
     - assets/images/bottom_navigation/
     - assets/images/settings/
+    - assets/images/test/
   #   - images/a_dot_ham.jpeg
 

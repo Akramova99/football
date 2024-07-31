@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/intro/controllers/create_team_controller.dart';
+import 'package:football/presentation/widgets/custom_button.dart';
 import 'package:football/presentation/widgets/football_field_widget.dart';
 import 'package:football/presentation/widgets/players_card_widget.dart';
+import 'package:football/presentation/widgets/tactics_menu_button.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
 
 class CreateTeamPage extends StatefulWidget {
-  const CreateTeamPage({super.key});
+  const CreateTeamPage({super.key, required this.pageController});
+
+  final PageController pageController;
 
   @override
   State<CreateTeamPage> createState() => _CreateTeamPageState();
@@ -19,6 +23,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
   void initState() {
     super.initState();
     controller.getPlayer();
+    controller.createTeam();
   }
 
   @override
@@ -34,60 +39,44 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
         body: Container(
           padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 Container(
                   color: Colors.green,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [buildDrop(context)],
+                    children: [
+                      TacticsMenuButton(
+                        controller: controller,
+                      ),
+                    ],
                   ),
                 ),
-                FootballFieldWidget(),
-                SizedBox(
+                CreateTeamWidget(
+                  controller: controller,
+                ),
+                const SizedBox(
                   height: 5,
                 ),
-                PlayersCardWidget(
-                  players: controller.players,
-                )
+                controller.isTeamFool < 11
+                    ? PlayersCardWidget(
+                        players: controller.selectivePlayer,
+                        function: controller.assignPlayer,
+                      )
+                    : CustomButton(
+                        text: "Save team",
+                        onPress: () {
+                          controller.saveTeamId();
+                          controller.assignReservePlayers();
+                          controller.goToNextPage(widget.pageController);
+
+                        })
               ],
             ),
           ),
         ),
       );
     });
-  }
-
-  Widget buildDrop(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<int>(
-        value: 1,
-        onChanged: (index) {},
-        style: const TextStyle(
-          color: Colors.black,
-          // Color of the items when displayed in the dropdown
-          fontSize: 20,
-        ),
-        dropdownColor: Colors.white,
-        // Background color of the dropdown
-        selectedItemBuilder: (BuildContext context) {
-          return [
-            Center(
-              child: Text(
-                "1",
-                style: const TextStyle(
-                  color: Colors.white,
-                  // Color of the selected item when closed
-                  fontSize: 20,
-                ),
-              ),
-            )
-          ];
-        },
-        items: [],
-        icon: const Icon(null, color: Colors.white),
-      ),
-    );
   }
 }

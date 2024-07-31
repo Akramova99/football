@@ -15,7 +15,8 @@ class CustomHomeMenuItem extends StatelessWidget {
         }));
       },
       child: Container(
-        height: 70,
+        margin: EdgeInsets.symmetric(vertical: 5),
+        height: 60,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -26,8 +27,8 @@ class CustomHomeMenuItem extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-              height: 40,
-              width: 40,
+              height: 24,
+              width: 24,
               child: Image.asset(
                 data["image"]!,
                 fit: BoxFit.cover,

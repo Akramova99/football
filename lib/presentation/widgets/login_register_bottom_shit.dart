@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:football/presentation/intro/controllers/login_register_controller.dart';
 import 'package:football/presentation/widgets/custom_button.dart';
+import 'package:football/presentation/widgets/toast.dart';
 
-loginBottomShit(BuildContext context,{required Function login}) {
+loginBottomShit(
+    {required BuildContext context,
+    required LoginRegisterController controller}) {
   return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -12,7 +16,7 @@ loginBottomShit(BuildContext context,{required Function login}) {
           ),
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,8 +41,9 @@ loginBottomShit(BuildContext context,{required Function login}) {
                       children: [
                         Expanded(
                           child: TextField(
-                            cursorColor: Color.fromRGBO(0, 0, 0, 0.25),
-                            decoration: InputDecoration(
+                            controller: controller.emailLog,
+                            cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: "Email",
                             ),
@@ -63,8 +68,9 @@ loginBottomShit(BuildContext context,{required Function login}) {
                       children: [
                         Expanded(
                           child: TextField(
-                            cursorColor: Color.fromRGBO(0, 0, 0, 0.25),
-                            decoration: InputDecoration(
+                            controller: controller.passwordLog,
+                            cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: "Password",
                             ),
@@ -85,9 +91,11 @@ loginBottomShit(BuildContext context,{required Function login}) {
                   const SizedBox(
                     height: 20,
                   ),
-                  CustomButton(text: "Kirish", onPress: () {
-                    login();
-                  }),
+                  CustomButton(
+                      text: "Kirish",
+                      onPress: () {
+                        controller.login(context);
+                      }),
                   const SizedBox(
                     height: 10,
                   ),
@@ -109,7 +117,11 @@ loginBottomShit(BuildContext context,{required Function login}) {
                         ),
                         onTap: () {
                           Navigator.pop(context);
-                          registerBottomShit(context,register: ()=>{});
+                          controller.teamId != null
+                              ? registerBottomShit(
+                                  context: context, controller: controller)
+                              : ToastService.showError(
+                                  "Sizda jamoma mavjud emas");
                         },
                       ),
                       const SizedBox(
@@ -125,7 +137,9 @@ loginBottomShit(BuildContext context,{required Function login}) {
       });
 }
 
-registerBottomShit(BuildContext context, {required Function register}) {
+registerBottomShit(
+    {required BuildContext context,
+    required LoginRegisterController controller}) {
   return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -162,6 +176,7 @@ registerBottomShit(BuildContext context, {required Function register}) {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: controller.userNameReg,
                             cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
                             decoration: const InputDecoration(
                               border: InputBorder.none,
@@ -188,6 +203,7 @@ registerBottomShit(BuildContext context, {required Function register}) {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: controller.emailReg,
                             cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
                             decoration: const InputDecoration(
                               border: InputBorder.none,
@@ -214,6 +230,7 @@ registerBottomShit(BuildContext context, {required Function register}) {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: controller.passwordReg,
                             cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
                             decoration: const InputDecoration(
                               border: InputBorder.none,
@@ -231,15 +248,17 @@ registerBottomShit(BuildContext context, {required Function register}) {
                         value: true,
                         onChanged: (result) {},
                       ),
-                      Text("Eslab qolish")
+                      const Text("Eslab qolish")
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  CustomButton(text: "Ro'yhatdan o'tish", onPress: () {
-                    register();
-                  }),
+                  CustomButton(
+                      text: "Ro'yhatdan o'tish",
+                      onPress: () {
+                        controller.register(context);
+                      }),
                   const SizedBox(
                     height: 10,
                   ),
@@ -261,7 +280,8 @@ registerBottomShit(BuildContext context, {required Function register}) {
                         ),
                         onTap: () {
                           Navigator.pop(context);
-                          loginBottomShit(context,login: (){});
+                          loginBottomShit(
+                              controller: controller, context: context);
                         },
                       ),
                       const SizedBox(

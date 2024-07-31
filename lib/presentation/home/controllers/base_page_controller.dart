@@ -9,7 +9,7 @@ class BasePageController extends GetxController {
     selectedItemIndex = index;
     update();
     pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 200), curve: Curves.ease);
+        duration: const Duration(milliseconds: 10), curve: Curves.ease);
   }
 
   onPageChange(index) {

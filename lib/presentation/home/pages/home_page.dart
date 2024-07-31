@@ -6,7 +6,9 @@ import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final PageController pageController;
+
+  const HomePage({super.key, required this.pageController});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -35,22 +37,32 @@ class _HomePageState extends State<HomePage> {
           actions: [
             Container(
               margin: EdgeInsets.only(right: 20),
-              child: Image.asset(
-                "assets/images/home/appbar_right.png",
-                height: 30,
+              child: GestureDetector(
+                child: Image.asset(
+                  "assets/images/home/appbar_right.png",
+                  height: 30,
+                ),
+                onTap: () {
+                  controller.callNotificationPage();
+                },
               ),
             )
           ],
           leading: Container(
             margin: EdgeInsets.only(left: 20),
-            child: Image.asset(
-              "assets/images/home/appbar_left.png",
-              height: 30,
+            child: GestureDetector(
+              child: Image.asset(
+                "assets/images/home/appbar_left.png",
+                height: 30,
+              ),
+              onTap: (){
+                controller.goToSettingsPage(widget.pageController);
+              },
             ),
           ),
         ),
         body: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -58,9 +70,6 @@ class _HomePageState extends State<HomePage> {
                 "Hi ${controller.name}",
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
-              ),
-              const SizedBox(
-                height: 10,
               ),
               Text(
                 "Good ${controller.dayTime}",

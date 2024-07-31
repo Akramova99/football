@@ -1,10 +1,19 @@
 import 'package:football/presentation/home/controllers/base_page_controller.dart';
 import 'package:football/presentation/home/controllers/home_page_controller.dart';
+import 'package:football/presentation/home/controllers/setting_page_controller.dart';
+import 'package:football/presentation/home/pages/statistics/controllers/statistics_page_controller.dart';
+import 'package:football/presentation/home/pages/home_pages/controllers/calendar_page_controller.dart';
+import 'package:football/presentation/home/pages/home_pages/controllers/leagues_page_controller.dart';
+import 'package:football/presentation/home/pages/home_pages/controllers/my_team_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/points_page_controller.dart';
+import 'package:football/presentation/home/pages/home_pages/controllers/transfer_page_controller.dart';
+import 'package:football/presentation/intro/controllers/capitan_selection_controller.dart';
 import 'package:football/presentation/intro/controllers/create_team_controller.dart';
 import 'package:football/presentation/intro/controllers/login_register_controller.dart';
 import 'package:football/presentation/intro/controllers/select_team_name_controller.dart';
 import 'package:get/get.dart';
+
+import '../presentation/widgets/football_field_widget.dart';
 
 
 class RootBinding implements Bindings{
@@ -16,9 +25,13 @@ class RootBinding implements Bindings{
     Get.lazyPut(()=>HomePageController(), fenix: true);
     Get.lazyPut(()=>PointsPageController(), fenix: true);
     Get.lazyPut(()=>CreateTeamController(), fenix: true);
-
-
-
+    Get.lazyPut(()=>FootballFieldController(), fenix: true);
+    Get.lazyPut(()=>CapitanSelectionController(), fenix: true);
+    Get.lazyPut(()=>MyTeamController(), fenix: true);
+    Get.lazyPut(()=>TransferPageController(), fenix: true);
+    Get.lazyPut(()=>LeaguesPageController(), fenix: true);
+    Get.lazyPut(()=>CalendarPageController(), fenix: true);
+    Get.lazyPut(()=>StatisticsPageController(), fenix: true);
+    Get.lazyPut(()=>SettingPageController(), fenix: true);
   }
-
 }

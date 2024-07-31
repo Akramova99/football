@@ -20,41 +20,45 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView(
-                controller: pageController,
-                children: [
-                  IntroPag(
-                    introData: intro[0],
-                  ),
-                  IntroPag(
-                    introData: intro[1],
-                  ),
-                  IntroPag(
-                    introData: intro[2],
-                  ),
-                  const CreateTeamPage(),
-                  const CapitanSelectionPage(),
-                  const SelectTeamNamePage()
-                ],
-              ),
-            ),
-            SmoothPageIndicator(
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView(
               controller: pageController,
-              count: 6,
-              effect: const JumpingDotEffect(
-                  activeDotColor: Color(0xFF10A3A3),
-                  dotColor: Color(0xFFB2EBF2)),
+              children: [
+                IntroPag(
+                  key: PageStorageKey('IntroPage1'),
+                  introData: intro[0],
+                ),
+                IntroPag(
+                  key: PageStorageKey('IntroPage2'),
+                  introData: intro[1],
+                ),
+                IntroPag(
+                  key: PageStorageKey('IntroPage3'),
+                  introData: intro[2],
+                ),
+                CreateTeamPage(
+                  pageController: pageController,
+                  key: PageStorageKey('IntroPage4'),
+                ),
+                CapitanSelectionPage(
+                    pageController: pageController,
+                    key: PageStorageKey('IntroPage5')),
+                const SelectTeamNamePage(key: PageStorageKey('IntroPage6'))
+              ],
             ),
-            const SizedBox(
-              height: 60  ,
-            )
-          ],
-        ),
+          ),
+          SmoothPageIndicator(
+            controller: pageController,
+            count: 6,
+            effect: const JumpingDotEffect(
+                activeDotColor: Color(0xFF10A3A3), dotColor: Color(0xFFB2EBF2)),
+          ),
+          const SizedBox(
+            height: 60,
+          )
+        ],
       ),
     );
   }

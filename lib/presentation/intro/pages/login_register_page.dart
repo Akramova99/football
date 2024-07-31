@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/intro/controllers/login_register_controller.dart';
 import 'package:football/presentation/widgets/login_register_bottom_shit.dart';
+import 'package:football/presentation/widgets/toast.dart';
 import 'package:get/get.dart';
 
 class LoginRegisterPage extends StatefulWidget {
@@ -13,6 +14,13 @@ class LoginRegisterPage extends StatefulWidget {
 class _LoginRegisterPageState extends State<LoginRegisterPage> {
   final LoginRegisterController controller =
       Get.find<LoginRegisterController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.getTeamId();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +64,8 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                                 BorderRadius.all(Radius.circular(16))),
                         child: MaterialButton(
                           onPressed: () {
-                            loginBottomShit(context,
-                                login: ()=>controller.login(context));
+                            loginBottomShit(
+                                context: context, controller: controller);
                           },
                           textColor: Colors.white,
                           child: const Text(
@@ -73,8 +81,11 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          registerBottomShit(context,
-                              register: ()=> controller.register(context));
+                          controller.teamId != null
+                              ? registerBottomShit(
+                                  context: context, controller: controller)
+                              : ToastService.showError(
+                                  "Sizda jamoma mavjud emas");
                         },
                         child: const Text(
                           "Royhatdan o’tish",
