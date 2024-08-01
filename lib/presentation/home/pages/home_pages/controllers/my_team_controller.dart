@@ -18,6 +18,7 @@ class MyTeamController extends GetxController {
   List<Player> selectivePlayers = [];
 
   getTeam() async {
+    isLoading = false;
     String userId = DbService.getUserId();
     var response =
         await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
@@ -27,29 +28,50 @@ class MyTeamController extends GetxController {
     isLoading = true;
     update();
 
+    getPrimaryTeam();
+    //addPlayer();
     getReservePlayers(team.players!);
   }
 
   getReservePlayers(List<Player> players) {
     List<Player> list = [];
-    List<Player> list2 = [];
     for (var p in players) {
       if (!(p.isPrimary ?? false)) {
         list.add(p);
-      } else {
-        list2.add(p);
       }
     }
-    primaryTeam = list2;
     reservePlayers = list;
     selectivePlayers = list;
     update();
   }
 
-  selectPlayer(Player player) {
-    print(player.name!);
+  getPrimaryTeam() {
+    for (var player in team.players!) {
+      if (player.isPrimary ?? false) {
+        primaryTeam.add(player);
+      }
+    }
+  }
 
-    var index = primaryTeam.indexOf(player);
+  addPlayer() {
+    for (var player in reservePlayers) {
+      if (player.position == "DEFENDER") {
+        primaryTeam.add(player);
+        DioService.POST(
+            DioService.changePlayer(team.id.toString(), player.id, true), null);
+        return;
+      }
+    }
+    print(("reserve players"));
+  }
+
+  selectPlayer(Player player) {
+    int index = primaryTeam.indexOf(player);
+    if (index == -1) {
+      print("Player not found in primary team");
+      return;
+    }
+
     List<Player> list = [];
     chosen = List.generate(11, (_) => false); // Reset chosen list
     chosen[index] = true;
@@ -60,17 +82,36 @@ class MyTeamController extends GetxController {
       }
     }
     selectivePlayers = list;
-    update();
+    update(); // Update the UI
   }
 
   assignPlayer(Player player) {
     for (var i = 0; i < chosen.length; i++) {
       if (chosen[i]) {
-        team.players![i] = player;
-        update();
-        chosen[i] = false;
-        //addPlayer(player, true);
+        player.isPrimary = true;
+        Player temp = primaryTeam[i];
+
+        temp.isPrimary = false;
+        primaryTeam[i] = player;
+
+        DioService.POST(
+            DioService.changePlayer(team.id.toString(), temp.id, false), null);
+        DioService.POST(
+            DioService.changePlayer(team.id.toString(), player.id, true), null);
+
+        reservePlayers.remove(player);
+        reservePlayers.add(temp);
+
+        selectivePlayers.remove(player);
+        selectivePlayers.add(temp);
+
+        print(selectivePlayers.contains(temp));
+        print(primaryTeam.contains(player));
+
+        update(); // Update the UI
+        break; // Exit the loop after successful change
       }
     }
   }
+
 }

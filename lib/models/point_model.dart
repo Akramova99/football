@@ -10,8 +10,8 @@ PointModel pointModelFromJson(String str) =>
 String pointModelToJson(PointModel data) => json.encode(data.toJson());
 
 class PointModel {
-  double? maxScore;
-  double? avgScore;
+  int? maxScore;
+  int? avgScore;
 
   PointModel({
     this.maxScore,

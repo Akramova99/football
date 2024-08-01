@@ -23,6 +23,12 @@ class _PointsPageState extends State<PointsPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    Get.delete<PointsPageController>();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<PointsPageController>(
       builder: (_) {
@@ -57,7 +63,9 @@ class _PointsPageState extends State<PointsPage> {
                                   controller.teamName,
                                   style: CustomStyles.teamName,
                                 ),
-                                SizedBox(width: 5,),
+                                SizedBox(
+                                  width: 5,
+                                ),
                                 controller.team.logo != null
                                     ? SizedBox(
                                         width: 30,
@@ -97,9 +105,9 @@ class _PointsPageState extends State<PointsPage> {
                                       style: CustomStyles.team,
                                     ),
                                     Text(
-                                        "Best:  ${controller.points.maxScore ?? ""} pts"),
+                                        "Best:  ${controller.points.maxScore} pts"),
                                     Text(
-                                        "Average:  ${controller.points.avgScore ?? ""} pts"),
+                                        "Average:  ${controller.points.avgScore} pts"),
                                   ],
                                 ))
                               ],

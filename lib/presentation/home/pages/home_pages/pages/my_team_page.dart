@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/my_team_controller.dart';
-import 'package:football/presentation/widgets/football_field_widget.dart';
 import 'package:football/presentation/widgets/players_card_widget.dart';
+import 'package:football/presentation/widgets/team_name_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
+
+import '../../../../widgets/change_player_football_field.dart';
 
 class MyTeamPage extends StatefulWidget {
   const MyTeamPage({super.key});
@@ -19,6 +21,10 @@ class _MyTeamPageState extends State<MyTeamPage> {
   void initState() {
     super.initState();
     controller.getTeam();
+    //controller.addDefenders();
+
+    //
+    // controller.addPlayer();
   }
 
   @override
@@ -50,9 +56,12 @@ class _MyTeamPageState extends State<MyTeamPage> {
                         )
                       : Column(
                           children: [
-                            FootballFieldWidget(
-                                players: controller.team.players!,
-                                function: controller.selectPlayer),
+                            TeamNameWidget(
+                                icon: controller.teamName,
+                                name: controller.teamIcon),
+                            ChangePlayerFootballField(
+                              controller: controller,
+                            ),
                             PlayersCardWidget2(
                                 players: controller.selectivePlayers,
                                 function: controller.assignPlayer)

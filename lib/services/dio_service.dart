@@ -48,9 +48,13 @@ class DioService {
   }
 
   static String logOuApi(String email) {
-    var newEmail = email.replaceFirst("@", "%40");
-    print(newEmail);
+    var newEmail = email.replaceFirst("+", "%2B");
+    print("new email "+newEmail);
     return newEmail;
+  }
+
+  static changePlayer(String teamId, playerId, bool isPrimary) {
+    return "/api/v1/teams/$teamId/change-primary/players/$playerId/$isPrimary";
   }
 
   static const GET_TEAM_API = "/api/v1/teams/";

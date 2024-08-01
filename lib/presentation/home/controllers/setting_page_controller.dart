@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:football/main.dart';
 import 'package:football/presentation/intro/pages/base_intro_page.dart';
 import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/db_service.dart';
@@ -15,16 +14,18 @@ class SettingPageController extends GetxController {
           DioService.LOG_OUT_API + DioService.logOuApi(email),
           data: null);
       print(response.statusMessage);
-      if (response.statusCode == 204) {
+      if (response.statusCode == 204 || response.statusCode == 200) {
         DbService.setLoggedIn(false);
         DbService.clear();
         ToastService.showSuccess("Siz tizimdan chiqarib yuborildingiz");
         Get.deleteAll(force: true);
         callBaseIntroPage(context);
-      }else{
+      } else {
         ToastService.showError("XAtolik yuz berdi");
       }
-    } catch (e) {}
+    } catch (e) {
+      print("log out $e");
+    }
   }
 
   callBaseIntroPage(context) {

@@ -21,7 +21,7 @@ class PointsPageController extends GetxController {
     var result = teamModelFromJson(response);
     team = result;
     teamName = team.name!;
-    getPoints();
+    await getPoints();
     isLoading = true;
     update();
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/player_selection_model.dart';
 import 'package:football/presentation/widgets/player_selection_widget.dart';
-import 'package:football/utils/converter.dart';
 
 import '../../models/team_model.dart';
 
@@ -47,7 +46,7 @@ class PlayersCardWidget2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      height: 75,
       decoration: const BoxDecoration(
           color: Color.fromRGBO(41, 169, 107, 1),
           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -56,8 +55,7 @@ class PlayersCardWidget2 extends StatelessWidget {
           itemCount: players.length,
           itemBuilder: (ctx, index) {
             return GestureDetector(
-              child: PlayerWidget(
-                  player: convertToPlayerSelectionModel(players[index])),
+              child: PlayerSelectionWidget(player: players[index]),
               onTap: () {
                 function(players[index]);
               },

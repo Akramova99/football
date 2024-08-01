@@ -18,9 +18,14 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller.getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Get.delete<CalendarPageController>();
   }
 
   @override
@@ -58,8 +63,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         flex: 3,
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)
-                          ),
+                              borderRadius: BorderRadius.circular(10)),
                           child: TabBarView(
                             children: controller.matches
                                 .map((match) => MatchListView(
@@ -90,10 +94,10 @@ class _CalendarPageState extends State<CalendarPage> {
                               ),
                             ),
                             Expanded(
-                              child: Container( 
-
+                              child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
                                   color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(

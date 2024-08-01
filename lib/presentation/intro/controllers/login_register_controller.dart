@@ -15,10 +15,16 @@ class LoginRegisterController extends GetxController {
   TextEditingController emailLog = TextEditingController();
   TextEditingController passwordLog = TextEditingController();
 
+  bool showPassword = true;
   String userId = "";
 
   String? teamId;
 
+
+  hidePassword(){
+    showPassword = !showPassword;
+    update();
+  }
   getTeamId() {
     teamId = DbService.getTeamId();
   }

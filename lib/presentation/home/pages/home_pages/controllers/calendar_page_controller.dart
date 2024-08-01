@@ -16,7 +16,8 @@ class CalendarPageController extends GetxController {
   getRating() async {
     var response = await DioService.GET(DioService.GET_RATING_TEAM_API, null);
     var _teams = teamRatingModelFromJson(response);
-    for (var i = 0; i < 20; i++) {
+    var size = _teams.length < 20 ? _teams.length : 20;
+    for (var i = 0; i < size; i++) {
       teams.add(_teams[i]);
     }
   }

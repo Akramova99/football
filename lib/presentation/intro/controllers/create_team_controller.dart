@@ -62,6 +62,8 @@ class CreateTeamController extends GetxController {
         list.add(players[i]);
       }
     }
+
+    //selectivePlayer.clear();
     selectivePlayer = list;
     update();
   }
@@ -71,6 +73,7 @@ class CreateTeamController extends GetxController {
       if (chosen[i]) {
         if (!playersInField.contains(player)) {
           playersInField[i] = player;
+          selectivePlayer.remove(player);
           update();
           chosen[i] = false;
           isTeamFool++;
@@ -80,20 +83,79 @@ class CreateTeamController extends GetxController {
     }
   }
 
-  assignReservePlayers() {
-    int number = 0;
-
-    for (var player in players) {
-      if (!playersInField.contains(player) && number < 5) {
-        addPlayer(player, false);
-        print(player.name);
-        number++;
-      }
-    }
-  }
-
   addPlayer(PlayerSelectionModel player, bool isPrimary) {
     String playerId = player.id.toString();
     DioService.POST(DioService.addPlayerAPI(teamId, playerId, isPrimary), null);
+  }
+
+  assignReservePlayers() {
+    int number = 0;
+
+    // Create lists for each position
+    List<PlayerSelectionModel> goalkeepers = [];
+    List<PlayerSelectionModel> defenders = [];
+    List<PlayerSelectionModel> midfielders = [];
+    List<PlayerSelectionModel> forwards = [];
+
+    // Sort players into position lists
+    for (var player in players) {
+      if (!playersInField.contains(player)) {
+        switch (player.position) {
+          case 'GOALKEEPER':
+            goalkeepers.add(player);
+            break;
+          case 'DEFENDER':
+            defenders.add(player);
+            break;
+          case 'MIDFIELDER':
+            midfielders.add(player);
+            break;
+          case 'FORWARD':
+            forwards.add(player);
+            break;
+        }
+      }
+    }
+
+    // Helper function to add players from a specific list
+    void addPlayersFromList(
+        List<PlayerSelectionModel> positionList, int maxCount) {
+      int count = 0;
+      for (var player in positionList) {
+        if (number < 5 && count < maxCount) {
+          addPlayer(player, false);
+          print(player.name);
+          number++;
+          count++;
+        }
+      }
+    }
+
+    // Add at least one player from each position
+    addPlayersFromList(goalkeepers, 1);
+    addPlayersFromList(defenders, 1);
+    addPlayersFromList(midfielders, 1);
+    addPlayersFromList(forwards, 1);
+
+    // If less than 5 players added, fill the rest from any position
+    if (number < 5) {
+      List<PlayerSelectionModel> remainingPlayers = [
+        ...goalkeepers,
+        ...defenders,
+        ...midfielders,
+        ...forwards
+      ];
+
+      remainingPlayers.removeWhere((player) => playersInField.contains(player));
+      remainingPlayers.shuffle(); // Shuffle to add players randomly
+
+      for (var player in remainingPlayers) {
+        if (number < 5) {
+          addPlayer(player, false);
+          print(player.name);
+          number++;
+        }
+      }
+    }
   }
 }

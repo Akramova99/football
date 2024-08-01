@@ -143,6 +143,7 @@ class _FootballFieldWidgetState extends State<FootballFieldWidget> {
         (i) => GestureDetector(
           onTap: () {
             widget.function(controller.primaryTeam[index + i]);
+            controller.updateUi();
           },
           child:
               PlayerSelectionWidget(player: controller.primaryTeam[index + i]),
@@ -224,5 +225,9 @@ class FootballFieldController extends GetxController {
         }
       }
     }
+  }
+
+  updateUi() {
+    update();
   }
 }
