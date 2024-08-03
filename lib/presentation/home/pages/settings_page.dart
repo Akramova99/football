@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/controllers/setting_page_controller.dart';
 import 'package:football/presentation/widgets/custom_diolog.dart';
-import 'package:football/presentation/widgets/custom_home_menu_item.dart';
-import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
+
+import '../../../utils/constants/constants.dart';
+import '../../widgets/custom_home_menu_item.dart';
+import '../../widgets/language_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -56,7 +58,23 @@ class _SettingsPageState extends State<SettingsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             6,
-            (index) => CustomHomeMenuItem(data: settingMenuItems[index]),
+            (index) {
+              return index == 0
+                  ? CustomHomeMenuItem2(
+                      data: settingMenuItems[index],
+                      changeLanguage: () {
+                        showLanguageDialog(context);
+                      },
+                    )
+                  : index >= 4
+                      ? CustomHomeMenuItem2(
+                          data: settingMenuItems[index],
+                          changeLanguage: () {
+                            controller.shareApp();
+                          },
+                        )
+                      : CustomHomeMenuItem(data: settingMenuItems[index]);
+            },
           ),
         ),
       ),

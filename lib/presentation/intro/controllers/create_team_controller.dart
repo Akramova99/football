@@ -48,6 +48,11 @@ class CreateTeamController extends GetxController {
 
   onTacticsChange(index) {
     tacticsIndex = index;
+    playersInField = List.generate(
+      16,
+      (index) => PlayerSelectionModel(),
+    );
+    isTeamFool = 0;
     update();
   }
 

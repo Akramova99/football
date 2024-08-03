@@ -10,6 +10,7 @@ class DioService {
       if (response.statusCode == 200) {
         return "${response.data}";
       } else {
+        print(response.statusMessage);
         return "${response.statusMessage}";
       }
     } on Exception catch (e) {
@@ -49,7 +50,7 @@ class DioService {
 
   static String logOuApi(String email) {
     var newEmail = email.replaceFirst("+", "%2B");
-    print("new email "+newEmail);
+    print("new email " + newEmail);
     return newEmail;
   }
 

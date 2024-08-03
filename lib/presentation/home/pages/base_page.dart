@@ -29,13 +29,13 @@ class _BasePageState extends State<BasePage> {
                 key: PageStorageKey("home"),
                 pageController: controller.pageController,
               ),
-              BalancePage(
+              const BalancePage(
                 key: PageStorageKey("balance"),
               ),
-              StatisticsPage(
+              const StatisticsPage(
                 key: PageStorageKey("statistics"),
               ),
-              SettingsPage(
+              const SettingsPage(
                 key: PageStorageKey("setting"),
               )
             ],

@@ -12,6 +12,7 @@ class UserModel {
   int? id;
   String? username;
   String? email;
+  dynamic image;
   String? role;
   double? balance;
   Team? team;
@@ -21,6 +22,7 @@ class UserModel {
     this.id,
     this.username,
     this.email,
+    this.image,
     this.role,
     this.balance,
     this.team,
@@ -31,6 +33,7 @@ class UserModel {
         id: json["id"],
         username: json["username"],
         email: json["email"],
+        image: json["image"],
         role: json["role"],
         balance: json["balance"],
         team: json["team"] == null ? null : Team.fromJson(json["team"]),
@@ -43,6 +46,7 @@ class UserModel {
         "id": id,
         "username": username,
         "email": email,
+        "image": image,
         "role": role,
         "balance": balance,
         "team": team?.toJson(),

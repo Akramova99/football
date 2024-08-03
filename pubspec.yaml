@@ -19,6 +19,7 @@ dependencies:
   get: ^4.6.6
   smooth_page_indicator: ^1.1.0
   intl: ^0.17.0
+  share_plus: ^6.3.1
 
 dev_dependencies:
   flutter_test:

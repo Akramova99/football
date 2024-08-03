@@ -85,25 +85,33 @@ class MyTeamController extends GetxController {
     update(); // Update the UI
   }
 
-  assignPlayer(Player player) {
+  assignPlayer(Player player) async {
     for (var i = 0; i < chosen.length; i++) {
       if (chosen[i]) {
-        player.isPrimary = true;
-        Player temp = primaryTeam[i];
+        print(team.id);
 
-        temp.isPrimary = false;
-        primaryTeam[i] = player;
+        await DioService.POST(
+            DioService.changePlayer(
+                team.id.toString(), primaryTeam[i].id, false),
+            null);
 
-        DioService.POST(
-            DioService.changePlayer(team.id.toString(), temp.id, false), null);
-        DioService.POST(
+        await DioService.POST(
             DioService.changePlayer(team.id.toString(), player.id, true), null);
 
-        reservePlayers.remove(player);
-        reservePlayers.add(temp);
 
         selectivePlayers.remove(player);
+        reservePlayers.remove(player);
+
+        Player temp = primaryTeam[i];
+
+        player.isPrimary = true;
+        primaryTeam[i] = player;
+        temp.isPrimary = false;
+
         selectivePlayers.add(temp);
+        reservePlayers.add(temp);
+
+        player = temp;
 
         print(selectivePlayers.contains(temp));
         print(primaryTeam.contains(player));
@@ -114,4 +122,24 @@ class MyTeamController extends GetxController {
     }
   }
 
+  assignPlayer2(Player player) {
+    for (var i = 0; i < chosen.length; i++) {
+      if (chosen[i]) {
+        Player temp = primaryTeam[i];
+
+        player.isPrimary = true;
+        primaryTeam[i].isPrimary = false;
+
+        primaryTeam[i] = player;
+        player = temp;
+
+        DioService.POST(
+            DioService.changePlayer(team.id.toString(), temp.id, false), null);
+        DioService.POST(
+            DioService.changePlayer(team.id.toString(), player.id, true), null);
+        update(); // Update the UI
+        break; // Exit the loop after successful change
+      }
+    }
+  }
 }

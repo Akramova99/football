@@ -5,6 +5,8 @@ import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
 
+
+
 class SettingPageController extends GetxController {
   logOut(context) async {
     var email = DbService.getUserEmail();
@@ -36,5 +38,11 @@ class SettingPageController extends GetxController {
       }),
       (route) => false,
     );
+  }
+
+  changeLanguage() {}
+
+  shareApp() async {
+    //await Share.share('check out my website https://example.com');
   }
 }
