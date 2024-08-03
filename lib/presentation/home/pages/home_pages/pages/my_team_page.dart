@@ -57,8 +57,8 @@ class _MyTeamPageState extends State<MyTeamPage> {
                       : Column(
                           children: [
                             TeamNameWidget(
-                                icon: controller.teamName,
-                                name: controller.teamIcon),
+                                icon: controller.teamIcon,
+                                name: controller.teamName ?? ""),
                             ChangePlayerFootballField(
                               controller: controller,
                             ),

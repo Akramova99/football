@@ -27,7 +27,6 @@ class _CapitanSelectionPageState extends State<CapitanSelectionPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     Get.delete<CapitanSelectionController>();
   }

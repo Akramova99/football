@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:football/models/user_data_model.dart';
+import 'package:football/presentation/home/pages/settings_pages/pages/notification_page.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,9 @@ class HomePageController extends GetxController {
         duration: const Duration(milliseconds: 10), curve: Curves.easeIn);
   }
 
-  callNotificationPage(){
-
+  callNotificationPage(context) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return NotificationPage();
+    }));
   }
 }

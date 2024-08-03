@@ -5,7 +5,8 @@ import '../../../../../services/db_service.dart';
 import '../../../../../services/dio_service.dart';
 
 class MyTeamController extends GetxController {
-  String teamName = "";
+  String? teamName;
+
   String? teamIcon;
   int points = 0;
   TeamModel team = TeamModel();
@@ -25,6 +26,7 @@ class MyTeamController extends GetxController {
     var result = teamModelFromJson(response);
     team = result;
     teamName = team.name!;
+    teamIcon = team.logo;
     isLoading = true;
     update();
 
@@ -97,7 +99,6 @@ class MyTeamController extends GetxController {
 
         await DioService.POST(
             DioService.changePlayer(team.id.toString(), player.id, true), null);
-
 
         selectivePlayers.remove(player);
         reservePlayers.remove(player);

@@ -16,9 +16,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller.getData();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.delete<ProfilePageController>();
   }
 
   @override
@@ -44,24 +50,44 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: controller.profileImage != null
-                            ? Image.network(controller.profileImage!)
-                            : Container(
-                                color: Colors.grey,
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
                               ),
+                            ]),
+                        width: 100,
+                        height: 100,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: controller.profileImage != null
+                              ? Image.network(
+                                  controller.profileImage!,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  color: Colors.grey,
+                                ),
+                        ),
                       ),
                       Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(26),
+                          border: Border.all(color: Colors.black, width: 2),
                           color: Colors.orange,
                         ),
                         child: IconButton(
                           color: Colors.white,
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.chooseImage();
+                          },
                           icon: const Icon(
                             Icons.edit,
                             size: 16,
@@ -82,9 +108,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 20,
                 ),
                 TextField(
-
                   decoration: InputDecoration(
-                    hintText: "Nickname o’zgartirish",
+                      hintText: "Nickname o’zgartirish",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
@@ -94,6 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 20,
                 ),
                 TextField(
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                       hintText: "Raqamni o’zgartirish",
                       border: OutlineInputBorder(

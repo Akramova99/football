@@ -4,8 +4,7 @@ import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
-
-
+import 'package:share_plus/share_plus.dart';
 
 class SettingPageController extends GetxController {
   logOut(context) async {
@@ -43,6 +42,6 @@ class SettingPageController extends GetxController {
   changeLanguage() {}
 
   shareApp() async {
-    //await Share.share('check out my website https://example.com');
+    await Share.share('check out my website https://example.com');
   }
 }

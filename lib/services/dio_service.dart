@@ -58,6 +58,9 @@ class DioService {
     return "/api/v1/teams/$teamId/change-primary/players/$playerId/$isPrimary";
   }
 
+  static postImage(String userId){
+    return "/api/v1/users/$userId/upload-image";
+  }
   static const GET_TEAM_API = "/api/v1/teams/";
   static const RANDOM_PLAYERS_API = "/api/v1/players";
   static const CREATE_TEAM_API = "/api/v1/teams/create";
@@ -74,4 +77,6 @@ class DioService {
   static const GET_MATCH_TEAMS_API = "/api/calendars/matchWeek/";
   static const LOG_OUT_API = "/auth/logout?email=";
   static const POINT_STATISTICS_API = "/api/v1/teams/stats";
+  static const UPDATE_USERDATA_API = "/api/v1/teams/stats";
+
 }

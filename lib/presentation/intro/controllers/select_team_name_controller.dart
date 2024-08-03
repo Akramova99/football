@@ -36,7 +36,6 @@ class SelectTeamNameController extends GetxController {
 
   selectTeam(int index) async {
     teamIndex = index;
-    teamNameController.text = teams[index].name!;
     update();
   }
 

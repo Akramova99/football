@@ -66,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         showLanguageDialog(context);
                       },
                     )
-                  : index >= 4
+                  : index == 4
                       ? CustomHomeMenuItem2(
                           data: settingMenuItems[index],
                           changeLanguage: () {

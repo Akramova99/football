@@ -12,7 +12,7 @@ class UserModel {
   int? id;
   String? username;
   String? email;
-  dynamic image;
+  String? image;
   String? role;
   double? balance;
   Team? team;

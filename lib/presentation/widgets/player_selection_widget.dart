@@ -88,7 +88,7 @@ class PlayerSelectionWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(5),
       height: 65,
-      width: 70,
+      width: 60,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [

@@ -7,6 +7,7 @@ import 'package:football/presentation/home/pages/home_pages/controllers/leagues_
 import 'package:football/presentation/home/pages/home_pages/controllers/my_team_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/points_page_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/transfer_page_controller.dart';
+import 'package:football/presentation/home/pages/settings_pages/controllers/invite_friends_controller.dart';
 import 'package:football/presentation/home/pages/settings_pages/controllers/notification_page_controller.dart';
 import 'package:football/presentation/home/pages/statistics/controllers/statistics_page_controller.dart';
 import 'package:football/presentation/intro/controllers/capitan_selection_controller.dart';
@@ -38,5 +39,6 @@ class RootBinding implements Bindings {
     Get.lazyPut(() => BalancePageController(), fenix: true);
     Get.lazyPut(() => ProfilePageController(), fenix: true);
     Get.lazyPut(() => NotificationPageController(), fenix: true);
+    Get.lazyPut(() => InviteFriendsController(), fenix: true);
   }
 }

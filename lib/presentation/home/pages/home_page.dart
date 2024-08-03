@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                 ),
                 onTap: () {
-                  controller.callNotificationPage();
+                  controller.callNotificationPage(context);
                 },
               ),
             )
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                 "assets/images/home/appbar_left.png",
                 height: 30,
               ),
-              onTap: (){
+              onTap: () {
                 controller.goToSettingsPage(widget.pageController);
               },
             ),

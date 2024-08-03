@@ -7,6 +7,7 @@ import 'package:football/presentation/home/pages/settings_pages/pages/notificati
 import 'package:football/presentation/home/pages/settings_pages/pages/profile_page.dart';
 
 import '../../presentation/home/pages/settings_pages/pages/intro_page.dart';
+import '../../presentation/home/pages/settings_pages/pages/invite_friends_page.dart';
 
 const intro = [
   {
@@ -101,7 +102,7 @@ const List settingMenuItems = [
   {
     "image": "assets/images/settings/invite_friends_img.png",
     "label": "Do'stlarni taklif qiling",
-    "rout": ""
+    "rout": InviteFriendsPage()
   },
 ];
 
