@@ -4,18 +4,26 @@ import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../home/pages/base_page.dart';
 
 class LoginRegisterController extends GetxController {
   TextEditingController userNameReg = TextEditingController();
-  TextEditingController emailReg = TextEditingController();
+  TextEditingController emailReg = TextEditingController(text: "+998 ");
   TextEditingController passwordReg = TextEditingController();
 
-  TextEditingController emailLog = TextEditingController();
+  TextEditingController emailLog = TextEditingController(text: "+998 ");
   TextEditingController passwordLog = TextEditingController();
 
+  var phoneNumberMask = MaskTextInputFormatter(
+    mask: '+998 ## ### ## ##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
   bool showPassword = true;
+  bool isUserDataSaved = false;
   String userId = "";
 
   String? teamId;
@@ -25,13 +33,20 @@ class LoginRegisterController extends GetxController {
     showPassword = !showPassword;
     update();
   }
+
+  saveUserData(){
+    isUserDataSaved = !isUserDataSaved;
+    update();
+  }
+
   getTeamId() {
     teamId = DbService.getTeamId();
   }
 
   register(context) async {
     var username = userNameReg.text.trim();
-    var email = emailReg.text.trim();
+    var email = emailReg.text.trim().removeAllWhitespace;
+    print(email);
     var password = passwordReg.text.trim();
     var data = {
       "username": username,
@@ -65,7 +80,8 @@ class LoginRegisterController extends GetxController {
   }
 
   login(context) async {
-    var email = emailLog.text.trim();
+    var email = emailLog.text.trim().removeAllWhitespace;
+    print(email);
     var password = passwordLog.text.trim();
     var data = {
       "email": email,

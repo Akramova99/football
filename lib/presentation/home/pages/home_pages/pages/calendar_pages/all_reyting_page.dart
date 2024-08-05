@@ -12,6 +12,7 @@ class AllRatingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(241, 241, 241, 1),
       appBar: AppBar(
         title: Text(
           "Umumiy reyting",
@@ -19,7 +20,20 @@ class AllRatingPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
+        width: double.infinity,
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+          color: Colors.white,
+        ),
         child: SoccerRankingTable(
           teams: teams,
         ),

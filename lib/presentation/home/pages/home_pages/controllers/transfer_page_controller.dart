@@ -1,29 +1,39 @@
+import 'package:football/models/user_data_model.dart';
 import 'package:get/get.dart';
 
 import '../../../../../models/team_model.dart';
 import '../../../../../services/db_service.dart';
 import '../../../../../services/dio_service.dart';
 
-class TransferPageController extends GetxController{
+class TransferPageController extends GetxController {
   String teamName = "";
   String? teamIcon;
+  String? balance;
   int points = 0;
   TeamModel team = TeamModel();
   bool isLoading = false;
-
+  late String userId;
   List<bool> chosen = List.generate(11, (_) => false);
 
   List<Player> reservePlayers = [];
   List<Player> primaryTeam = [];
   List<Player> selectivePlayers = [];
 
-  getTeam() async {
-    String userId = DbService.getUserId();
+  getBalance() async {
     var response =
-    await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
+        await DioService.GET(DioService.USER_DATA_API + userId, null);
+    var userData = userModelFromJson(response);
+    balance = userData.balance.toString();
+  }
+
+  getTeam() async {
+    userId = DbService.getUserId();
+    var response =
+        await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
     var result = teamModelFromJson(response);
     team = result;
     teamName = team.name!;
+    teamIcon = team.logo;
     isLoading = true;
     update();
 

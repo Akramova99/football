@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
-            6,
+            5,
             (index) {
               return index == 0
                   ? CustomHomeMenuItem2(
@@ -66,14 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         showLanguageDialog(context);
                       },
                     )
-                  : index == 4
-                      ? CustomHomeMenuItem2(
-                          data: settingMenuItems[index],
-                          changeLanguage: () {
-                            controller.shareApp();
-                          },
-                        )
-                      : CustomHomeMenuItem(data: settingMenuItems[index]);
+                  : CustomHomeMenuItem(data: settingMenuItems[index]);
             },
           ),
         ),

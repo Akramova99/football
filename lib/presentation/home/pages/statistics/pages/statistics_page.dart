@@ -33,6 +33,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
           ),
         ),
         body: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Colors.white,
@@ -45,40 +47,43 @@ class _StatisticsPageState extends State<StatisticsPage> {
               ),
             ],
           ),
-          padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: DataTable(
-                decoration: BoxDecoration(color: Colors.white),
-                dividerThickness: 0.5,
-                columns: const [
-                  DataColumn(label: Text('#')),
-                  DataColumn(label: Text("O'yinchilar")),
-                  DataColumn(label: Text('PTS')),
-                  DataColumn(label: Text('')),
-                ],
-                rows: List.generate(
-                  controller.players.length,
-                  (index) {
-                    return DataRow(cells: [
-                      DataCell(
-                        Text((index + 1).toString()),
-                      ),
-                      DataCell(Text(controller.players[index].name ?? "")),
-                      DataCell(Text(
-                          controller.players[index].score.toString() ?? "")),
-                      DataCell(
-                          const Icon(
-                            Icons.info_outline,
-                            color: Colors.green,
-                          ), onTap: () {
-                        controller.callPLayerDetailPage(
-                            controller.players[index], context);
-                      }),
-                    ]);
-                  },
+            child: Container(
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: DataTable(
+                  columnSpacing: 40,
+                  decoration: BoxDecoration(color: Colors.white),
+                  dividerThickness: 0.5,
+                  columns: const [
+                    DataColumn(label: Text('#')),
+                    DataColumn(label: Text("O'yinchilar")),
+                    DataColumn(label: Text('PTS')),
+                    DataColumn(label: Text('')),
+                  ],
+                  rows: List.generate(
+                    controller.players.length,
+                    (index) {
+                      return DataRow(cells: [
+                        DataCell(
+                          Text((index + 1).toString()),
+                        ),
+                        DataCell(Text(controller.players[index].name ?? "")),
+                        DataCell(Text(
+                            controller.players[index].score.toString() ?? "")),
+                        DataCell(
+                            const Icon(
+                              Icons.info_outline,
+                              color: Colors.green,
+                            ), onTap: () {
+                          controller.callPLayerDetailPage(
+                              controller.players[index], context);
+                        }),
+                      ]);
+                    },
+                  ),
                 ),
               ),
             ),

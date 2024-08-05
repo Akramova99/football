@@ -79,6 +79,7 @@ class CreateTeamController extends GetxController {
         if (!playersInField.contains(player)) {
           playersInField[i] = player;
           selectivePlayer.remove(player);
+          players.remove(player);
           update();
           chosen[i] = false;
           isTeamFool++;
@@ -88,6 +89,7 @@ class CreateTeamController extends GetxController {
     }
   }
 
+  //to get players at a random position
   addPlayer(PlayerSelectionModel player, bool isPrimary) {
     String playerId = player.id.toString();
     DioService.POST(DioService.addPlayerAPI(teamId, playerId, isPrimary), null);

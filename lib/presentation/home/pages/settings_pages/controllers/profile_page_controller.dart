@@ -7,17 +7,31 @@ import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mime/mime.dart';
 
 class ProfilePageController extends GetxController {
   String? profileImage;
-  String? name = "Brian Imanuel";
+  String? name = "";
   late String userId;
   UserModel user = UserModel();
 
   TextEditingController nameCont = TextEditingController();
-  TextEditingController phoneNumberCont = TextEditingController();
+  TextEditingController phoneNumberCont = TextEditingController(text: "+998 ");
   TextEditingController passwordCont = TextEditingController();
+
+  bool showPassword = false;
+
+  hidePassword() {
+    showPassword = !showPassword;
+    update();
+  }
+
+  var phoneNumberMask = MaskTextInputFormatter(
+    mask: '+998 ## ### ## ##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 
   final ImagePicker picker = ImagePicker();
   File? imageFile;

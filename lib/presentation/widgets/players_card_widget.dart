@@ -64,3 +64,37 @@ class PlayersCardWidget2 extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+//for transfer page
+class PlayerTransferCard extends StatelessWidget {
+  final List<Player> players;
+  final Function function;
+
+  const PlayerTransferCard(
+      {super.key, required this.players, required this.function});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 85,
+      decoration: const BoxDecoration(
+          color: Color.fromRGBO(41, 169, 107, 1),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: players.length,
+          itemBuilder: (ctx, index) {
+            return GestureDetector(
+              child: PlayerTransferWidget(player: players[index]),
+              onTap: () {
+                function(players[index]);
+              },
+            );
+          }),
+    );
+  }
+}

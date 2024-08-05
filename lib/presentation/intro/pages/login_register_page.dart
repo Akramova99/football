@@ -24,7 +24,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LoginRegisterController>(builder: (_){
+    return GetBuilder<LoginRegisterController>(builder: (_) {
       return Scaffold(
         resizeToAvoidBottomInset: true,
         body: Container(
@@ -62,11 +62,10 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                           decoration: const BoxDecoration(
                               color: Color.fromRGBO(0, 185, 0, 1),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(16))),
+                                  BorderRadius.all(Radius.circular(16))),
                           child: MaterialButton(
                             onPressed: () {
-                              loginBottomShit(
-                                  context: context, controller: controller);
+                              loginBottomShit(context: context, controller: controller);
                             },
                             textColor: Colors.white,
                             child: const Text(
@@ -83,10 +82,10 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                         child: GestureDetector(
                           onTap: () {
                             controller.teamId != null
-                                ? registerBottomShit2(
-                                context: context, controller: controller)
+                                ? registerBottomShit(
+                                    context: context, controller: controller)
                                 : ToastService.showError(
-                                "Sizda jamoma mavjud emas");
+                                    "Sizda jamoma mavjud emas");
                           },
                           child: const Text(
                             "Royhatdan o’tish",

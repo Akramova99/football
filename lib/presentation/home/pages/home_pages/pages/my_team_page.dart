@@ -50,6 +50,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
+
                   !controller.isLoading
                       ? const Center(
                           child: CircularProgressIndicator(),

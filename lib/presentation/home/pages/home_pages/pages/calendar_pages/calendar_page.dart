@@ -95,10 +95,9 @@ class _CalendarPageState extends State<CalendarPage> {
                             ),
                             Expanded(
                               child: Container(
+                                width: double.infinity,
                                 decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.2),
@@ -107,6 +106,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                       offset: Offset(0, 3),
                                     ),
                                   ],
+                                  color: Colors.white,
                                 ),
                                 child: SoccerRankingTable(
                                   teams: controller.teams,

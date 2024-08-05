@@ -94,11 +94,7 @@ const List settingMenuItems = [
     "label": "Bildirishnomalar",
     "rout": NotificationPage()
   },
-  {
-    "image": "assets/images/settings/share_img.png",
-    "label": "Ilovani ulashish",
-    "rout": ""
-  },
+
   {
     "image": "assets/images/settings/invite_friends_img.png",
     "label": "Do'stlarni taklif qiling",
