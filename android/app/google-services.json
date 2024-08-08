@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "631841810321",
+    "firebase_url": "https://uefa-aac18-default-rtdb.firebaseio.com",
+    "project_id": "uefa-aac18",
+    "storage_bucket": "uefa-aac18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631841810321:android:c5e088404e2c91fa635c30",
+        "android_client_info": {
+          "package_name": "com.example.football"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-VXhyMASWm2YHvWm8JaHAAHtiLq2bbho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631841810321:android:01dc4a2d8be56c2a635c30",
+        "android_client_info": {
+          "package_name": "com.uefa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-VXhyMASWm2YHvWm8JaHAAHtiLq2bbho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

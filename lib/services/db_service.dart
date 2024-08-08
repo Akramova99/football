@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/notification_model.dart';
+
 class DbService {
   static late SharedPreferences db;
 
@@ -38,7 +40,28 @@ class DbService {
   static String getUserEmail() {
     return db.getString("user_email") ?? "";
   }
-  static clear(){
+
+  static clear() {
     db.clear();
   }
+
+  static saveNotification(List<NotificationResponseModel> notifications) {
+    db.setString(
+        "notifications", notificationResponseModelToJson(notifications));
+  }
+
+  static List<NotificationResponseModel> getNotifications() {
+    var notifications = db.getString("notifications");
+    return notifications != null
+        ? notificationResponseModelFromJson(notifications)
+        : [];
+  }
+
+  static addNotification(NotificationResponseModel model) {
+    List<NotificationResponseModel> list = getNotifications();
+    list.add(model);
+    saveNotification(list);
+  }
+  static List<NotificationResponseModel> list = [];
+
 }

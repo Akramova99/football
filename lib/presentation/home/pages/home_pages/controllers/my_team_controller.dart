@@ -90,15 +90,18 @@ class MyTeamController extends GetxController {
   assignPlayer(Player player) async {
     for (var i = 0; i < chosen.length; i++) {
       if (chosen[i]) {
-        print(team.id);
+        print("teamid: ${team.id}");
+        print("plare1: ${primaryTeam[i].id}");
+        print("plare12: ${player.id}");
+        var result = await DioService.dio.post(
+          DioService.changePlayer(team.id.toString(), primaryTeam[i].id, false),
+        );
 
-        await DioService.POST(
-            DioService.changePlayer(
-                team.id.toString(), primaryTeam[i].id, false),
-            null);
+        print("removing player from primary team: ${result.data}");
 
-        await DioService.POST(
-            DioService.changePlayer(team.id.toString(), player.id, true), null);
+        var result2 = await DioService.dio
+            .post(DioService.changePlayer(team.id.toString(), player.id, true));
+        print("adding player from reserve: ${result2.data}");
 
         selectivePlayers.remove(player);
         reservePlayers.remove(player);

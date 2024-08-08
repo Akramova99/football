@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/calendar_pages/calendar_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
@@ -49,27 +50,27 @@ const List homeMenuItems = [
   {
     "image": "assets/images/home/m_points_img.png",
     "label": "Ochkolar",
-    "rout": PointsPage()
+    "rout": PointsPage(key: PageStorageKey("PointsPage"),)
   },
   {
     "image": "assets/images/home/m_team_img.png",
     "label": "Mening Jamoam",
-    "rout": MyTeamPage()
+    "rout": MyTeamPage(key: PageStorageKey("MyTeamPage"),)
   },
   {
     "image": "assets/images/home/m_taqvim_img.png",
     "label": "Taqvim",
-    "rout": CalendarPage()
+    "rout": CalendarPage(key: PageStorageKey("CalendarPage"),)
   },
   {
     "image": "assets/images/home/m_transfer_img.png",
     "label": "Transfer",
-    "rout": TransferPage()
+    "rout": TransferPage(key: PageStorageKey("TransferPage"),)
   },
   {
     "image": "assets/images/home/m_leagues_img.png",
     "label": "Ligalar",
-    "rout": LeaguesPage()
+    "rout": LeaguesPage(key: PageStorageKey("LeaguesPage"),)
   },
 ];
 

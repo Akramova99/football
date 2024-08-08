@@ -152,6 +152,7 @@ class ChangePlayerFootballField extends StatelessWidget {
 }
 
 
+
 class TransferFootballField extends StatelessWidget {
   const TransferFootballField({super.key, required this.controller});
 
@@ -180,7 +181,7 @@ class TransferFootballField extends StatelessWidget {
   }
 
   buildList() {
-    var players = getTeamPLayers(controller.team.players!);
+    var players = getTeamPLayers(controller.primaryTeam);
     controller.primaryTeam = players[1];
 
     List<Widget> list = [];
@@ -204,15 +205,12 @@ class TransferFootballField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(
         playerNumber,
-            (i) => GestureDetector(
-          onTap: () {
-            var player = controller.primaryTeam[index + i];
-            controller.selectPlayer(player);
-            print(player.name);
-            print((index + i).toString());
-          },
-          child:
-          PlayerTransferWidget(player: controller.primaryTeam[index + i]),
+        (i) => GestureDetector(
+          child: PlayerTransferWidget(
+            player: controller.primaryTeam[index + i],
+            isExpanded: controller.chosen[index + i],
+            key: UniqueKey(),
+          ),
         ),
       ),
     );

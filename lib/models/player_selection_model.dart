@@ -8,16 +8,16 @@ List<PlayerSelectionModel> playerModelFromJson(String str) => List<PlayerSelecti
 
 String playerModelToJson(List<PlayerSelectionModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PlayerSelectionModel {
-  int? id;
-  String? name;
-  String? position;
-  dynamic playerNumber;
-  String? clubName;
-  double? price;
-  int? currentScore;
-  int? score;
-  dynamic jersey;
+  class PlayerSelectionModel {
+    int? id;
+    String? name;
+    String? position;
+    dynamic playerNumber;
+    String? clubName;
+    double? price;
+    int? currentScore;
+    int? score;
+    dynamic jersey;
 
   PlayerSelectionModel({
     this.id,

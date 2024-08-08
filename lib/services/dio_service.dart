@@ -61,6 +61,13 @@ class DioService {
   static postImage(String userId){
     return "/api/v1/users/$userId/upload-image";
   }
+
+  static sellPLayer(userid, teamid, playerid){
+    return "/api/v1/transfers/$userid/sell/$playerid/$teamid";
+  }
+  static buyPLayer(userid, teamid, playerid){
+    return "/api/v1/transfers/$userid/buy/$playerid/$teamid";
+  }
   static const GET_TEAM_API = "/api/v1/teams/";
   static const RANDOM_PLAYERS_API = "/api/v1/players";
   static const CREATE_TEAM_API = "/api/v1/teams/create";
@@ -78,5 +85,6 @@ class DioService {
   static const LOG_OUT_API = "/auth/logout?email=";
   static const POINT_STATISTICS_API = "/api/v1/teams/stats";
   static const UPDATE_USERDATA_API = "/api/v1/teams/stats";
+  static const PLAYER_FILTER = "/api/v1/players/filter";
 
 }
