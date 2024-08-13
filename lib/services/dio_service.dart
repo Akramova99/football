@@ -65,9 +65,20 @@ class DioService {
   static sellPLayer(userid, teamid, playerid){
     return "/api/v1/transfers/$userid/sell/$playerid/$teamid";
   }
-  static buyPLayer(userid, teamid, playerid){
-    return "/api/v1/transfers/$userid/buy/$playerid/$teamid";
+
+  static buyPLayer(userid, teamid, playerid, isPrimary){
+    return "/api/v1/transfers/$userid/buy/$playerid/$teamid/$isPrimary";
   }
+
+  static setFirebaseToken(String userId){
+    return "/api/v1/users/$userId/save-token";
+  }
+
+  static getPlayerDetails(int playerId){
+    return "/api/v1/players/$playerId/statistics";
+  }
+
+  static const GET_NOTIFICATION = "/api/v1/users/1/notifications";
   static const GET_TEAM_API = "/api/v1/teams/";
   static const RANDOM_PLAYERS_API = "/api/v1/players";
   static const CREATE_TEAM_API = "/api/v1/teams/create";
@@ -86,5 +97,8 @@ class DioService {
   static const POINT_STATISTICS_API = "/api/v1/teams/stats";
   static const UPDATE_USERDATA_API = "/api/v1/teams/stats";
   static const PLAYER_FILTER = "/api/v1/players/filter";
+  static const TRANSFER_SUMMARY = "/api/v1/users/tranfer-summary/";
+  static const ALL_ClUBS = "/api/football-teams/all";
+  static const CURRENT_MATCHWEEK = "/api/matchweeks/current";
 
 }

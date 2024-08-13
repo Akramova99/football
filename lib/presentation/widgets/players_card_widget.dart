@@ -55,7 +55,9 @@ class PlayersCardWidget2 extends StatelessWidget {
           itemCount: players.length,
           itemBuilder: (ctx, index) {
             return GestureDetector(
-              child: PlayerSelectionWidget(player: players[index]),
+              child: players[index].name != null
+                  ? PlayerSelectionWidget(player: players[index])
+                  : SizedBox(),
               onTap: () {
                 function(players[index]);
               },

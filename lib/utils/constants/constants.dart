@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:football/models/team_model.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/calendar_pages/calendar_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
@@ -50,27 +51,37 @@ const List homeMenuItems = [
   {
     "image": "assets/images/home/m_points_img.png",
     "label": "Ochkolar",
-    "rout": PointsPage(key: PageStorageKey("PointsPage"),)
+    "rout": PointsPage(
+      key: PageStorageKey("PointsPage"),
+    )
   },
   {
     "image": "assets/images/home/m_team_img.png",
     "label": "Mening Jamoam",
-    "rout": MyTeamPage(key: PageStorageKey("MyTeamPage"),)
+    "rout": MyTeamPage(
+      key: PageStorageKey("MyTeamPage"),
+    )
   },
   {
     "image": "assets/images/home/m_taqvim_img.png",
     "label": "Taqvim",
-    "rout": CalendarPage(key: PageStorageKey("CalendarPage"),)
+    "rout": CalendarPage(
+      key: PageStorageKey("CalendarPage"),
+    )
   },
   {
     "image": "assets/images/home/m_transfer_img.png",
     "label": "Transfer",
-    "rout": TransferPage(key: PageStorageKey("TransferPage"),)
+    "rout": TransferPage(
+      key: PageStorageKey("TransferPage"),
+    )
   },
   {
     "image": "assets/images/home/m_leagues_img.png",
     "label": "Ligalar",
-    "rout": LeaguesPage(key: PageStorageKey("LeaguesPage"),)
+    "rout": LeaguesPage(
+      key: PageStorageKey("LeaguesPage"),
+    )
   },
 ];
 
@@ -95,7 +106,6 @@ const List settingMenuItems = [
     "label": "Bildirishnomalar",
     "rout": NotificationPage()
   },
-
   {
     "image": "assets/images/settings/invite_friends_img.png",
     "label": "Do'stlarni taklif qiling",
@@ -118,6 +128,75 @@ Map<int, String> reversePosition = {
   2: "midfielder",
   3: "forward",
 };
+
+var tacticValues = {
+  '1-3-4-3': [1, 3, 4, 3],
+  '1-3-5-2': [1, 3, 5, 2],
+  '1-4-5-1': [1, 4, 5, 1],
+  '1-4-4-2': [1, 4, 4, 2]
+};
+
+
+List<Player> fillTeamWithRequiredPositions(List<Player> team, Map<String, int> tactic) {
+  // Count current players per position
+  print("LLLLLLLLLL ${team.length}");
+  Map<String, int> positionCount = {};
+  var newTeam = team;
+
+  for (var player in team) {
+    if (player.position != null) {
+      if (player.isPrimary!) {
+        positionCount[player.position!] =
+            (positionCount[player.position!] ?? 0) + 1;
+      }
+    }
+  }
+
+  // Ensure that the team has 11 primary and 4 reserve players
+  int primaryCount = team.where((player) => player.isPrimary == true).length;
+  int reserveCount = team.where((player) => player.isPrimary == false).length;
+
+  if (team.length < 15) {
+    // Fill primary positions
+    tactic.forEach((position, requiredCount) {
+      int currentCount = positionCount[position] ?? 0;
+      int playersNeeded = requiredCount - currentCount;
+      if (playersNeeded != 0) {
+        print("Missing position: $position");
+      }
+      for (int i = 0; i < playersNeeded; i++) {
+        if (primaryCount < 11) {
+          newTeam.add(Player(
+            position: position,
+            isPrimary: true,
+          ));
+          primaryCount++;
+        } else if (reserveCount < 4) {
+          newTeam.add(Player(
+            position: position,
+            isPrimary: false,
+          ));
+          reserveCount++;
+        }
+      }
+    });
+
+    // Fill remaining reserve players (if there are any missing positions)
+    while (reserveCount < 4) {
+      for (var position in tactic.keys) {
+        newTeam.add(Player(
+          position: position,
+          isPrimary: false,
+        ));
+        reserveCount++;
+        if (reserveCount >= 4) break;
+      }
+    }
+  }
+  print("team length");
+  print(newTeam.length);
+  return newTeam;
+}
 
 const intro_text = """
 Welcome to Fantasy Football Hub. If you continue to browse and use this website you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern Fantasy Football Hub Ltd’s relationship with you in relation to this website.

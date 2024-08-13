@@ -5,11 +5,12 @@ import 'package:football/presentation/widgets/player_selection_widget.dart';
 
 import '../../models/team_model.dart';
 
-getTeamPLayers(List<Player> players) {
+getTeamPLayers(List<Player> players, bool isTransferPage) {
   List<Player> primaryTeam = List.generate(
     16,
     (index) => Player(),
   );
+
   Map<String, int> tactic = {
     "MIDFIELDER": 0,
     "GOALKEEPER": 0,
@@ -18,12 +19,12 @@ getTeamPLayers(List<Player> players) {
   };
 
   List<Player> list = List.generate(
-    11,
+    16,
     (index) => Player(),
   );
 
   for (var i = 0; i < players.length; i++) {
-    if (players[i].isPrimary ?? false) {
+    if (isTransferPage) {
       switch (players[i].position) {
         case "MIDFIELDER":
           tactic["MIDFIELDER"] = tactic["MIDFIELDER"]! + 1;
@@ -38,6 +39,23 @@ getTeamPLayers(List<Player> players) {
           tactic["FORWARD"] = tactic["FORWARD"]! + 1;
           break;
       }
+    } else {
+      if (players[i].isPrimary ?? false) {
+        switch (players[i].position) {
+          case "MIDFIELDER":
+            tactic["MIDFIELDER"] = tactic["MIDFIELDER"]! + 1;
+            break;
+          case "GOALKEEPER":
+            tactic["GOALKEEPER"] = tactic["GOALKEEPER"]! + 1;
+            break;
+          case "DEFENDER":
+            tactic["DEFENDER"] = tactic["DEFENDER"]! + 1;
+            break;
+          case "FORWARD":
+            tactic["FORWARD"] = tactic["FORWARD"]! + 1;
+            break;
+        }
+      }
     }
   }
 
@@ -47,7 +65,7 @@ getTeamPLayers(List<Player> players) {
   int forward = 0;
 
   for (var player in players) {
-    if (player.isPrimary ?? false) {
+    if (isTransferPage) {
       switch (player.position) {
         case "MIDFIELDER":
           primaryTeam[tactic["DEFENDER"]! +
@@ -56,7 +74,8 @@ getTeamPLayers(List<Player> players) {
           midfielder++;
           break;
         case "GOALKEEPER":
-          primaryTeam[0] = player;
+          primaryTeam[goalkeeper] = player;
+          goalkeeper++;
           break;
         case "DEFENDER":
           primaryTeam[tactic["GOALKEEPER"]! + defender] = player;
@@ -69,6 +88,31 @@ getTeamPLayers(List<Player> players) {
               forward] = player;
           forward++;
           break;
+      }
+    } else {
+      if (player.isPrimary ?? false) {
+        switch (player.position) {
+          case "MIDFIELDER":
+            primaryTeam[tactic["DEFENDER"]! +
+                tactic["GOALKEEPER"]! +
+                midfielder] = player;
+            midfielder++;
+            break;
+          case "GOALKEEPER":
+            primaryTeam[0] = player;
+            break;
+          case "DEFENDER":
+            primaryTeam[tactic["GOALKEEPER"]! + defender] = player;
+            defender++;
+            break;
+          case "FORWARD":
+            primaryTeam[tactic["MIDFIELDER"]! +
+                tactic["DEFENDER"]! +
+                tactic["GOALKEEPER"]! +
+                forward] = player;
+            forward++;
+            break;
+        }
       }
     }
   }
@@ -112,7 +156,7 @@ class ChangePlayerFootballField extends StatelessWidget {
   }
 
   buildList() {
-    var players = getTeamPLayers(controller.team.players!);
+    var players = getTeamPLayers(controller.team.players!, false);
     controller.primaryTeam = players[1];
 
     List<Widget> list = [];
@@ -151,8 +195,6 @@ class ChangePlayerFootballField extends StatelessWidget {
   }
 }
 
-
-
 class TransferFootballField extends StatelessWidget {
   const TransferFootballField({super.key, required this.controller});
 
@@ -181,21 +223,28 @@ class TransferFootballField extends StatelessWidget {
   }
 
   buildList() {
-    var players = getTeamPLayers(controller.primaryTeam);
+    var players = getTeamPLayers(controller.primaryTeam, true);
     controller.primaryTeam = players[1];
 
     List<Widget> list = [];
-    var goalKeeper = players[0][0];
-    list.add(buildRow(goalKeeper, 0));
 
-    var defender = players[0][1];
-    list.add(buildRow(defender, goalKeeper));
+    list.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(
+        2,
+        (i) => PlayerTransferWidget(
+          player: controller.primaryTeam[0 + i],
+          isExpanded: controller.chosen[0 + i],
+          key: UniqueKey(),
+        ),
+      ),
+    ));
 
-    var midfielder = players[0][2];
-    list.add(buildRow(midfielder, defender + goalKeeper));
+    list.add(buildRow(5, 2));
 
-    var forward = players[0][3];
-    list.add(buildRow(forward, defender + midfielder + goalKeeper));
+    list.add(buildRow(5, 7));
+
+    list.add(buildRow(3, 12));
 
     return list;
   }

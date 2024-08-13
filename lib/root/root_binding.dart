@@ -17,6 +17,7 @@ import 'package:football/presentation/intro/controllers/select_team_name_control
 import 'package:get/get.dart';
 
 import '../presentation/home/pages/settings_pages/controllers/profile_page_controller.dart';
+import '../presentation/home/pages/statistics/controllers/player_detail_controller.dart';
 import '../presentation/widgets/football_field_widget.dart';
 
 class RootBinding implements Bindings {
@@ -40,5 +41,6 @@ class RootBinding implements Bindings {
     Get.lazyPut(() => ProfilePageController(), fenix: true);
     Get.lazyPut(() => NotificationPageController(), fenix: true);
     Get.lazyPut(() => InviteFriendsController(), fenix: true);
+    Get.lazyPut(() => PlayerDetailController(), fenix: true);
   }
 }

@@ -40,11 +40,12 @@ class SelectTeamNameController extends GetxController {
   }
 
   save() async {
+    var tactics = DbService.getTactics();
     getMyTeamId();
     if (teamId != null) {
       var teamName = teamNameController.text;
       var teamIcon = teams[teamIndex!].logo;
-      var data = {"name": teamName, "tactic": null, "image": teamIcon};
+      var data = {"name": teamName, "tactic": tactics, "image": teamIcon};
       await DioService.PUT("${DioService.SELECT_NAME_API}$teamId", data);
     } else {
       ToastService.showError("Sizda jaoma mavjud emas, iltimos jamoni tanlang");

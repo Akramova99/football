@@ -1,3 +1,5 @@
+import 'package:football/models/match_model.dart';
+import 'package:football/models/matchweek_model.dart';
 import 'package:football/models/point_model.dart';
 import 'package:football/models/team_model.dart';
 import 'package:football/services/db_service.dart';
@@ -12,7 +14,35 @@ class PointsPageController extends GetxController {
   PointModel points = PointModel();
   bool isLoading = false;
 
+  List<MatchModel> matches = [];
+  MatchweekModel matchweekModel = MatchweekModel();
   List<Player> reservePlayers = [];
+  List<Player> primaryTeam = [];
+
+  getCurrentMatches() async {
+    var response = await DioService.dio.get(DioService.CURRENT_MATCHWEEK);
+    if (response.statusCode == 200) {
+      var matchweek = MatchweekModel.fromJson(response.data);
+      var response2 = await DioService.dio
+          .get(DioService.GET_MATCHES_API + matchweek.id.toString());
+      if (response2.statusCode == 200) {
+        var model = matchModelFromJson(response2.data);
+        matches = model;
+        update();
+      }
+    }
+  }
+
+  getReservePLayers() {
+    List<Player> list = [];
+    for (var player in team.players!) {
+      if (!player.isPrimary!) {
+        list.add(player);
+      }
+    }
+    reservePlayers = list;
+    update();
+  }
 
   getTeam() async {
     String userId = DbService.getUserId();
@@ -23,6 +53,7 @@ class PointsPageController extends GetxController {
     teamName = team.name!;
     await getPoints();
     isLoading = true;
+    getReservePLayers();
     update();
   }
 

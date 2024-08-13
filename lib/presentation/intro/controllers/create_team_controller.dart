@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/player_selection_model.dart';
+import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/dio_service.dart';
+import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
 
 import '../../../services/db_service.dart';
@@ -8,18 +10,20 @@ import '../../../services/db_service.dart';
 class CreateTeamController extends GetxController {
   List<PlayerSelectionModel> players = [];
   List<PlayerSelectionModel> playersInField = List.generate(
-    16,
+    15,
     (index) => PlayerSelectionModel(),
   );
   int tacticsIndex = 0;
   List<bool> chosen = List.generate(11, (_) => false);
   List<PlayerSelectionModel> selectivePlayer = [];
+
   Map<int, String> reversePosition = {
     0: "goalkeeper",
     1: "defender",
     2: "midfielder",
     3: "forward",
   };
+
   int isTeamFool = 0;
   String teamId = '';
 
@@ -56,6 +60,10 @@ class CreateTeamController extends GetxController {
     update();
   }
 
+  saveGameTactics() {
+    DbService.saveTactics(tacticsString[tacticsIndex]);
+  }
+
   selectPlayer(String position, int index) {
     print(position);
     List<PlayerSelectionModel> list = [];
@@ -73,17 +81,25 @@ class CreateTeamController extends GetxController {
     update();
   }
 
-  assignPlayer(PlayerSelectionModel player) {
+  assignPlayer(PlayerSelectionModel player) async {
     for (var i = 0; i < chosen.length; i++) {
       if (chosen[i]) {
         if (!playersInField.contains(player)) {
-          playersInField[i] = player;
-          selectivePlayer.remove(player);
-          players.remove(player);
-          update();
-          chosen[i] = false;
-          isTeamFool++;
-          addPlayer(player, true);
+          String playerId = player.id.toString();
+          var response = await DioService.dio
+              .post(DioService.addPlayerAPI(teamId, playerId, true));
+
+          if (response.statusCode == 200) {
+            playersInField[i] = player;
+            selectivePlayer.remove(player);
+            players.remove(player);
+            update();
+            chosen[i] = false;
+            isTeamFool++;
+          } else {
+            ToastService.showError(response.statusMessage ??
+                "Hatolik yuz berdi iltimos qayta uring");
+          }
         }
       }
     }
@@ -129,7 +145,7 @@ class CreateTeamController extends GetxController {
         List<PlayerSelectionModel> positionList, int maxCount) {
       int count = 0;
       for (var player in positionList) {
-        if (number < 5 && count < maxCount) {
+        if (number < 4 && count < maxCount) {
           addPlayer(player, false);
           print(player.name);
           number++;
@@ -145,24 +161,5 @@ class CreateTeamController extends GetxController {
     addPlayersFromList(forwards, 1);
 
     // If less than 5 players added, fill the rest from any position
-    if (number < 5) {
-      List<PlayerSelectionModel> remainingPlayers = [
-        ...goalkeepers,
-        ...defenders,
-        ...midfielders,
-        ...forwards
-      ];
-
-      remainingPlayers.removeWhere((player) => playersInField.contains(player));
-      remainingPlayers.shuffle(); // Shuffle to add players randomly
-
-      for (var player in remainingPlayers) {
-        if (number < 5) {
-          addPlayer(player, false);
-          print(player.name);
-          number++;
-        }
-      }
-    }
   }
 }

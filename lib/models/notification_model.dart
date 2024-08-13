@@ -1,49 +1,67 @@
 // To parse this JSON data, do
 //
-//     final notificationResponseModel = notificationResponseModelFromJson(jsonString);
+//     final notificationModel = notificationModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<NotificationResponseModel> notificationResponseModelFromJson(String str) =>
-    List<NotificationResponseModel>.from(
-        json.decode(str).map((x) => NotificationResponseModel.fromJson(x)));
+NotificationModel notificationModelFromJson(String str) => NotificationModel.fromJson(json.decode(str));
 
-String notificationResponseModelToJson(List<NotificationResponseModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String notificationModelToJson(NotificationModel data) => json.encode(data.toJson());
 
-class NotificationResponseModel {
-  String id;
-  String title;
-  String body;
-  String? image;
-  DateTime? createdDate;
-  bool viewed;
+class NotificationModel {
+  List<FirebaseNotification>? notifications;
+  int? unseen;
 
-  NotificationResponseModel({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.image,
-    required this.createdDate,
-    required this.viewed,
+  NotificationModel({
+    this.notifications,
+    this.unseen,
   });
 
-  factory NotificationResponseModel.fromJson(Map<String, dynamic> json) =>
-      NotificationResponseModel(
-        id: json["id"],
-        title: json["title"],
-        body: json["body"],
-        image: json["image"],
-        createdDate: DateTime.parse(json["createdDate"]),
-        viewed: json["viewed"],
-      );
+  factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
+    notifications: json["notifications"] == null ? [] : List<FirebaseNotification>.from(json["notifications"]!.map((x) => FirebaseNotification.fromJson(x))),
+    unseen: json["unseen"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "body": body,
-        "image": image,
-        "createdDate": createdDate?.toIso8601String(),
-        "viewed": viewed,
-      };
+    "notifications": notifications == null ? [] : List<dynamic>.from(notifications!.map((x) => x.toJson())),
+    "unseen": unseen,
+  };
 }
+
+class FirebaseNotification {
+  int? id;
+  String? title;
+  String? body;
+  String? image;
+  DateTime? createdDate;
+  bool? viewed;
+
+  FirebaseNotification({
+    this.id,
+    this.title,
+    this.body,
+    this.image,
+    this.createdDate,
+    this.viewed,
+  });
+
+  factory FirebaseNotification.fromJson(Map<String, dynamic> json) => FirebaseNotification(
+    id: json["id"],
+    title: json["title"],
+    body: json["body"]!,
+    image: json["image"]!,
+    createdDate: json["createdDate"] == null ? null : DateTime.parse(json["createdDate"]),
+    viewed: json["viewed"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "title": title,
+    "body": body,
+    "image": image,
+    "createdDate": createdDate?.toIso8601String(),
+    "viewed": viewed,
+  };
+}
+
+

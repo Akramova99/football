@@ -1,7 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/notification_model.dart';
-
 class DbService {
   static late SharedPreferences db;
 
@@ -45,23 +43,19 @@ class DbService {
     db.clear();
   }
 
-  static saveNotification(List<NotificationResponseModel> notifications) {
-    db.setString(
-        "notifications", notificationResponseModelToJson(notifications));
+  static saveFirebaseToken(String token) {
+    db.setString("firebase_token", token);
   }
 
-  static List<NotificationResponseModel> getNotifications() {
-    var notifications = db.getString("notifications");
-    return notifications != null
-        ? notificationResponseModelFromJson(notifications)
-        : [];
+  static String getFirebaseToken() {
+    return db.getString("firebase_token") ?? "";
   }
 
-  static addNotification(NotificationResponseModel model) {
-    List<NotificationResponseModel> list = getNotifications();
-    list.add(model);
-    saveNotification(list);
+  static saveTactics(String tactics) {
+    db.setString("tactics", tactics);
   }
-  static List<NotificationResponseModel> list = [];
 
+  static String getTactics() {
+    return db.getString("tactics") ?? "";
+    }
 }

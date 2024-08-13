@@ -40,7 +40,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              "Maning Jamoam",
+              "Mening Jamoam",
               style: CustomStyles.pageTitle,
             ),
           ),

@@ -1,5 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:football/models/user_data_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:football/models/club_model.dart';
+import 'package:football/models/transfer_summary_model.dart';
+import 'package:football/presentation/home/controllers/base_page_controller.dart';
+import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/converter.dart';
 import 'package:get/get.dart';
 
@@ -14,25 +17,51 @@ class TransferPageController extends GetxController {
   String? balance;
   int points = 0;
   TeamModel team = TeamModel();
+  TransferSummaryModel transferSummaryModel = TransferSummaryModel();
   bool isLoading = false;
   late String userId;
-  List<bool> chosen = List.generate(16, (_) => false);
+  List<bool> chosen = List.generate(15, (_) => false);
+  List<ClubModel> clubs = [];
 
   List<Player> playerToBuy = [];
   List<Player> primaryTeam = List.generate(
-    11,
+    16,
     (index) => Player(),
   );
   List<Player> selectivePlayers = [];
   List<Player> playersDetails = [];
+  int clubsIndex = 0;
 
-  int transferCount = 0;
-
-  getBalance() async {
+  getTransferSummary() async {
     var response =
-        await DioService.GET(DioService.USER_DATA_API + userId, null);
-    var userData = userModelFromJson(response);
-    balance = userData.balance.toString();
+        await DioService.GET(DioService.TRANSFER_SUMMARY + userId, null);
+    transferSummaryModel = transferSummaryModelFromJson(response);
+    update();
+  }
+
+  getClubs() async {
+    var response = await DioService.GET(DioService.ALL_ClUBS, null);
+    var clubList = clubModelFromJson(response);
+    clubs.add(ClubModel());
+    clubs.addAll(clubList);
+    update();
+  }
+
+  onClubChange(int? index) {
+    clubsIndex = index ?? 0;
+
+    update();
+  }
+
+  Map<String, int> getTactics() {
+    var tatcic = tacticValues[team.tactic];
+    Map<String, int> values = {
+      'Goalkeeper'.toUpperCase(): tatcic![0],
+      'Defender'.toUpperCase(): tatcic[1],
+      'Midfielder'.toUpperCase(): tatcic[2],
+      'Forward'.toUpperCase(): tatcic[3],
+    };
+    return values;
   }
 
   getTeam() async {
@@ -41,14 +70,14 @@ class TransferPageController extends GetxController {
         await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
     var result = teamModelFromJson(response);
     team = result;
+    primaryTeam = fillTeamWithRequiredPositions(team.players!, getTactics());
     getPLayers();
     teamName = team.name!;
     teamIcon = team.logo;
     isLoading = true;
     selectivePlayers = playerToBuy;
+    print(team.tactic);
     update();
-
-    getPrimaryTeam(team.players!);
   }
 
   getPLayers() async {
@@ -61,34 +90,26 @@ class TransferPageController extends GetxController {
     update();
   }
 
-  getPrimaryTeam(List<Player> players) {
-    List<Player> list2 = [];
-    for (var p in players) {
-      if ((p.isPrimary ?? false)) {
-        list2.add(p);
-      }
-    }
-    primaryTeam = list2;
-    update();
-  }
-
   selectPlayer(Player player) {
     var index = primaryTeam.indexOf(player);
     List<Player> list = [];
     if (chosen[index]) {
       chosen[index] = !chosen[index];
     } else {
-      chosen = List.generate(11, (_) => false);
+      chosen = List.generate(15, (_) => false);
       chosen[index] = true;
     } // Reset chosen list
 
-    for (var i = 0; i < playerToBuy.length; i++) {
-      if (playerToBuy[i].position == player.position) {
-        list.add(playerToBuy[i]);
-      }
-    }
+    // for (var i = 0; i < playerToBuy.length; i++) {
+    //   if (playerToBuy[i].position == player.position) {
+    //     list.add(playerToBuy[i]);
+    //   }
+    // }
     if (player.name == null) {
+      print("\nposition:${player.position}\nis primary: ${player.isPrimary}");
+      searchPlayers(player.position);
       selectivePlayers = list;
+      playersDetails = list;
     }
     update();
   }
@@ -96,32 +117,48 @@ class TransferPageController extends GetxController {
   sellPLayer(Player player) async {
     var index = primaryTeam.indexOf(player);
     if (index != -1) {
-      primaryTeam[index] = Player(position: player.position, isPrimary: true);
+      var response = await DioService.dio
+          .post(DioService.sellPLayer(userId, team.id, player.id));
 
-      var response = await DioService.POST(
-          DioService.sellPLayer(userId, team.id, player.id), null);
-      print("$response");
-      getBalance();
+      if (response.statusCode == 200) {
+        print(
+            "player sold:\nposition:${player.position}\nis primary: ${player.isPrimary}");
+        primaryTeam[index] =
+            Player(position: player.position, isPrimary: player.isPrimary);
+      }
+
+      getTransferSummary();
       update();
-
-      transferCount++;
     }
   }
 
-  assignPlayer(Player player) async {
+  buyPlayer(Player player) async {
     for (var i = 0; i < chosen.length; i++) {
       if (chosen[i]) {
-        player.isPrimary = true;
-        primaryTeam[i] = player;
-        print(primaryTeam[i].name);
-        selectivePlayers.remove(player);
-        var response = await DioService.POST(
-            DioService.buyPLayer(userId, team.id, player.id), null);
-        print(response);
-        getBalance();
-        update();
-        chosen[i] = false;
-        playerToBuy.remove(player);
+        bool isPrimary = primaryTeam[i].isPrimary!;
+        try {
+          var response = await DioService.dio.post(
+              DioService.buyPLayer(userId, team.id, player.id, isPrimary));
+
+          if (response.statusCode == 200) {
+            print(
+                "player bought\n name:${player.name}\npostion:${player.position}\nis primary: $isPrimary");
+            primaryTeam[i] = player;
+            print(primaryTeam[i].name);
+            selectivePlayers.remove(player);
+            // var response = await DioService.POST(
+            //     DioService.buyPLayer(userId, team.id, player.id), null);
+            // print(response);
+
+            update();
+            getTransferSummary();
+            chosen[i] = false;
+            playerToBuy.remove(player);
+          } else {
+            print(response.statusMessage);
+          }
+        } on Exception catch (e) {}
+
         //addPlayer(player, true);
       }
     }
@@ -155,32 +192,36 @@ class TransferPageController extends GetxController {
 
   onPriceChange(index, min, max) {
     print(index);
-    if (index == 0) minPrice = min / 10;
-    if (index == 1) maxPrice = max / 10;
+    if (index == 0) minPrice = min;
+    if (index == 1) maxPrice = max;
     update();
   }
 
   bool isLoadingPLayer = false;
 
-  searchPlayers() async {
+  searchPlayers(position) async {
+    var path = clubsIndex != 0
+        ? "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice&clubId=${clubs[clubsIndex].id}"
+        : "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice";
+    print(path);
     isLoadingPLayer = true;
     update();
-    var response = await DioService.dio.get<String>(DioService.PLAYER_FILTER,
-        options: Options(headers: {
-          "position": listPositionHeader[positionIndex].toUpperCase(),
-          "minPrice": minPrice,
-          "maxPrice": maxPrice,
-          "sortBy": sortListen[pointsIndex]
-        }));
+    var response = await DioService.dio.get<String>(path);
     if (response.statusCode == 200) {
       print("Searching");
       var jsonData = (response.data!);
       var players = playerModelFromJson(jsonData);
       playersDetails = convertPlayerSelectionModelListToPlayerList(players);
+      selectivePlayers = playersDetails;
       isLoadingPLayer = false;
       update();
     } else {
       print(response.statusMessage);
     }
+  }
+
+  goToBalancePage(context) {
+    Navigator.pop(context);
+    Get.find<BasePageController>().onBottomNavItemClick(1);
   }
 }

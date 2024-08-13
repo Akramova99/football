@@ -70,6 +70,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                           controller.saveTeamId();
                           controller.assignReservePlayers();
                           controller.goToNextPage(widget.pageController);
+                          controller.saveGameTactics();
 
                         })
               ],

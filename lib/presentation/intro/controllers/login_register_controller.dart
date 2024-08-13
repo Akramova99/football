@@ -28,13 +28,12 @@ class LoginRegisterController extends GetxController {
 
   String? teamId;
 
-
-  hidePassword(){
+  hidePassword() {
     showPassword = !showPassword;
     update();
   }
 
-  saveUserData(){
+  saveUserData() {
     isUserDataSaved = !isUserDataSaved;
     update();
   }
@@ -61,21 +60,25 @@ class LoginRegisterController extends GetxController {
           .post<String>(DioService.REGISTER_API, data: data);
       if (response.statusCode == 201) {
         ToastService.showSuccess("Ok");
-
         var userData = loginResponseModelFromJson(response.data!);
         userId = userData.userId.toString();
+
+        var firebaseToken = DbService.getFirebaseToken();
+        await DioService.dio.post(DioService.setFirebaseToken(userId),
+            data: {"token": firebaseToken});
+
         DbService.saveUserid(userId.toString());
         DbService.setLoggedIn(true);
         DbService.saveUserEmail(email);
         setTeamIdToUserId();
         callBasePage(context);
-      } else {
-        ToastService.showError("${response.statusMessage}");
-        print("${response.statusMessage}");
       }
     } on Exception catch (e) {
-      ToastService.showError("$e");
-      print("$e");
+      if (e.toString().contains("409")) {
+        ToastService.showError("Bu telefon raqami ro'yhatdan o'tgan");
+      }if (e.toString().contains("400")) {
+        ToastService.showError("Bu ism royhatdan otgan");
+      }
     }
   }
 
@@ -97,10 +100,19 @@ class LoginRegisterController extends GetxController {
         ToastService.showSuccess("You are welcome");
         var userData = loginResponseModelFromJson(response.data!);
         userId = userData.userId.toString();
+
         DbService.saveUserid(userId.toString());
+
+        var firebaseToken = DbService.getFirebaseToken();
+        await DioService.dio.post(DioService.setFirebaseToken(userId),
+            data: {"token": firebaseToken});
+
         DbService.setLoggedIn(true);
         DbService.saveUserEmail(email);
         callBasePage(context);
+      }
+      if (response.statusCode == 409) {
+        ToastService.showError("${response.statusMessage}");
       } else {
         ToastService.showError("${response.statusMessage}");
         print("${response.statusMessage}");

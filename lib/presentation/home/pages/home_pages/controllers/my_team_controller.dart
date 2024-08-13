@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../../models/team_model.dart';
 import '../../../../../services/db_service.dart';
 import '../../../../../services/dio_service.dart';
+import '../../../../../utils/constants/constants.dart';
 
 class MyTeamController extends GetxController {
   String? teamName;
@@ -26,13 +27,24 @@ class MyTeamController extends GetxController {
     var result = teamModelFromJson(response);
     team = result;
     teamName = team.name!;
+    team.players = fillTeamWithRequiredPositions(team.players!, getTactics());
     teamIcon = team.logo;
     isLoading = true;
     update();
 
     getPrimaryTeam();
-    //addPlayer();
     getReservePlayers(team.players!);
+  }
+
+  Map<String, int> getTactics() {
+    var tatcic = tacticValues[team.tactic];
+    Map<String, int> values = {
+      'Goalkeeper'.toUpperCase(): tatcic![0],
+      'Defender'.toUpperCase(): tatcic[1],
+      'Midfielder'.toUpperCase(): tatcic[2],
+      'Forward'.toUpperCase(): tatcic[3],
+    };
+    return values;
   }
 
   getReservePlayers(List<Player> players) {
@@ -73,7 +85,7 @@ class MyTeamController extends GetxController {
       print("Player not found in primary team");
       return;
     }
-
+    print(player.position);
     List<Player> list = [];
     chosen = List.generate(11, (_) => false); // Reset chosen list
     chosen[index] = true;
@@ -93,11 +105,14 @@ class MyTeamController extends GetxController {
         print("teamid: ${team.id}");
         print("plare1: ${primaryTeam[i].id}");
         print("plare12: ${player.id}");
-        var result = await DioService.dio.post(
-          DioService.changePlayer(team.id.toString(), primaryTeam[i].id, false),
-        );
+        if(primaryTeam[i].name != null){
+          var result = await DioService.dio.post(
+            DioService.changePlayer(team.id.toString(), primaryTeam[i].id, false),
+          );
+          print("removing player from primary team: ${result.data}");
+        }
 
-        print("removing player from primary team: ${result.data}");
+
 
         var result2 = await DioService.dio
             .post(DioService.changePlayer(team.id.toString(), player.id, true));

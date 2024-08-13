@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/points_page_controller.dart';
-import 'package:football/presentation/widgets/team_name_widget.dart';
+import 'package:football/presentation/widgets/mateches_widget.dart';
+import 'package:football/presentation/widgets/points_player_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
-
-import '../../../../widgets/football_field_widget.dart';
 
 class PointsPage extends StatefulWidget {
   const PointsPage({super.key});
@@ -78,51 +77,77 @@ class _PointsPageState extends State<PointsPage> {
                             const SizedBox(
                               height: 5,
                             ),
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       child: Column(
+                            //         children: [
+                            //           Text(
+                            //             "MW points",
+                            //             style: CustomStyles.team,
+                            //           ),
+                            //           Text(
+                            //             "${controller.team.totalScore} PTS",
+                            //             style: const TextStyle(
+                            //                 fontSize: 32, color: Colors.green),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //     const Spacer(),
+                            //     Expanded(
+                            //         child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.start,
+                            //       children: [
+                            //         Text(
+                            //           "Other Players",
+                            //           style: CustomStyles.team,
+                            //         ),
+                            //         Text(
+                            //             "Best:  ${controller.points.maxScore} pts"),
+                            //         Text(
+                            //             "Average:  ${controller.points.avgScore} pts"),
+                            //       ],
+                            //     ))
+                            //   ],
+                            // ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             Row(
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "MW points",
-                                        style: CustomStyles.team,
-                                      ),
-                                      Text(
-                                        "${controller.team.totalScore} PTS",
-                                        style: const TextStyle(
-                                            fontSize: 32, color: Colors.green),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Spacer(),
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Other Players",
-                                      style: CustomStyles.team,
-                                    ),
-                                    Text(
-                                        "Best:  ${controller.points.maxScore} pts"),
-                                    Text(
-                                        "Average:  ${controller.points.avgScore} pts"),
-                                  ],
-                                ))
+                                Text("O'rtacha: "),
+                                Text(controller.points.avgScore.toString() ??
+                                    ""),
+                                Spacer(),
+                                Text("Mening ochkoyim: "),
+                                Text(controller.team.totalScore.toString() ??
+                                    ""),
+                                Spacer(),
+                                Text("Eng yaxshi: "),
+                                Text(controller.points.maxScore.toString() ??
+                                    ""),
                               ],
                             ),
+                            PointsPageFootballField(controller: controller),
+                            PointsPlayerCardWidget(
+                                players: controller.reservePlayers),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
-                            TeamNameWidget(
-                              name: controller.teamName,
-                              icon: controller.team.logo,
-                            ),
-                            FootballFieldWidget(
-                              players: controller.team.players!,
-                              function: () {},
-                            ),
+                            Container(
+                              margin: EdgeInsets.all(2),
+                              height: 400,
+                              decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey, blurRadius: 5)
+                                  ]),
+                              child: MatchListView(
+                                matches: controller.matches,
+                              ),
+                            )
                           ],
                         ),
                 ],

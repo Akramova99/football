@@ -79,6 +79,7 @@ class _SelectTeamNamePageState extends State<SelectTeamNamePage> {
                                 child: TextField(
                               controller: _controller.teamNameController,
                               decoration: const InputDecoration(
+                                hintText: "Jamoa nomi",
                                   border: InputBorder.none),
                             )),
                             _controller.teamIndex != null

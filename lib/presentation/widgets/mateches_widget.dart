@@ -12,6 +12,7 @@ class MatchListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return matches.isNotEmpty
         ? Container(
+      width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -88,11 +89,14 @@ class MatchListView extends StatelessWidget {
               ),
             ),
           )
-        : const Center(
-            child: Text(
-              "No matches yet",
-              style: TextStyle(fontSize: 30),
+        : Container(width: double.infinity,
+          child: const Center(
+
+              child: Text(
+                "Hozircha hech qanday matchlar yo'q",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
-          );
+        );
   }
 }
