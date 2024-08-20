@@ -86,19 +86,23 @@ class CreateTeamController extends GetxController {
       if (chosen[i]) {
         if (!playersInField.contains(player)) {
           String playerId = player.id.toString();
-          var response = await DioService.dio
-              .post(DioService.addPlayerAPI(teamId, playerId, true));
+          try {
+            var response = await DioService.dio
+                .post(DioService.addPlayerAPI(teamId, playerId, true));
 
-          if (response.statusCode == 200) {
-            playersInField[i] = player;
-            selectivePlayer.remove(player);
-            players.remove(player);
-            update();
-            chosen[i] = false;
-            isTeamFool++;
-          } else {
-            ToastService.showError(response.statusMessage ??
-                "Hatolik yuz berdi iltimos qayta uring");
+            if (response.statusCode == 200) {
+              playersInField[i] = player;
+              selectivePlayer.remove(player);
+              players.remove(player);
+              update();
+              chosen[i] = false;
+              isTeamFool++;
+            } else {
+              ToastService.showError(response.statusMessage ??
+                  "Hatolik yuz berdi iltimos qayta uring");
+            }
+          } on Exception catch (e) {
+            ToastService.showError("Iltimos boshqa oyinchi tanlang");
           }
         }
       }

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/base_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/leagues/leagues_page.dart';
 import 'package:football/presentation/intro/pages/base_intro_page.dart';
 import 'package:football/root/root_binding.dart';
 import 'package:football/services/db_service.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
       ),
       home: DbService.getLoggedIn() ? const BasePage() : const BaseIntroPage(),
       initialBinding: RootBinding(),
+      routes: {
+        '/a': (context) => LeaguesPage(),
+      },
     );
   }
 }

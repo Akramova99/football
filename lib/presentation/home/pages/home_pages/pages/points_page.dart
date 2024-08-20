@@ -22,12 +22,6 @@ class _PointsPageState extends State<PointsPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    Get.delete<PointsPageController>();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GetBuilder<PointsPageController>(
       builder: (_) {
@@ -77,43 +71,6 @@ class _PointsPageState extends State<PointsPage> {
                             const SizedBox(
                               height: 5,
                             ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //       child: Column(
-                            //         children: [
-                            //           Text(
-                            //             "MW points",
-                            //             style: CustomStyles.team,
-                            //           ),
-                            //           Text(
-                            //             "${controller.team.totalScore} PTS",
-                            //             style: const TextStyle(
-                            //                 fontSize: 32, color: Colors.green),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //     const Spacer(),
-                            //     Expanded(
-                            //         child: Column(
-                            //       crossAxisAlignment: CrossAxisAlignment.start,
-                            //       children: [
-                            //         Text(
-                            //           "Other Players",
-                            //           style: CustomStyles.team,
-                            //         ),
-                            //         Text(
-                            //             "Best:  ${controller.points.maxScore} pts"),
-                            //         Text(
-                            //             "Average:  ${controller.points.avgScore} pts"),
-                            //       ],
-                            //     ))
-                            //   ],
-                            // ),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
                             Row(
                               children: [
                                 Text("O'rtacha: "),
@@ -141,8 +98,7 @@ class _PointsPageState extends State<PointsPage> {
                               decoration: const BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey, blurRadius: 5)
+                                    BoxShadow(color: Colors.grey, blurRadius: 5)
                                   ]),
                               child: MatchListView(
                                 matches: controller.matches,

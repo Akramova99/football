@@ -111,6 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 20,
                   ),
                   TextField(
+                    controller: controller.nameCont,
                     decoration: InputDecoration(
                         hintText: "Nickname o’zgartirish",
                         border: OutlineInputBorder(
@@ -144,6 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Expanded(
                           child: TextField(
+                            controller: controller.passwordCont,
                             obscureText: controller.showPassword,
                             decoration: const InputDecoration(
                                 hintText: "Parolni o’zgartirish",
@@ -165,7 +167,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  CustomButton(text: "Saqlash", onPress: () {})
+                  CustomButton(text: "Saqlash", onPress: () {
+                    controller.updateUserData();
+                  })
                 ],
               ),
             ),

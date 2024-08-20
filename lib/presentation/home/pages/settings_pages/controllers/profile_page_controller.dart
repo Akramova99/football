@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/user_data_model.dart';
+import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -110,8 +111,17 @@ class ProfilePageController extends GetxController {
     };
 
     if (username.isNotEmpty && password.isNotEmpty && phoneNumber.isNotEmpty) {
-      var response =
-          await DioService.PUT(DioService.UPDATE_USERDATA_API + userId, data);
+      var response = await DioService.dio
+          .put(DioService.UPDATE_USERDATA_API + userId, data: data);
+      if (response.statusCode == 200) {
+        ToastService.showSuccess("Malumotlar o'zgartisrildi");
+      }
+      if (response.statusCode == 409) {
+        ToastService.showError("Bu telefon raqami ro'yhatdan otgan");
+      }
+      if (response.statusCode == 400) {
+        ToastService.showError("Bu ism ro'yhatdan otgan");
+      }
     }
   }
 }

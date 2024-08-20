@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/leagues/team_detail_page.dart';
 
 import '../../models/team_reyting_model.dart';
 import '../../utils/constants/test.dart';
@@ -37,6 +38,15 @@ class SoccerRankingTable extends StatelessWidget {
             (index) {
               final team = teams[index];
               return DataRow(
+
+                onLongPress: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return TeamDetailPage(
+                      id: team.id ?? 0,
+                    );
+                  }));
+                },
                 color: MaterialStateProperty.resolveWith<Color?>(
                   (Set<MaterialState> states) {
                     if (index == 1) return Colors.blue.withOpacity(0.1);
@@ -52,8 +62,8 @@ class SoccerRankingTable extends StatelessWidget {
                         width: 25,
                         child: team.logo != null
                             ? Image.network(team.logo!)
-                            : Image.asset(teamLogos[
-                                Random().nextInt(teamLogos.length)]),
+                            : Image.asset(
+                                teamLogos[Random().nextInt(teamLogos.length)]),
                       ),
                       const SizedBox(width: 5),
                       SizedBox(

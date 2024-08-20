@@ -68,7 +68,8 @@ loginBottomShit(
                     ),
                     Container(
                       height: 64,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
@@ -264,7 +265,8 @@ registerBottomShit(
                     ),
                     Container(
                       height: 64,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [

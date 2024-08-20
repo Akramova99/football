@@ -93,9 +93,16 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: List.generate(
                   5,
-                  (index) => CustomHomeMenuItem(
-                    data: homeMenuItems[index],
-                  ),
+                  (index) => index != 4
+                      ? CustomHomeMenuItem(
+                          data: homeMenuItems[index],
+                        )
+                      : CustomHomeMenuItem2(
+                          data: homeMenuItems[4],
+                          changeLanguage: () {
+                            Navigator.pushNamed(context, "/a");
+                          },
+                        ),
                 ),
               ))
             ],

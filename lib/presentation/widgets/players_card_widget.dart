@@ -15,7 +15,7 @@ class PlayersCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      height: 80,
+      height: 86,
       decoration: const BoxDecoration(
           color: Color.fromRGBO(41, 169, 107, 1),
           borderRadius: BorderRadius.all(Radius.circular(10))),

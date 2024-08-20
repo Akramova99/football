@@ -29,12 +29,6 @@ class _TransferPageState extends State<TransferPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    Get.delete<TransferPageController>();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GetBuilder<TransferPageController>(builder: (_) {
       return Scaffold(
@@ -258,6 +252,7 @@ class _TransferPageState extends State<TransferPage> {
                                     child: SingleChildScrollView(
                                       physics: AlwaysScrollableScrollPhysics(),
                                       child: DataTable(
+                                        dataRowHeight: 60,
                                         columnSpacing: 0,
                                         columns: const [
                                           DataColumn(label: Text("#")),
@@ -276,34 +271,50 @@ class _TransferPageState extends State<TransferPage> {
                                                 onTap: () {
                                                   controller.buyPlayer(player);
                                                 },
-                                                child: SizedBox(
-                                                  width: 130,
-                                                  child: Row(
-                                                    children: [
-                                                      if (player.jersey != null)
-                                                        CachedNetworkImage(
-                                                          imageUrl:
-                                                              player.jersey!,
-                                                          width: 30,
-                                                          height: 30,
-                                                          placeholder:
-                                                              (context, url) {
-                                                            return Image.asset(
-                                                                "assets/images/home/player_img.png");
-                                                          },
-                                                        ),
-                                                      SizedBox(
-                                                        width: 100,
-                                                        child: Text(
-                                                          player.name!,
-                                                          style: const TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .fade),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 130,
+                                                      child: Row(
+                                                        children: [
+                                                          if (player.jersey !=
+                                                              null)
+                                                            CachedNetworkImage(
+                                                              imageUrl: player
+                                                                  .jersey!,
+                                                              width: 30,
+                                                              height: 30,
+                                                              placeholder:
+                                                                  (context,
+                                                                      url) {
+                                                                return Image.asset(
+                                                                    "assets/images/home/player_img.png");
+                                                              },
+                                                            ),
+                                                          SizedBox(
+                                                            width: 100,
+                                                            child: Text(
+                                                              player.name!,
+                                                              style: const TextStyle(
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .fade),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 130,
+                                                      child: Text(
+                                                        player.clubName ?? "",
+                                                        style: TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
                                               )),
                                               DataCell(
@@ -396,17 +407,6 @@ class _TransferPageState extends State<TransferPage> {
                                 ],
                               ),
                             ),
-                            // SizedBox(
-                            //   height: 10,
-                            // ),
-                            // Container(
-                            //   child: CustomButton(
-                            //     onPress: () {
-                            //       controller.searchPlayers();
-                            //     },
-                            //     text: 'Qidirish',
-                            //   ),
-                            // )
                           ],
                         ),
                       )

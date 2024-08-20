@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/team_model.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/calendar_pages/calendar_page.dart';
-import 'package:football/presentation/home/pages/home_pages/pages/leagues_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/leagues/leagues_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/points_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/transfer_page.dart';

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class TeamNameWidget extends StatelessWidget {
@@ -26,6 +27,17 @@ class TeamNameWidget extends StatelessWidget {
           Text(
             name ?? "",
             style: const TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          CachedNetworkImage(
+            height: 20,
+            width: 20,
+            imageUrl: icon ?? "",
+            placeholder: (context, url) => Container(
+              color: Colors.grey,
+            ),
           ),
           const Spacer(),
         ],

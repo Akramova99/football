@@ -78,6 +78,10 @@ class DioService {
     return "/api/v1/players/$playerId/statistics";
   }
 
+  static joinLeagueApi(String leagueId, String userId){
+    return "/api/v1/users/$leagueId/join?userId=$userId";
+  }
+
   static const GET_NOTIFICATION = "/api/v1/users/1/notifications";
   static const GET_TEAM_API = "/api/v1/teams/";
   static const RANDOM_PLAYERS_API = "/api/v1/players";
@@ -100,5 +104,11 @@ class DioService {
   static const TRANSFER_SUMMARY = "/api/v1/users/tranfer-summary/";
   static const ALL_ClUBS = "/api/football-teams/all";
   static const CURRENT_MATCHWEEK = "/api/matchweeks/current";
+  static const LEAGUES_API = "/api/v1/leagues";
+  static const LEAGUE_DETAIL_API = "/api/v1/leagues/";
+  static const LEAGUE_PAID_API = "/api/v1/leagues/available";
+  static const LEAGUE_EXTRA_API = "/api/v1/users/joinedLeagues?userId=";
+  static const LEAGUE_CREATE_API = "/api/v1/leagues/create/";
+
 
 }

@@ -21,17 +21,8 @@ class _MyTeamPageState extends State<MyTeamPage> {
   void initState() {
     super.initState();
     controller.getTeam();
-    //controller.addDefenders();
-
-    //
-    // controller.addPlayer();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    Get.delete<MyTeamController>();
-  }
 
   @override
   Widget build(BuildContext context) {

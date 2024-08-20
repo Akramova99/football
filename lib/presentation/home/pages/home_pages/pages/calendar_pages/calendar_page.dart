@@ -22,11 +22,7 @@ class _CalendarPageState extends State<CalendarPage> {
     controller.getData();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    Get.delete<CalendarPageController>();
-  }
+
 
   @override
   Widget build(BuildContext context) {
