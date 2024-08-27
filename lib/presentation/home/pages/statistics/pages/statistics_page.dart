@@ -71,8 +71,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
                           Text((index + 1).toString()),
                         ),
                         DataCell(Text(controller.players[index].name ?? "")),
-                        DataCell(Text(
-                            controller.players[index].score.toString() ?? "")),
+                        DataCell(
+                            Text("${controller.players[index].score ?? "-"}")),
                         DataCell(
                             const Icon(
                               Icons.info_outline,

@@ -79,7 +79,7 @@ class _SelectTeamNamePageState extends State<SelectTeamNamePage> {
                                 child: TextField(
                               controller: _controller.teamNameController,
                               decoration: const InputDecoration(
-                                hintText: "Jamoa nomi",
+                                  hintText: "Jamoa nomi",
                                   border: InputBorder.none),
                             )),
                             _controller.teamIndex != null
@@ -96,8 +96,7 @@ class _SelectTeamNamePageState extends State<SelectTeamNamePage> {
                       CustomButton(
                         text: "Keyingi >",
                         onPress: () {
-                          _controller.save();
-                          _controller.callRegisterPage(context);
+                          _controller.save(context);
                         },
                       )
                     ],

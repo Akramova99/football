@@ -4,6 +4,7 @@ import 'package:football/presentation/home/pages/home_pages/controllers/transfer
 import 'package:football/presentation/widgets/player_selection_widget.dart';
 
 import '../../models/team_model.dart';
+import '../../utils/constants/constants.dart';
 
 getTeamPLayers(List<Player> players, bool isTransferPage) {
   List<Player> primaryTeam = List.generate(
@@ -160,16 +161,16 @@ class ChangePlayerFootballField extends StatelessWidget {
     controller.primaryTeam = players[1];
 
     List<Widget> list = [];
-    var goalKeeper = players[0][0];
+    int goalKeeper = players[0][0];
     list.add(buildRow(goalKeeper, 0));
 
-    var defender = players[0][1];
+    int defender = tactics[controller.tacticsIndex][1];
     list.add(buildRow(defender, goalKeeper));
 
-    var midfielder = players[0][2];
+    var midfielder = tactics[controller.tacticsIndex][2];
     list.add(buildRow(midfielder, defender + goalKeeper));
 
-    var forward = players[0][3];
+    var forward = tactics[controller.tacticsIndex][3];
     list.add(buildRow(forward, defender + midfielder + goalKeeper));
 
     return list;

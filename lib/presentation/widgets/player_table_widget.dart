@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/player_detail_model.dart';
 
 class PlayerDataTable extends StatelessWidget {
-  final PlayerDetailModel model;
+  final Statistic model;
 
   const PlayerDataTable({super.key, required this.model});
 
@@ -15,9 +15,8 @@ class PlayerDataTable extends StatelessWidget {
         children: [
           Table(
             columnWidths: const {
-              0: FlexColumnWidth(3),
+              0: FlexColumnWidth(4),
               1: FlexColumnWidth(1),
-              2: FlexColumnWidth(1),
             },
             children: const [
               TableRow(
@@ -33,7 +32,6 @@ class PlayerDataTable extends StatelessWidget {
                       textAlign: TextAlign.start,
                     ),
                   ),
-                  SizedBox(),
                   SizedBox(),
                 ],
               ),
@@ -52,17 +50,10 @@ class PlayerDataTable extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Value',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
                       'Points',
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
@@ -74,106 +65,73 @@ class PlayerDataTable extends StatelessWidget {
             columnWidths: const {
               0: FlexColumnWidth(4),
               1: FlexColumnWidth(1),
-              2: FlexColumnWidth(1),
             },
-            children: const [
+            children: [
               TableRow(children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Minutes Played'),
+                  child: Text('Assist'),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '90',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    '2',
+                    "${model.scoreDetails?.assist ?? ""}",
                     textAlign: TextAlign.center,
                   ),
                 ),
               ]),
               TableRow(children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Assists'),
+                  child: Text('Halff time'),
                 ),
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    '1',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    '3',
+                    "${model.scoreDetails?.halfTime ?? ""}",
                     textAlign: TextAlign.center,
                   ),
                 ),
               ]),
               TableRow(children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Clean sheet'),
+                  child: Text('Red'),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '1',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    '4',
+                    '${model.scoreDetails?.red ?? ""}',
                     textAlign: TextAlign.center,
                   ),
                 ),
               ]),
               TableRow(children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Every 10 Interceptions and tackles',
+                    'Yellow',
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    '12',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    '1',
+                    '${model.scoreDetails?.yellow ?? ""}',
                     textAlign: TextAlign.center,
                   ),
                 ),
               ]),
               TableRow(children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Total',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(''),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '10',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    '${model.totalScore ?? ""}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),

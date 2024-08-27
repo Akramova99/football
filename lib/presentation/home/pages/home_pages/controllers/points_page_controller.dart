@@ -18,6 +18,7 @@ class PointsPageController extends GetxController {
   MatchweekModel matchweekModel = MatchweekModel();
   List<Player> reservePlayers = [];
   List<Player> primaryTeam = [];
+  String tactica = "";
 
   getCurrentMatches() async {
     var response = await DioService.dio.get(DioService.CURRENT_MATCHWEEK);
@@ -50,6 +51,9 @@ class PointsPageController extends GetxController {
         await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
     var result = teamModelFromJson(response);
     team = result;
+    tactica = team.tactic;
+    print(tactica);
+    print(team.id);
     teamName = team.name!;
     await getPoints();
     isLoading = true;

@@ -12,7 +12,7 @@ class MatchListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return matches.isNotEmpty
         ? Container(
-      width: double.infinity,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -57,8 +57,12 @@ class MatchListView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Text(
-                            "${match.startTime!.hour.toString().padLeft(2, '0')} : ${match.startTime!.minute.toString().padLeft(2, '0')}"),
+                        SizedBox(
+                            width: 39,
+                            child: Text(
+                              "${match.startTime}",
+                              maxLines: 1,
+                            )),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Row(
@@ -89,14 +93,14 @@ class MatchListView extends StatelessWidget {
               ),
             ),
           )
-        : Container(width: double.infinity,
-          child: const Center(
-
+        : Container(
+            width: double.infinity,
+            child: const Center(
               child: Text(
                 "Hozircha hech qanday matchlar yo'q",
                 style: TextStyle(fontSize: 30),
               ),
             ),
-        );
+          );
   }
 }

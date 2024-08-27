@@ -19,6 +19,14 @@ class DbService {
     db.setString("user_id", userId);
   }
 
+  static saveBalance(double budget) {
+    db.setDouble("budget", budget);
+  }
+
+  static getBalance() {
+    return db.getDouble("budget");
+  }
+
   static getUserId() {
     return db.getString("user_id");
   }
@@ -57,5 +65,5 @@ class DbService {
 
   static String getTactics() {
     return db.getString("tactics") ?? "";
-    }
+  }
 }

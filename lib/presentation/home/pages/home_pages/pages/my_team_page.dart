@@ -23,6 +23,11 @@ class _MyTeamPageState extends State<MyTeamPage> {
     controller.getTeam();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    controller.changeTactic();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +46,17 @@ class _MyTeamPageState extends State<MyTeamPage> {
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(
                 children: [
-
                   !controller.isLoading
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
                       : Column(
                           children: [
-                            TeamNameWidget(
-                                icon: controller.teamIcon,
-                                name: controller.teamName ?? ""),
+                            TeamNameWidget2(
+                              icon: controller.teamIcon,
+                              name: controller.teamName ?? "",
+                              controller: controller,
+                            ),
                             ChangePlayerFootballField(
                               controller: controller,
                             ),

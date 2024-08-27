@@ -13,6 +13,7 @@ class CalendarPageController extends GetxController {
   List<MatchweekModel> weeks = [];
   bool isDataReady = false;
 
+  // Fetches the team ratings
   getRating() async {
     var response = await DioService.GET(DioService.GET_RATING_TEAM_API, null);
     var _teams = teamRatingModelFromJson(response);
@@ -22,24 +23,31 @@ class CalendarPageController extends GetxController {
     }
   }
 
+  // Fetches the match weeks
   getMatchWeeks() async {
     var response = await DioService.GET(DioService.GET_MATCHES_API, null);
     var _weeks = matchweekModelFromJson(response);
     weeks = _weeks;
   }
 
+  // Fetches the games for each week
   getGames() async {
     List<List<MatchModel>> _list = [];
     for (var matchWeek in weeks) {
-      var response = await DioService.GET(
-          DioService.GET_MATCH_TEAMS_API + matchWeek.id.toString(), null);
-      var list = matchModelFromJson(response);
-      _list.add(list);
+      try {
+        var response = await DioService.GET(
+            DioService.GET_MATCH_TEAMS_API + matchWeek.id.toString(), null);
+        var list = matchModelFromJson(response);
+        _list.add(list);
+      } on Exception catch (e) {
+        // Handle the exception if necessary
+      }
     }
 
     matches = _list;
   }
 
+  // Navigates to the all ratings page
   callAllRating(context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext ctx) {
       return AllRatingPage(
@@ -48,6 +56,7 @@ class CalendarPageController extends GetxController {
     }));
   }
 
+  // Fetches all required data and updates the UI
   getData() async {
     await getMatchWeeks();
     await getGames();

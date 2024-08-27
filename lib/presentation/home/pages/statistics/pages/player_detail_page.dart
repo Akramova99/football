@@ -21,6 +21,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
   void initState() {
     super.initState();
     controller.getPlayerDetails(widget.player.id!);
+    controller.getPlayerHistoryDetails(widget.player.id!);
   }
 
   @override
@@ -73,9 +74,10 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                             child: Container(
                               alignment: Alignment.centerLeft,
                               height: 90,
-                              child: controller.model!.player?.jersey != null
+                              child: controller.modelCurrent!.player?.jersey !=
+                                      null
                                   ? Image.network(
-                                      controller.model!.player!.jersey!,
+                                      controller.modelCurrent!.player!.jersey!,
                                       height: 90,
                                       fit: BoxFit.cover,
                                     )
@@ -108,7 +110,8 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                                       Expanded(
                                         flex: 5,
                                         child: Text(
-                                          controller.model!.player!.name!,
+                                          controller
+                                              .modelCurrent!.player!.name!,
                                           style: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.white),
@@ -130,7 +133,8 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                                       Expanded(
                                         flex: 5,
                                         child: Text(
-                                          controller.model!.player!.clubName!,
+                                          controller
+                                              .modelCurrent!.player!.clubName!,
                                           style: const TextStyle(
                                             fontSize: 16,
                                             color: Colors.white,
@@ -154,7 +158,7 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                                       Expanded(
                                         flex: 5,
                                         child: Text(
-                                          "\$${controller.model!.player!.price.toString()}",
+                                          "\$${controller.modelCurrent!.player!.price.toString()}",
                                           style: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.white),
@@ -199,15 +203,22 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                         controller.onPageChange(index);
                       },
                     ),
-                    controller.model != null
+                    controller.modelCurrent != null
                         ? Container(
                             margin: const EdgeInsets.symmetric(vertical: 20),
                             width: 300,
                             child: PlayerStats(
-                              model: controller.model!,
+                              model: controller.modelCurrent!,
                             ))
                         : SizedBox(),
-                     Expanded(child: PlayerDataTable(model: controller.model!,)),
+                    Expanded(
+                        child: controller.pageIndex == 0
+                            ? PlayerDataTable(
+                                model: controller.current,
+                              )
+                            : PlayerDataTable(
+                                model: controller.history,
+                              )),
                   ],
                 ),
         ),

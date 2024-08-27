@@ -9,7 +9,7 @@ PlayerDetailModel playerDetailModelFromJson(String str) => PlayerDetailModel.fro
 String playerDetailModelToJson(PlayerDetailModel data) => json.encode(data.toJson());
 
 class PlayerDetailModel {
-  Player? player;
+  PlayerDetail? player;
   List<Statistic>? statistics;
 
   PlayerDetailModel({
@@ -18,7 +18,7 @@ class PlayerDetailModel {
   });
 
   factory PlayerDetailModel.fromJson(Map<String, dynamic> json) => PlayerDetailModel(
-    player: json["player"] == null ? null : Player.fromJson(json["player"]),
+    player: json["player"] == null ? null : PlayerDetail.fromJson(json["player"]),
     statistics: json["statistics"] == null ? [] : List<Statistic>.from(json["statistics"]!.map((x) => Statistic.fromJson(x))),
   );
 
@@ -28,11 +28,11 @@ class PlayerDetailModel {
   };
 }
 
-class Player {
+class PlayerDetail {
   int? id;
   String? name;
   String? position;
-  dynamic playerNumber;
+  int? playerNumber;
   String? clubName;
   double? price;
   int? currentScore;
@@ -41,7 +41,7 @@ class Player {
   String? jersey;
   String? playerKey;
 
-  Player({
+  PlayerDetail({
     this.id,
     this.name,
     this.position,
@@ -55,7 +55,7 @@ class Player {
     this.playerKey,
   });
 
-  factory Player.fromJson(Map<String, dynamic> json) => Player(
+  factory PlayerDetail.fromJson(Map<String, dynamic> json) => PlayerDetail(
     id: json["id"],
     name: json["name"],
     position: json["position"],
@@ -109,11 +109,33 @@ class Statistic {
 }
 
 class ScoreDetails {
-  ScoreDetails();
+  int? red;
+  int? assist;
+  int? halfTime;
+  int? yellow;
+  int? goal;
+
+  ScoreDetails({
+    this.red,
+    this.assist,
+    this.halfTime,
+    this.yellow,
+    this.goal,
+  });
 
   factory ScoreDetails.fromJson(Map<String, dynamic> json) => ScoreDetails(
+    red: json["RED"],
+    assist: json["ASSIST"],
+    halfTime: json["HALF_TIME"],
+    yellow: json["YELLOW"],
+    goal: json["GOAL"],
   );
 
   Map<String, dynamic> toJson() => {
+    "RED": red,
+    "ASSIST": assist,
+    "HALF_TIME": halfTime,
+    "YELLOW": yellow,
+    "GOAL": goal,
   };
 }

@@ -16,7 +16,7 @@ class MatchModel {
   Away? home;
   Away? away;
   MatchWeek? matchWeek;
-  DateTime? startTime;
+  String? startTime; // Store the time as a string
   DateTime? matchDate;
 
   MatchModel({
@@ -29,28 +29,38 @@ class MatchModel {
   });
 
   factory MatchModel.fromJson(Map<String, dynamic> json) => MatchModel(
-        id: json["id"],
-        home: json["home"] == null ? null : Away.fromJson(json["home"]),
-        away: json["away"] == null ? null : Away.fromJson(json["away"]),
-        matchWeek: json["matchWeek"] == null
-            ? null
-            : MatchWeek.fromJson(json["matchWeek"]),
-        startTime: json["startTime"] == null
-            ? null
-            : DateTime.parse(json["startTime"]),
-        matchDate: json["matchDate"] == null
-            ? null
-            : DateTime.parse(json["matchDate"]),
-      );
+    id: json["id"],
+    home: json["home"] == null ? null : Away.fromJson(json["home"]),
+    away: json["away"] == null ? null : Away.fromJson(json["away"]),
+    matchWeek: json["matchWeek"] == null
+        ? null
+        : MatchWeek.fromJson(json["matchWeek"]),
+    startTime: json["startTime"] ?? null,
+    matchDate: json["matchDate"] == null
+        ? null
+        : DateTime.parse(json["matchDate"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "home": home?.toJson(),
-        "away": away?.toJson(),
-        "matchWeek": matchWeek?.toJson(),
-        "startTime": startTime?.toIso8601String(),
-        "matchDate": matchDate?.toIso8601String(),
-      };
+    "id": id,
+    "home": home?.toJson(),
+    "away": away?.toJson(),
+    "matchWeek": matchWeek?.toJson(),
+    "startTime": startTime,
+    "matchDate": matchDate?.toIso8601String(),
+  };
+}
+
+DateTime combineDateWithTime(DateTime date, String time) {
+  final timeParts = time.split(':');
+  return DateTime(
+    date.year,
+    date.month,
+    date.day,
+    int.parse(timeParts[0]),
+    int.parse(timeParts[1]),
+    int.parse(timeParts[2]),
+  );
 }
 
 class Away {

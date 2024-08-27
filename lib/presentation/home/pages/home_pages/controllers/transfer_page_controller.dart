@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/club_model.dart';
 import 'package:football/models/transfer_summary_model.dart';
 import 'package:football/presentation/home/controllers/base_page_controller.dart';
+import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/converter.dart';
 import 'package:get/get.dart';
@@ -117,18 +119,23 @@ class TransferPageController extends GetxController {
   sellPLayer(Player player) async {
     var index = primaryTeam.indexOf(player);
     if (index != -1) {
-      var response = await DioService.dio
-          .post(DioService.sellPLayer(userId, team.id, player.id));
+      try {
+        var response = await DioService.dio
+            .post(DioService.sellPLayer(userId, team.id, player.id));
 
-      if (response.statusCode == 200) {
-        print(
-            "player sold:\nposition:${player.position}\nis primary: ${player.isPrimary}");
-        primaryTeam[index] =
-            Player(position: player.position, isPrimary: player.isPrimary);
+        if (response.statusCode == 200) {
+          print(
+              "player sold:\nposition:${player.position}\nis primary: ${player.isPrimary}");
+          primaryTeam[index] =
+              Player(position: player.position, isPrimary: player.isPrimary);
+        }
+        getTransferSummary();
+        update();
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 400) {
+          ToastService.showError("Sizda tekin transfer yo'q");
+        }
       }
-
-      getTransferSummary();
-      update();
     }
   }
 
@@ -158,8 +165,7 @@ class TransferPageController extends GetxController {
             print(response.statusMessage);
           }
         } on Exception catch (e) {}
-
-        //addPlayer(player, true);
+        ToastService.showError("Xatolik");
       }
     }
   }

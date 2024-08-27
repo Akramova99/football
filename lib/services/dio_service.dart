@@ -78,6 +78,10 @@ class DioService {
     return "/api/v1/players/$playerId/statistics";
   }
 
+  static getPlayerHistory(int playerId){
+    return "/api/v1/players/$playerId/current-matchweek-statistics";
+  }
+
   static joinLeagueApi(String leagueId, String userId){
     return "/api/v1/users/$leagueId/join?userId=$userId";
   }

@@ -64,10 +64,18 @@ class LoginRegisterController extends GetxController {
         userId = userData.userId.toString();
 
         var firebaseToken = DbService.getFirebaseToken();
-        await DioService.dio.post(DioService.setFirebaseToken(userId),
+        var responseFirebase = await DioService.dio.post(
+            DioService.setFirebaseToken(userId),
             data: {"token": firebaseToken});
-
+        if (responseFirebase.statusCode == 200) {
+          print(responseFirebase.statusCode);
+        } else {
+          print(response.statusMessage);
+        }
+        var balance = DbService.getBalance();
+        await DioService.dio.post("/api/v1/users/set-balance/$userId/$balance");
         DbService.saveUserid(userId.toString());
+
         DbService.setLoggedIn(true);
         DbService.saveUserEmail(email);
         setTeamIdToUserId();
@@ -76,7 +84,8 @@ class LoginRegisterController extends GetxController {
     } on Exception catch (e) {
       if (e.toString().contains("409")) {
         ToastService.showError("Bu telefon raqami ro'yhatdan o'tgan");
-      }if (e.toString().contains("400")) {
+      }
+      if (e.toString().contains("400")) {
         ToastService.showError("Bu ism royhatdan otgan");
       }
     }

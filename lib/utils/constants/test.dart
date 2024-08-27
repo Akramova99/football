@@ -2,7 +2,6 @@ import 'dart:math';
 
 import '../../models/league_detail_model.dart';
 import '../../models/league_model.dart';
-import '../../models/match_model.dart';
 import '../../models/matchweek_model.dart';
 import '../../models/team_reyting_model.dart';
 
@@ -70,48 +69,6 @@ final teamLogos = [
   'assets/images/test/img_12.png',
   'assets/images/test/username_img.png',
 ];
-
-List<MatchModel> generateRandomMatches() {
-  final random1 = Random();
-  final random2 = Random();
-
-  List<MatchModel> matches = [];
-
-  for (int i = 0; i < 10; i++) {
-    final homeIndex = random1.nextInt(25);
-    int awayIndex = random2.nextInt(23);
-    if (awayIndex == homeIndex) {
-      awayIndex += 2;
-    }
-
-    matches.add(MatchModel(
-      id: i,
-      home: Away(
-        id: homeIndex,
-        teamName: teamNames[homeIndex],
-        logo: teamLogos[homeIndex],
-        jersey: 'Home Jersey',
-      ),
-      away: Away(
-        id: awayIndex,
-        teamName: teamNames[awayIndex],
-        logo: teamLogos[awayIndex],
-        jersey: 'Away Jersey',
-      ),
-      matchWeek: MatchWeek(
-        id: i,
-        weekNumber: i + 1,
-        startDate: DateTime.now().add(Duration(days: i * 7)),
-        endDate: DateTime.now().add(Duration(days: i * 7 + 6)),
-      ),
-      startTime: DateTime.now().add(Duration(days: i)),
-      matchDate: DateTime.now().add(Duration(days: i)),
-    ));
-  }
-
-  return matches;
-}
-
 
 List<LeagueModel> generateRandomLeagues(int count) {
   Random random = Random();

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:football/models/team_model.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/points_page_controller.dart';
+import 'package:football/utils/constants/constants.dart';
 
 import 'change_player_football_field.dart';
 
@@ -174,18 +175,19 @@ class PointsPageFootballField extends StatelessWidget {
   buildList() {
     var players = getTeamPLayers(controller.team.players!, false);
     controller.primaryTeam = players[1];
+    var index = tacticsString.indexOf(controller.tactica);
 
     List<Widget> list = [];
-    var goalKeeper = players[0][0];
+    var goalKeeper = tactics[index][0];
     list.add(buildRow(goalKeeper, 0));
 
-    var defender = players[0][1];
+    var defender = tactics[index][1];
     list.add(buildRow(defender, goalKeeper));
 
-    var midfielder = players[0][2];
+    var midfielder = tactics[index][2];
     list.add(buildRow(midfielder, defender + goalKeeper));
 
-    var forward = players[0][3];
+    var forward = tactics[index][3];
     list.add(buildRow(forward, defender + midfielder + goalKeeper));
 
     return list;

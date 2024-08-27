@@ -7,7 +7,7 @@ import '../../../../../utils/constants/constants.dart';
 
 class MyTeamController extends GetxController {
   String? teamName;
-
+  int tacticsIndex = 0;
   String? teamIcon;
   int points = 0;
   TeamModel team = TeamModel();
@@ -19,13 +19,30 @@ class MyTeamController extends GetxController {
   List<Player> primaryTeam = [];
   List<Player> selectivePlayers = [];
 
+  onTacticsChange(index) {
+    tacticsIndex = index;
+    changeTactic();
+    update();
+  }
+
+  changeTactic() async {
+    print("/api/v1/teams/${team.id}/set-tactic/${tacticsString[tacticsIndex]}");
+
+    var response = await DioService.dio.post(
+        "/api/v1/teams/${team.id}/set-tactic/${tacticsString[tacticsIndex]}",
+        data: {});
+  }
+
+
   getTeam() async {
     isLoading = false;
     String userId = DbService.getUserId();
+    print(userId);
     var response =
         await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
     var result = teamModelFromJson(response);
     team = result;
+    print(team.id);
     teamName = team.name!;
     team.players = fillTeamWithRequiredPositions(team.players!, getTactics());
     teamIcon = team.logo;
@@ -105,14 +122,13 @@ class MyTeamController extends GetxController {
         print("teamid: ${team.id}");
         print("plare1: ${primaryTeam[i].id}");
         print("plare12: ${player.id}");
-        if(primaryTeam[i].name != null){
+        if (primaryTeam[i].name != null) {
           var result = await DioService.dio.post(
-            DioService.changePlayer(team.id.toString(), primaryTeam[i].id, false),
+            DioService.changePlayer(
+                team.id.toString(), primaryTeam[i].id, false),
           );
           print("removing player from primary team: ${result.data}");
         }
-
-
 
         var result2 = await DioService.dio
             .post(DioService.changePlayer(team.id.toString(), player.id, true));

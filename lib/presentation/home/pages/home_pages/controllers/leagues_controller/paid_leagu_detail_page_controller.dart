@@ -20,6 +20,7 @@ class PaidLeaguesDetailPageController extends GetxController {
     } catch (e) {
       print("error hello $e");
     }
+    update();
   }
 
   joinLeague(context) async {

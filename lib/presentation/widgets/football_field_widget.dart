@@ -37,16 +37,29 @@ class CreateTeamWidget extends StatelessWidget {
 
   buildList() {
     List<Widget> list = [];
-    var goalKeeper = tactics[controller.tacticsIndex][0];
-    list.add(buildRow(goalKeeper, 0, 0));
+    var goalKeeper = 2;
 
-    var defender = tactics[controller.tacticsIndex][1];
+    // list.add(buildRow(goalKeeper, 0, 0));
+
+    list.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          goalKeeper,
+          (i) => GestureDetector(
+            onTap: () {
+              controller.selectPlayer(reversePosition[0]!, 0 + i);
+            },
+            child: PlayerWidget(player: controller.playersInField[0 + i]),
+          ),
+        )));
+
+    var defender = 5;
     list.add(buildRow(defender, 1, goalKeeper));
 
-    var midfielder = tactics[controller.tacticsIndex][2];
+    var midfielder = 5;
     list.add(buildRow(midfielder, 2, defender + goalKeeper));
 
-    var forward = tactics[controller.tacticsIndex][3];
+    var forward = 3;
     list.add(buildRow(forward, 3, defender + midfielder + goalKeeper));
     return list;
   }
@@ -83,9 +96,6 @@ class _FootballFieldWidgetState extends State<FootballFieldWidget> {
   @override
   void initState() {
     super.initState();
-    controller.getTeam(widget.players);
-    controller.getTactic();
-    controller.getPrimaryTeam();
   }
 
   @override
@@ -120,16 +130,16 @@ class _FootballFieldWidgetState extends State<FootballFieldWidget> {
 
   buildList() {
     List<Widget> list = [];
-    var goalKeeper = controller.tactic["GOALKEEPER"]!;
+    var goalKeeper = 2;
     list.add(buildRow(goalKeeper, 0));
 
-    var defender = controller.tactic["DEFENDER"]!;
+    var defender = 5;
     list.add(buildRow(defender, goalKeeper));
 
-    var midfielder = controller.tactic["MIDFIELDER"]!;
+    var midfielder = 5;
     list.add(buildRow(midfielder, defender + goalKeeper));
 
-    var forward = controller.tactic["FORWARD"]!;
+    var forward = 3;
     list.add(buildRow(forward, defender + midfielder + goalKeeper));
 
     return list;
@@ -142,11 +152,10 @@ class _FootballFieldWidgetState extends State<FootballFieldWidget> {
         playerNumber,
         (i) => GestureDetector(
           onTap: () {
-            widget.function(controller.primaryTeam[index + i]);
+            widget.function(widget.players[index + i]);
             controller.updateUi();
           },
-          child:
-              PlayerSelectionWidget(player: controller.primaryTeam[index + i]),
+          child: PlayerSelectionWidget(player: widget.players[index + i]),
         ),
       ),
     );

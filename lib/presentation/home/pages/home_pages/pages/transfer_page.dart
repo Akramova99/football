@@ -253,7 +253,7 @@ class _TransferPageState extends State<TransferPage> {
                                       physics: AlwaysScrollableScrollPhysics(),
                                       child: DataTable(
                                         dataRowHeight: 60,
-                                        columnSpacing: 0,
+                                        columnSpacing: 20,
                                         columns: const [
                                           DataColumn(label: Text("#")),
                                           DataColumn(label: Text("Oyinchilar")),
@@ -272,6 +272,8 @@ class _TransferPageState extends State<TransferPage> {
                                                   controller.buyPlayer(player);
                                                 },
                                                 child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(
                                                       width: 130,
@@ -307,8 +309,9 @@ class _TransferPageState extends State<TransferPage> {
                                                     SizedBox(
                                                       width: 130,
                                                       child: Text(
-                                                        player.clubName ?? "",
-                                                        style: TextStyle(
+                                                        "  ${player.clubName ?? ""}",
+                                                        style: const TextStyle(
+                                                            fontSize: 12,
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis),

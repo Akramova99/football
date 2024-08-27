@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:football/models/team_name_model.dart';
 import 'package:football/presentation/intro/pages/login_register_page.dart';
@@ -39,14 +40,30 @@ class SelectTeamNameController extends GetxController {
     update();
   }
 
-  save() async {
+  save(context) async {
     var tactics = DbService.getTactics();
     getMyTeamId();
     if (teamId != null) {
       var teamName = teamNameController.text;
       var teamIcon = teams[teamIndex!].logo;
       var data = {"name": teamName, "tactic": tactics, "image": teamIcon};
-      await DioService.PUT("${DioService.SELECT_NAME_API}$teamId", data);
+      print(data);
+      if (teamIcon != null) {
+        try {
+          var response = await DioService.dio
+              .put("${DioService.SELECT_NAME_API}$teamId", data: data);
+          if (response.statusCode == 200) {
+            callRegisterPage(context);
+          }
+        } on DioException catch (e) {
+          if (e.response!.statusCode == 400) {
+            ToastService.showError(
+                "Bu nom ro'yhatdan otgan, iltimos boshqa nom ishlating");
+          }
+        }
+      } else {
+        ToastService.showError("Jamoa logosini tanlang");
+      }
     } else {
       ToastService.showError("Sizda jaoma mavjud emas, iltimos jamoni tanlang");
     }
