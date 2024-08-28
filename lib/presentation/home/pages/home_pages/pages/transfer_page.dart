@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/transfer_page_controller.dart';
@@ -42,6 +41,7 @@ class _TransferPageState extends State<TransferPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
               if (!controller.isLoading)
                 const Center(
@@ -57,13 +57,13 @@ class _TransferPageState extends State<TransferPage> {
                           height: 18,
                           color: const Color.fromRGBO(97, 255, 97, 1),
                           alignment: Alignment.center,
-                          child: const Text(
-                            "MatchWeek 15 - ConFirm by 10 Dec 18:30",
-                            style: TextStyle(color: Colors.white),
+                          child: Text(
+                            "MatchWeek ${controller.matchWeek.weekNumber ?? ""} Confirm by ${controller.deadline}",
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
                           width: double.infinity,
                           height: 65,
                           color: const Color.fromRGBO(216, 255, 216, 1),
@@ -116,10 +116,10 @@ class _TransferPageState extends State<TransferPage> {
                               ),
                               Column(
                                 children: [
-                                  const Icon(
-                                    CupertinoIcons.money_dollar_circle,
-                                    size: 20,
-                                    color: Colors.orange,
+                                  Image.asset(
+                                    "assets/images/transfer/money_img.png",
+                                    width: 20,
+                                    height: 20,
                                   ),
                                   const SizedBox(
                                     height: 10,

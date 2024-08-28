@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/team_model.dart';
+import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
@@ -10,9 +11,8 @@ class CapitanSelectionController extends GetxController {
   String? teamId;
   Player? capitan;
 
-  getTeamId() async  {
+  getTeamId() async {
     teamId = DbService.getTeamId();
-    print("$teamId");
   }
 
   getTeam() async {
@@ -28,20 +28,24 @@ class CapitanSelectionController extends GetxController {
   }
 
   selectPlayer(Player player) {
-    capitan = player;
-    for (var p in players) {
-      p.isCapitan = false;
-    }
-    player.isCapitan = true;
+    if (player.isPrimary!) {
+      capitan = player;
+      for (var p in players) {
+        p.isCapitan = false;
+      }
+      player.isCapitan = true;
 
-    update();
-    print("capitan selected");
+      update();
+    } else {
+      ToastService.showError("Siz zahiradagi o'yinchini tanladingiz");
+    }
+
   }
 
   saveCapitan(PageController pageController) {
     int playerId = capitan!.id!;
     DioService.POST("${DioService.SELECT_CAPTAIN_API}/$teamId/$playerId", null);
     pageController.animateToPage(6,
-        duration: Duration(milliseconds: 200), curve: Curves.easeInSine);
+        duration: const Duration(milliseconds: 200), curve: Curves.easeInSine);
   }
 }

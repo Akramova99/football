@@ -51,10 +51,11 @@ class _CapitanSelectionPageState extends State<CapitanSelectionPage> {
                       controller.isDataReady
                           ? Column(
                               children: [
-                                FootballFieldWidget(
-                                  players: controller.players,
-                                  function: controller.selectPlayer,
-                                ),
+                                // FootballFieldWidget(
+                                //   players: controller.players,
+                                //   function: controller.selectPlayer,
+                                // ),
+                                CapitanSelectionWidget(controller: controller),
                                 const SizedBox(height: 5),
                               ],
                             )

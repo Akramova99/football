@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class IntroPag extends StatelessWidget {
   final Map<String, String> introData;
@@ -12,7 +12,7 @@ class IntroPag extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-              height: 200,
+              height: 300,
               child: Image(image: AssetImage(introData['image']!))),
           const SizedBox(
             height: 100,
@@ -25,7 +25,9 @@ class IntroPag extends StatelessWidget {
                 Text(
                   introData['title']!,
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(0, 185, 0, 1)),
                 ),
                 const SizedBox(
                   height: 10,

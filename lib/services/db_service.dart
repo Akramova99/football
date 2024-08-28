@@ -48,10 +48,16 @@ class DbService {
   }
 
   static clear() {
-    db.clear();
+    db.remove("user_email");
+    db.remove("tactics");
+    db.remove("logged_in");
+    db.remove("user_id");
+    db.remove("budget");
+    db.remove("team_id");
   }
 
   static saveFirebaseToken(String token) {
+    print("token saved: $token");
     db.setString("firebase_token", token);
   }
 

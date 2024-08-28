@@ -48,7 +48,7 @@ class PlayersCardWidget2 extends StatelessWidget {
     return Container(
       height: 75,
       decoration: const BoxDecoration(
-          color: Color.fromRGBO(41, 169, 107, 1),
+          color: Color.fromRGBO(0, 185, 0, 1),
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: ListView.builder(
           scrollDirection: Axis.horizontal,

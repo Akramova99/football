@@ -38,7 +38,6 @@ class TimeDisplayState extends State<TimeDisplay> {
           _formattedTime = formatter.format(now);
         });
       }
-      widget.controller.setDayTime(now);
     });
   }
 
@@ -48,7 +47,7 @@ class TimeDisplayState extends State<TimeDisplay> {
       child: Text(
         _formattedTime,
         style: const TextStyle(
-          fontSize: 50,
+          fontSize: 32,
           fontWeight: FontWeight.bold,
         ),
       ),

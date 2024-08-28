@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/league_detail_page.dart';
+import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
 
@@ -9,8 +10,10 @@ class LeaguesPageController extends GetxController {
   List<LeagueModel> leagues = [];
 
   getLeagues() async {
+    var userId = DbService.getUserId();
     try {
-      var response = await DioService.dio.get<String>(DioService.LEAGUES_API);
+      var response =
+          await DioService.dio.get<String>(DioService.LEAGUES_API + userId);
       if (response.statusCode == 200) {
         var list = leagueModelFromJson(response.data!);
         leagues = list;

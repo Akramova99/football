@@ -144,12 +144,9 @@ class ChangePlayerFootballField extends StatelessWidget {
             image: AssetImage("assets/images/team/football_field.png"),
             fit: BoxFit.fitWidth,
           ),
-          Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buildList(),
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: buildList(),
           )
         ],
       ),

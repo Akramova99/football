@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:football/presentation/intro/controllers/create_team_controller.dart';
 import 'package:football/presentation/widgets/football_field_widget.dart';
-import 'package:football/presentation/widgets/tactics_menu_button.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
 
@@ -81,11 +80,6 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                     )
                   ],
                 ),
-                Container(
-                    width: double.infinity,
-                    alignment: AlignmentDirectional.bottomEnd,
-                    color: Colors.green,
-                    child: TacticsMenuButton(controller: controller)),
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -102,11 +96,11 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                 const SizedBox(
                   height: 5,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 controller.isTeamFool < 11
-                    ? SizedBox()
+                    ? const SizedBox()
                     : CustomButton(
                         text: "Davom etish",
                         onPress: () {

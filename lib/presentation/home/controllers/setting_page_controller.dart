@@ -19,7 +19,7 @@ class SettingPageController extends GetxController {
         DbService.setLoggedIn(false);
         DbService.clear();
         ToastService.showSuccess("Siz tizimdan chiqarib yuborildingiz");
-        Get.deleteAll(force: true);
+        Get.deleteAll(force: false);
         callBaseIntroPage(context);
       } else {
         ToastService.showError("XAtolik yuz berdi");

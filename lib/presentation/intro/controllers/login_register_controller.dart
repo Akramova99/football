@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:football/models/log_reg_response_model.dart';
 import 'package:football/presentation/widgets/toast.dart';
@@ -42,6 +43,8 @@ class LoginRegisterController extends GetxController {
     teamId = DbService.getTeamId();
   }
 
+  bool isLoading = false;
+
   register(context) async {
     var username = userNameReg.text.trim();
     var email = emailReg.text.trim().removeAllWhitespace;
@@ -56,6 +59,8 @@ class LoginRegisterController extends GetxController {
     };
 
     try {
+      isLoading = true;
+      update();
       var response = await DioService.dio
           .post<String>(DioService.REGISTER_API, data: data);
       if (response.statusCode == 201) {
@@ -64,11 +69,15 @@ class LoginRegisterController extends GetxController {
         userId = userData.userId.toString();
 
         var firebaseToken = DbService.getFirebaseToken();
+        print(firebaseToken);
         var responseFirebase = await DioService.dio.post(
             DioService.setFirebaseToken(userId),
             data: {"token": firebaseToken});
         if (responseFirebase.statusCode == 200) {
           print(responseFirebase.statusCode);
+
+          //sent notification
+          sentNotification("/api/v1/notifications/welcome/", userId);
         } else {
           print(response.statusMessage);
         }
@@ -79,6 +88,8 @@ class LoginRegisterController extends GetxController {
         DbService.setLoggedIn(true);
         DbService.saveUserEmail(email);
         setTeamIdToUserId();
+        isLoading = false;
+        update();
         callBasePage(context);
       }
     } on Exception catch (e) {
@@ -103,6 +114,8 @@ class LoginRegisterController extends GetxController {
     };
 
     try {
+      isLoading = true;
+      update();
       var response =
           await DioService.dio.post<String>(DioService.LOGIN_API, data: data);
       if (response.statusCode == 200) {
@@ -113,21 +126,22 @@ class LoginRegisterController extends GetxController {
         DbService.saveUserid(userId.toString());
 
         var firebaseToken = DbService.getFirebaseToken();
-        await DioService.dio.post(DioService.setFirebaseToken(userId),
+        print("token :$firebaseToken");
+        var tokenResponse = await DioService.dio.post(
+            DioService.setFirebaseToken(userId),
             data: {"token": firebaseToken});
-
+        if (tokenResponse.statusCode == 200) {
+          //send login notification
+          sentNotification("/api/v1/notifications/login-alert/", userId);
+        }
+        isLoading = false;
+        update();
         DbService.setLoggedIn(true);
         DbService.saveUserEmail(email);
         callBasePage(context);
       }
-      if (response.statusCode == 409) {
-        ToastService.showError("${response.statusMessage}");
-      } else {
-        ToastService.showError("${response.statusMessage}");
-        print("${response.statusMessage}");
-      }
     } on Exception catch (e) {
-      ToastService.showError("$e");
+      //ToastService.showError("$e");
       print("$e");
     }
   }
@@ -141,5 +155,17 @@ class LoginRegisterController extends GetxController {
         MaterialPageRoute(builder: (BuildContext ctx) {
       return const BasePage();
     }), (route) => false);
+  }
+
+  sentNotification(String api, String id) async {
+    try {
+      var response = await DioService.dio.post(api + id);
+      if (response.statusCode == 200) {
+        print(response.data);
+        print("sending notif to user success");
+      }
+    } on DioException catch (e) {
+      print("sending notif to user$e");
+    }
   }
 }

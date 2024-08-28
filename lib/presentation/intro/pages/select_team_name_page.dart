@@ -49,14 +49,27 @@ class _SelectTeamNamePageState extends State<SelectTeamNamePage> {
                               onTap: () {
                                 _controller.selectTeam(index);
                               },
-                              child: TeamLogoWidget(
-                                team: _controller.teams[index],
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: _controller.teamIndex == index
+                                            ? Colors.green
+                                            : Colors.transparent,
+                                        width: 2)),
+                                child: TeamLogoWidget(
+                                  team: _controller.teams[index],
+                                ),
                               ),
                             );
                           },
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 8,
+                            crossAxisCount: 7,
                             crossAxisSpacing: 5.0,
                             mainAxisSpacing: 5.0,
                           ),

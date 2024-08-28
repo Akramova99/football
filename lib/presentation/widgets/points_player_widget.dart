@@ -160,12 +160,9 @@ class PointsPageFootballField extends StatelessWidget {
             image: AssetImage("assets/images/team/football_field.png"),
             fit: BoxFit.fitWidth,
           ),
-          Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buildList(),
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: buildList(),
           )
         ],
       ),
@@ -214,7 +211,7 @@ class PointsPlayerCardWidget extends StatelessWidget {
     return Container(
       height: 80,
       decoration: const BoxDecoration(
-          color: Color.fromRGBO(41, 169, 107, 1),
+          color: Color.fromRGBO(0, 185, 0, 1),
           borderRadius: BorderRadius.all(Radius.circular(10))),
       child: ListView.builder(
           itemExtent: 80,

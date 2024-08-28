@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:football/models/club_model.dart';
+import 'package:football/models/match_model.dart';
 import 'package:football/models/transfer_summary_model.dart';
 import 'package:football/presentation/home/controllers/base_page_controller.dart';
 import 'package:football/presentation/widgets/toast.dart';
@@ -34,10 +37,29 @@ class TransferPageController extends GetxController {
   List<Player> playersDetails = [];
   int clubsIndex = 0;
 
+  String deadline = "";
+  MatchWeek matchWeek = MatchWeek();
+
   getTransferSummary() async {
     var response =
         await DioService.GET(DioService.TRANSFER_SUMMARY + userId, null);
     transferSummaryModel = transferSummaryModelFromJson(response);
+
+    var _deadline =
+        await DioService.dio.get<String>("/api/calendars/get-start-match-week");
+    if (_deadline.statusCode == 200) {
+      if (_deadline.data != null) {
+        deadline = _deadline.data!;
+      }
+    }
+
+    var _matchWeek =
+        await DioService.dio.get<String>(DioService.CURRENT_MATCHWEEK);
+    if (_matchWeek.statusCode == 200) {
+      if (_matchWeek.data != null) {
+        matchWeek = MatchWeek.fromJson(jsonDecode(_matchWeek.data!));
+      }
+    }
     update();
   }
 
@@ -117,6 +139,7 @@ class TransferPageController extends GetxController {
   }
 
   sellPLayer(Player player) async {
+    print("selling");
     var index = primaryTeam.indexOf(player);
     if (index != -1) {
       try {
@@ -134,6 +157,8 @@ class TransferPageController extends GetxController {
       } on DioException catch (e) {
         if (e.response?.statusCode == 400) {
           ToastService.showError("Sizda tekin transfer yo'q");
+        } else {
+          ToastService.showError("Xatolik yuz berdi");
         }
       }
     }

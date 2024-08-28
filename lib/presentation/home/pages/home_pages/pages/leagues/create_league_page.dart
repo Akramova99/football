@@ -14,11 +14,17 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
   final controller = Get.find<CreateLeagueController>();
 
   @override
+  void initState() {
+    super.initState();
+    controller.getWeeks();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateLeagueController>(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Liga Yaratish'),
+          title: const Text('Liga Yaratish'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -55,10 +61,12 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      items: List.generate(38, (index) => index + 1)
+                      items: List.generate(
+                              controller.weeks.length, (index) => index + 1)
                           .map((value) => DropdownMenuItem<int>(
                                 value: value,
-                                child: Text(value.toString()),
+                                child: Text(
+                                    "${controller.weeks[value - 1].weekNumber ?? ""}"),
                               ))
                           .toList(),
                       onChanged: (newValue) {
@@ -76,10 +84,12 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                       ),
-                      items: List.generate(38, (index) => index + 1)
+                      items: List.generate(
+                              controller.weeks.length, (index) => index + 1)
                           .map((value) => DropdownMenuItem<int>(
                                 value: value,
-                                child: Text(value.toString()),
+                                child: Text(
+                                    "${controller.weeks[value - 1].weekNumber ?? ""}"),
                               ))
                           .toList(),
                       onChanged: (newValue) {

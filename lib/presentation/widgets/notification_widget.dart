@@ -55,9 +55,9 @@ class _NotificationWidgetState extends State<NotificationWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 222,
       margin: const EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -77,9 +77,9 @@ class _NotificationWidgetState extends State<NotificationWidget> {
         children: [
           Text(
             widget.notification.title ?? "",
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -103,7 +103,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                 child: Text(
                   maxLines: null,
                   widget.notification.body ?? "",
-
                 ),
               )
             ],
@@ -120,8 +119,8 @@ showNotif(context, FirebaseNotification notification) {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            height: 500,
-            margin: EdgeInsets.all(10),
+            height: 535,
+            margin: const EdgeInsets.all(10),
             width: double.infinity,
             padding: const EdgeInsets.all(20.0),
             child: Column(

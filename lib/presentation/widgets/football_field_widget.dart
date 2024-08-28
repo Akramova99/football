@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:football/presentation/intro/controllers/capitan_selection_controller.dart';
 import 'package:football/presentation/intro/controllers/create_team_controller.dart';
 import 'package:football/presentation/widgets/player_selection_widget.dart';
 import 'package:football/utils/constants/constants.dart';
+import 'package:football/utils/converter.dart';
 import 'package:get/get.dart';
 
 import '../../models/team_model.dart';
+import 'change_player_football_field.dart';
 
 class CreateTeamWidget extends StatelessWidget {
   const CreateTeamWidget({super.key, required this.controller});
@@ -23,12 +26,9 @@ class CreateTeamWidget extends StatelessWidget {
             image: AssetImage("assets/images/team/football_field.png"),
             fit: BoxFit.fitWidth,
           ),
-          Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buildList(),
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buildList(),
           )
         ],
       ),
@@ -36,10 +36,13 @@ class CreateTeamWidget extends StatelessWidget {
   }
 
   buildList() {
+    var players = getTeamPLayers(
+        convertPlayerSelectionModelListToPlayerList(controller.playersInField),
+        true);
+    controller.playersInField =
+        convertPlayerListToPlayerSelectionModelList(players[1]);
     List<Widget> list = [];
     var goalKeeper = 2;
-
-    // list.add(buildRow(goalKeeper, 0, 0));
 
     list.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -129,6 +132,8 @@ class _FootballFieldWidgetState extends State<FootballFieldWidget> {
   }
 
   buildList() {
+    var players = getTeamPLayers(widget.players, true);
+
     List<Widget> list = [];
     var goalKeeper = 2;
     list.add(buildRow(goalKeeper, 0));
@@ -238,5 +243,73 @@ class FootballFieldController extends GetxController {
 
   updateUi() {
     update();
+  }
+}
+
+class CapitanSelectionWidget extends StatelessWidget {
+  const CapitanSelectionWidget({super.key, required this.controller});
+
+  final CapitanSelectionController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1501 / 2400,
+      child: Stack(
+        children: [
+          const Image(
+            image: AssetImage("assets/images/team/football_field.png"),
+            fit: BoxFit.fitWidth,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buildList(),
+          )
+        ],
+      ),
+    );
+  }
+
+  buildList() {
+    var players = getTeamPLayers(controller.players, true);
+    controller.players = players[1];
+    List<Widget> list = [];
+    var goalKeeper = 2;
+
+    list.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          goalKeeper,
+          (i) => GestureDetector(
+            onTap: () {
+              controller.selectPlayer(controller.players[i]);
+            },
+            child: PlayerSelectionWidget(player: controller.players[i]),
+          ),
+        )));
+
+    var defender = 5;
+    list.add(buildRow(defender, 1, goalKeeper));
+
+    var midfielder = 5;
+    list.add(buildRow(midfielder, 2, defender + goalKeeper));
+
+    var forward = 3;
+    list.add(buildRow(forward, 3, defender + midfielder + goalKeeper));
+    return list;
+  }
+
+  buildRow(int playerNumber, int position, int index) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(
+          playerNumber,
+          (i) => GestureDetector(
+            onTap: () {
+              controller.selectPlayer(controller.players[i + index]);
+            },
+            child: PlayerSelectionWidget(player: controller.players[i + index]),
+          ),
+        ));
   }
 }

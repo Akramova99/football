@@ -52,8 +52,10 @@ class TeamNameWidget2 extends StatelessWidget {
   const TeamNameWidget2({
     super.key,
     required this.icon,
-    required this.name, required this.controller,
+    required this.name,
+    required this.controller,
   });
+
   final MyTeamController controller;
   final String? name;
   final String? icon;
@@ -63,7 +65,7 @@ class TeamNameWidget2 extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: const BoxDecoration(
-          color: Colors.green,
+          color: Color.fromRGBO(0, 185, 0, 1),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(
                 10,

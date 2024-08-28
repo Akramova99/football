@@ -5,11 +5,29 @@ import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
 
+import '../../../models/notification_model.dart';
+
 class HomePageController extends GetxController {
   String name = "";
   String dayTime = "";
   String userId = "";
   UserModel user = UserModel();
+
+  List<FirebaseNotification> notifications = [];
+
+  getNotification() async {
+    userId = DbService.getUserId();
+    var path = "/api/v1/users/$userId/notifications?page=0&size=100";
+    var response = await DioService.dio.get<String>(path);
+
+    if (response.statusCode == 200) {
+      if (response.data != null) {
+        var list = notificationModelFromJson(response.data!);
+        notifications = list.notifications!;
+      }
+    }
+    update();
+  }
 
   getUserData() async {
     userId = DbService.getUserId();
@@ -20,30 +38,12 @@ class HomePageController extends GetxController {
     update();
   }
 
-  setDayTime(DateTime time) {
-    if (time.hour >= 5 && time.hour < 12) {
-      dayTime = 'Morning';
-      update();
-    } else if (time.hour >= 12 && time.hour < 17) {
-      dayTime = 'Afternoon';
-      update();
-    } else if (time.hour >= 17 && time.hour < 21) {
-      dayTime = 'Evening';
-      update();
-    } else {
-      dayTime = 'Night';
-      update();
-    }
-  }
-
-  goToSettingsPage(PageController pageController) {
-    pageController.animateToPage(3,
-        duration: const Duration(milliseconds: 10), curve: Curves.easeIn);
-  }
-
-  callNotificationPage(context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return NotificationPage();
+  callNotificationPage(context) async {
+    await Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) {
+      return const NotificationPage();
     }));
+    getUserData();
+    getNotification();
   }
 }

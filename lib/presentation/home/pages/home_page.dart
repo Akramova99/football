@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     controller.getUserData();
+    controller.getNotification();
   }
 
   @override
@@ -29,18 +30,49 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         backgroundColor: const Color.fromRGBO(250, 250, 250, 3),
         appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Home",
-            style: TextStyle(fontWeight: FontWeight.w500),
+          shadowColor: Colors.grey,
+          elevation: 5,
+          toolbarHeight: 100,
+          primary: true,
+          backgroundColor: const Color.fromRGBO(0, 185, 0, 1),
+          title: Text(
+            controller.name ?? "",
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, color: Colors.white, fontSize: 30),
           ),
           actions: [
             Container(
-              margin: EdgeInsets.only(right: 20),
+              margin: const EdgeInsets.only(right: 20),
               child: GestureDetector(
-                child: Image.asset(
-                  "assets/images/home/appbar_right.png",
+                child: SizedBox(
                   height: 30,
+                  width: 30,
+                  child: Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Image.asset(
+                        "assets/images/home/appbar_right.png",
+                        height: 30,
+                        width: 30,
+                      ),
+                      controller.notifications.isNotEmpty
+                          ? Container(
+                              alignment: Alignment.center,
+                              width: 15,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  shape: BoxShape.circle,
+                                  color: Colors.purple),
+                              child: Text(
+                                "${controller.notifications.length}",
+                                style: const TextStyle(
+                                    fontSize: 8, color: Colors.white),
+                              ),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
                 ),
                 onTap: () {
                   controller.callNotificationPage(context);
@@ -48,64 +80,50 @@ class _HomePageState extends State<HomePage> {
               ),
             )
           ],
-          leading: Container(
-            margin: EdgeInsets.only(left: 20),
-            child: GestureDetector(
-              child: Image.asset(
-                "assets/images/home/appbar_left.png",
-                height: 30,
-              ),
-              onTap: () {
-                controller.goToSettingsPage(widget.pageController);
-              },
-            ),
-          ),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Hi ${controller.name}",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
-              ),
-              Text(
-                "Good ${controller.dayTime}",
-                style: const TextStyle(
-                    fontSize: 16, color: Color.fromRGBO(155, 155, 155, 1)),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: TimeDisplay(
-                  controller: controller,
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 15,
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: List.generate(
-                  5,
-                  (index) => index != 4
-                      ? CustomHomeMenuItem(
-                          data: homeMenuItems[index],
-                        )
-                      : CustomHomeMenuItem2(
-                          data: homeMenuItems[4],
-                          changeLanguage: () {
-                            Navigator.pushNamed(context, "/a");
-                          },
-                        ),
+                SizedBox(
+                  width: double.infinity,
+                  child: TimeDisplay(
+                    controller: controller,
+                  ),
                 ),
-              ))
-            ],
+                Image.asset("assets/images/home/central_img.png"),
+                const SizedBox(
+                  height: 10,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: List.generate(
+                    homeMenuItems.length,
+                    (index) => index != 4
+                        ? CustomHomeMenuItem(
+                            data: homeMenuItems[index],
+                          )
+                        : CustomHomeMenuItem2(
+                            data: homeMenuItems[4],
+                            changeLanguage: () {
+                              Navigator.pushNamed(context, "/a");
+                            },
+                          ),
+                  ),
+                ))
+              ],
+            ),
           ),
         ),
       );

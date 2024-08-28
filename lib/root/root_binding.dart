@@ -20,9 +20,8 @@ import '../presentation/home/pages/home_pages/controllers/leagues_controller/cre
 import '../presentation/home/pages/home_pages/controllers/leagues_controller/extra_leagues_page_controller.dart';
 import '../presentation/home/pages/home_pages/controllers/leagues_controller/join_league_page_controller.dart';
 import '../presentation/home/pages/home_pages/controllers/leagues_controller/league_detail_page_controller.dart';
-import '../presentation/home/pages/home_pages/controllers/leagues_controller/paid_leagu_detail_page_controller.dart';
-import '../presentation/home/pages/home_pages/controllers/leagues_controller/paid_leagues_page_controller.dart';
 import '../presentation/home/pages/home_pages/controllers/leagues_controller/team_detail_page_controller.dart';
+import '../presentation/home/pages/home_pages/controllers/rating_page_controller.dart';
 import '../presentation/home/pages/settings_pages/controllers/profile_page_controller.dart';
 import '../presentation/home/pages/statistics/controllers/player_detail_controller.dart';
 import '../presentation/widgets/football_field_widget.dart';
@@ -50,11 +49,10 @@ class RootBinding implements Bindings {
     Get.lazyPut(() => InviteFriendsController(), fenix: true);
     Get.lazyPut(() => PlayerDetailController(), fenix: true);
     Get.lazyPut(() => LeagueDetailPageController(), fenix: true);
-    Get.lazyPut(() => PaidLeaguesDetailPageController(), fenix: true);
     Get.lazyPut(() => ExtraLeaguesPageController(), fenix: true);
     Get.lazyPut(() => JoinLeaguePageController(), fenix: true);
     Get.lazyPut(() => CreateLeagueController(), fenix: true);
-    Get.lazyPut(() => PaidLeaguesPageController(), fenix: true);
     Get.lazyPut(() => TeamDetailPageController(), fenix: true);
+    Get.lazyPut(() => RatingPageController(), fenix: true);
   }
 }

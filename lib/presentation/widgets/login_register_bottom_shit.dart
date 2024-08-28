@@ -48,6 +48,16 @@ loginBottomShit(
                               const BorderRadius.all(Radius.circular(16))),
                       child: Row(
                         children: [
+                          Image.asset(
+                            "assets/images/intro/phone.png",
+                            width: 20,
+                            height: 20,
+                          ),
+                          const VerticalDivider(
+                            thickness: 1,
+                            indent: 15,
+                            endIndent: 15,
+                          ),
                           Expanded(
                             child: TextField(
                               keyboardType: TextInputType.phone,
@@ -89,7 +99,12 @@ loginBottomShit(
                               obscureText: controller.showPassword,
                               controller: controller.passwordLog,
                               cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                icon: Image.asset(
+                                  "assets/images/intro/password_img.png",
+                                  width: 20,
+                                  height: 20,
+                                ),
                                 border: InputBorder.none,
                                 hintText: "Password",
                               ),
@@ -129,6 +144,13 @@ loginBottomShit(
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (controller.isLoading) CircularProgressIndicator(),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Text(
@@ -144,7 +166,6 @@ loginBottomShit(
                             style: TextStyle(color: Colors.green, fontSize: 14),
                           ),
                           onTap: () {
-                            Navigator.pop(context);
                             controller.teamId != null
                                 ? registerBottomShit(
                                     context: context, controller: controller)
@@ -156,6 +177,9 @@ loginBottomShit(
                           height: 40,
                         )
                       ],
+                    ),
+                    const SizedBox(
+                      height: 50,
                     )
                   ],
                 ),
@@ -215,9 +239,14 @@ registerBottomShit(
                             child: TextField(
                               controller: controller.userNameReg,
                               cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
+                                icon: Image.asset(
+                                  "assets/images/intro/username_img.png",
+                                  height: 20,
+                                  width: 20,
+                                ),
                                 border: InputBorder.none,
-                                hintText: "Username",
+                                hintText: "Taxallus",
                               ),
                             ),
                           ),
@@ -245,14 +274,24 @@ registerBottomShit(
                               const BorderRadius.all(Radius.circular(16))),
                       child: Row(
                         children: [
+                          Image.asset(
+                            "assets/images/intro/phone.png",
+                            width: 20,
+                            height: 20,
+                          ),
+                          const VerticalDivider(
+                            thickness: 1,
+                            indent: 15,
+                            endIndent: 15,
+                          ),
                           Expanded(
                             child: TextField(
                               inputFormatters: [controller.phoneNumberMask],
                               controller: controller.emailReg,
                               cursorColor: const Color.fromRGBO(0, 0, 0, 0.25),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
-                                hintText: "Phone number",
+                                hintText: "+998",
                               ),
                               keyboardType: TextInputType.phone,
                             ),
@@ -288,7 +327,11 @@ registerBottomShit(
                               obscureText: controller.showPassword,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  icon: Icon(Icons.email),
+                                  icon: Image.asset(
+                                    "assets/images/intro/password_img.png",
+                                    width: 20,
+                                    height: 20,
+                                  ),
                                   hintText: "Password",
                                   suffixIcon: IconButton(
                                     icon: controller.showPassword
@@ -312,6 +355,13 @@ registerBottomShit(
                           },
                         ),
                         const Text("Eslab qolish")
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (controller.isLoading) CircularProgressIndicator(),
                       ],
                     ),
                     const SizedBox(
@@ -342,7 +392,6 @@ registerBottomShit(
                             style: TextStyle(color: Colors.green, fontSize: 14),
                           ),
                           onTap: () {
-                            Navigator.pop(context);
                             loginBottomShit(
                                 controller: controller, context: context);
                           },

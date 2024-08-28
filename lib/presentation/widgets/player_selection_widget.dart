@@ -239,7 +239,7 @@ class PlayerTransferWidget extends StatelessWidget {
           )
         : Container(
             padding: EdgeInsets.all(5),
-            height: isExpanded ? 79 : 50,
+            height: 79,
             width: 40,
             child: Column(
               children: [
@@ -352,7 +352,7 @@ class PlayerTransferWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (isExpanded)
+                if (true)
                   Column(
                     children: [
                       Text(

@@ -91,6 +91,8 @@ class Away {
       };
 }
 
+List<MatchWeek> matchWeekFromJson(String str) =>
+    List<MatchWeek>.from(json.decode(str).map((x) => MatchWeek.fromJson(x)));
 class MatchWeek {
   int? id;
   int? weekNumber;

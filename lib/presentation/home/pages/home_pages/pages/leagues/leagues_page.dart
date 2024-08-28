@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/leagues_controller/leagues_page_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/extra_leagues.dart';
-import 'package:football/presentation/home/pages/home_pages/pages/leagues/paid_league_detail_paid.dart';
-import 'package:football/presentation/home/pages/home_pages/pages/leagues/paid_leagues_page.dart';
 import 'package:football/presentation/widgets/custom_button.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
@@ -115,12 +113,7 @@ class _LeaguesPageState extends State<LeaguesPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CustomButton(
-                            text: "Sovrinli ligalar",
-                            onPress: () {
-                              controller.callNextPage(
-                                  const PaidLeaguesPage(), context);
-                            }),
-                        CustomButton(
+
                             text: "Qoshimcha ligalar",
                             onPress: () {
                               controller.callNextPage(

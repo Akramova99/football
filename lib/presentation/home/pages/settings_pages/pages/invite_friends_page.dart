@@ -15,9 +15,10 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     controller.getData();
+    controller.getMyLeagues();
   }
 
   @override
@@ -83,7 +84,9 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                   color: Color.fromRGBO(5, 255, 0, 1),
                                   width: 1)),
                           child: MaterialButton(
-                            onPressed: () { controller.share();},
+                            onPressed: () {
+                              controller.share();
+                            },
                             child: const Row(
                               children: [
                                 Text(
@@ -154,11 +157,11 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                  color: Color.fromRGBO(5, 255, 0, 1),
+                                  color: const Color.fromRGBO(5, 255, 0, 1),
                                   width: 1)),
                           child: MaterialButton(
                             onPressed: () {
-                              controller.copyText();
+                              controller.copyText(controller.myLeague.id!);
                             },
                             child: Row(
                               children: [
@@ -229,7 +232,7 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                   width: 1)),
                           child: MaterialButton(
                             onPressed: () {
-                              controller.copyText();
+                              controller.copyText("");
                             },
                             child: Row(
                               children: [
@@ -239,7 +242,7 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                       fontWeight: FontWeight.w400,
                                       color: Color.fromRGBO(51, 51, 51, 1),
                                     )),
-                                Spacer(),
+                                const Spacer(),
                                 Image.asset(
                                   "assets/images/settings/copy_img.png",
                                   height: 22,

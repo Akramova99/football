@@ -8,10 +8,13 @@ class TeamLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: NetworkImage(team.logo!),
-      width: 30,
-      height: 30,
+    return SizedBox(
+
+      child: Image(
+        image: NetworkImage(team.logo!),
+        width: 30,
+        height: 30,
+      ),
     );
   }
 }

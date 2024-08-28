@@ -4,6 +4,7 @@ import 'package:football/presentation/home/pages/home_pages/pages/calendar_pages
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/leagues_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/points_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/rating_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/transfer_page.dart';
 import 'package:football/presentation/home/pages/settings_pages/pages/notification_page.dart';
 import 'package:football/presentation/home/pages/settings_pages/pages/profile_page.dart';
@@ -136,8 +137,8 @@ var tacticValues = {
   '1-4-4-2': [1, 4, 4, 2]
 };
 
-
-List<Player> fillTeamWithRequiredPositions(List<Player> team, Map<String, int> tactic) {
+List<Player> fillTeamWithRequiredPositions(
+    List<Player> team, Map<String, int> tactic) {
   // Count current players per position
   print("LLLLLLLLLL ${team.length}");
   Map<String, int> positionCount = {};
