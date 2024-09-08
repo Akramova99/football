@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/team_detail_page.dart';
 
@@ -38,7 +39,6 @@ class SoccerRankingTable extends StatelessWidget {
             (index) {
               final team = teams[index];
               return DataRow(
-
                 onLongPress: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
@@ -61,7 +61,12 @@ class SoccerRankingTable extends StatelessWidget {
                         height: 25,
                         width: 25,
                         child: team.logo != null
-                            ? Image.network(team.logo!)
+                            ? CachedNetworkImage(
+                                imageUrl: team.logo!,
+                                placeholder: (context, url) => Container(),
+                                errorWidget: (context, url, error) =>
+                                    Container(),
+                              )
                             : Image.asset(
                                 teamLogos[Random().nextInt(teamLogos.length)]),
                       ),

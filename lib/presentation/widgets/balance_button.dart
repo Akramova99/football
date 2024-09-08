@@ -1,12 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:football/presentation/widgets/custom_button.dart';
+import 'package:get/get.dart';
 
-import 'custom_button.dart';
+import '../home/controllers/balance_page_controller.dart';
 
 class BalanceButton extends StatelessWidget {
-  const BalanceButton({super.key, required this.title, required this.coins});
+  const BalanceButton(
+      {super.key,
+      required this.title,
+      required this.coins,
+      required this.itemIndex,
+      required this.chosenIndex,
+      required this.onPress,
+      required this.cost,
+      required this.transferNumber});
+
+  final int transferNumber;
+  final int itemIndex;
+  final int chosenIndex;
   final String title;
-  final  int coins;
+  final int coins;
+  final Function onPress;
+  final int cost;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,19 +39,23 @@ class BalanceButton extends StatelessWidget {
           ],
           borderRadius: BorderRadius.circular(10)),
       child: ExpansionTile(
-
         key: PageStorageKey<String>(title),
         shape: const Border(),
         leading: Image.asset("assets/images/balance/transfer_img.png"),
-        title: Text(title),
-        trailing: Container(
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-              color: const Color.fromRGBO(34, 245, 0, 1),
-              borderRadius: BorderRadius.circular(7)),
-          child: Text(
-            '$coins coin',
-            style: const TextStyle(color: Colors.white, fontSize: 16),
+        title: Text(title.replaceAll("_", " ")),
+        trailing: GestureDetector(
+          onTap: () {
+            Get.find<BalancePageController>().buyTransfer(title);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                color: const Color.fromRGBO(34, 245, 0, 1),
+                borderRadius: BorderRadius.circular(7)),
+            child: Text(
+              '$coins coin',
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ),
         ),
         children: [
@@ -43,14 +63,7 @@ class BalanceButton extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                const Text('Lorem Ipsum is simply dummy.'),
-                buildOptionTile(400, 2.6, 'save 10%', false),
-                const Divider(),
-                buildOptionTile(400, 2.6, 'save 10%', false),
-                const Divider(),
-                buildOptionTile(400, 2.6, 'save 10%', true),
-                const SizedBox(height: 10),
-                CustomButton(text: "Checkout", onPress: () {}),
+                buildOptionTile(transferNumber, cost.toDouble()),
               ],
             ),
           ),
@@ -58,52 +71,45 @@ class BalanceButton extends StatelessWidget {
       ),
     );
   }
-  Widget buildOptionTile(
-      int points, double price, String discount, bool isChecked) {
+
+  Widget buildOptionTile(int points, double price) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.transparent), // Remove borders
       ),
-      child: Container(
-        child: Row(
-          children: [
-            Checkbox(
-              side: BorderSide(color: Colors.grey, width: 2),
-              activeColor: Colors.green,
-              value: isChecked,
-              onChanged: (bool? value) {
-              },
-              shape: CircleBorder(),
-            ),
-            Text(
-              "$points",
-              style: const TextStyle(
-                  fontSize: 20, color: Color.fromRGBO(233, 209, 0, 1)),
-            ),
-            const Spacer(),
-            Column(
-              children: [
-                Text(
-                  "\$$price",
-                  style: const TextStyle(fontSize: 20),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Text(
-                    "$discount",
-                    style: const TextStyle(fontSize: 5, color: Colors.white),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Checkbox(
+                side: const BorderSide(color: Colors.grey, width: 2),
+                activeColor: Colors.green,
+                value: chosenIndex == itemIndex,
+                onChanged: (bool? value) {
+                  onPress(itemIndex, value ?? false);
+                },
+                shape: CircleBorder(),
+              ),
+              Text(
+                "${points != -1 ? points : "Unlimited"}",
+                style: const TextStyle(
+                    fontSize: 20, color: Color.fromRGBO(233, 209, 0, 1)),
+              ),
+              const Spacer(),
+              Column(
+                children: [
+                  Text(
+                    "$price som",
+                    style: const TextStyle(fontSize: 20),
                   ),
-                )
-              ],
-            )
-          ],
-        ),
+                ],
+              )
+            ],
+          ),
+          if (itemIndex == chosenIndex)
+            CustomButton(text: "Sotib olish", onPress: () {})
+        ],
       ),
     );
   }
-
-
 }

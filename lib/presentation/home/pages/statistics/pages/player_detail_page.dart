@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/widgets/player_table_widget.dart';
 import 'package:get/get.dart';
@@ -74,14 +75,20 @@ class _PlayerDetailPageState extends State<PlayerDetailPage> {
                             child: Container(
                               alignment: Alignment.centerLeft,
                               height: 90,
-                              child: controller.modelCurrent!.player?.jersey !=
-                                      null
-                                  ? Image.network(
-                                      controller.modelCurrent!.player!.jersey!,
+                              child: (controller.modelCurrent!.player?.jersey !=
+                                      null)
+                                  ? CachedNetworkImage(
+                                      imageUrl: controller
+                                              .modelCurrent!.player!.jersey ??
+                                          "",
                                       height: 90,
                                       fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          const SizedBox(),
+                                      errorWidget: (context, url, error) =>
+                                          const SizedBox(),
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                             ),
                           ),
                           const SizedBox(

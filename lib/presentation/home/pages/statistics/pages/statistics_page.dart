@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/statistics/controllers/statistics_page_controller.dart';
 import 'package:get/get.dart';
@@ -48,14 +49,14 @@ class _StatisticsPageState extends State<StatisticsPage> {
             ],
           ),
           child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Container(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: DataTable(
                   columnSpacing: 40,
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: const BoxDecoration(color: Colors.white),
                   dividerThickness: 0.5,
                   columns: const [
                     DataColumn(label: Text('#')),
@@ -70,7 +71,18 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         DataCell(
                           Text((index + 1).toString()),
                         ),
-                        DataCell(Text(controller.players[index].name ?? "")),
+                        DataCell(Row(
+                          children: [
+                            CachedNetworkImage(
+                              height: 20,
+                              width: 30,
+                              imageUrl: controller.players[index].jersey ?? "",
+                              placeholder: (context, url) => Container(),
+                              errorWidget: (context, url, error) => Container(),
+                            ),
+                            Text(controller.players[index].name ?? ""),
+                          ],
+                        )),
                         DataCell(
                             Text("${controller.players[index].score ?? "-"}")),
                         DataCell(

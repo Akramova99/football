@@ -232,7 +232,7 @@ class TransferFootballField extends StatelessWidget {
         2,
         (i) => PlayerTransferWidget(
           player: controller.primaryTeam[0 + i],
-          isExpanded: controller.chosen[0 + i],
+          isExpanded: controller.isExpandedList[0 + i],
           key: UniqueKey(),
         ),
       ),
@@ -252,12 +252,10 @@ class TransferFootballField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(
         playerNumber,
-        (i) => GestureDetector(
-          child: PlayerTransferWidget(
-            player: controller.primaryTeam[index + i],
-            isExpanded: controller.chosen[index + i],
-            key: UniqueKey(),
-          ),
+        (i) => PlayerTransferWidget(
+          player: controller.primaryTeam[index + i],
+          isExpanded: controller.isExpandedList[index + i],
+          key: UniqueKey(),
         ),
       ),
     );

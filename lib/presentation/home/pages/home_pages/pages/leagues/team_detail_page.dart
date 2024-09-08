@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/leagues_controller/team_detail_page_controller.dart';
+import 'package:football/presentation/widgets/points_player_widget.dart';
 import 'package:football/presentation/widgets/team_name_widget.dart';
 import 'package:get/get.dart';
 
-import '../../../../../widgets/football_field_widget.dart';
+import '../../../../../widgets/change_player_football_field.dart';
 
 class TeamDetailPage extends StatefulWidget {
   final int id;
@@ -33,7 +34,7 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
         body: SizedBox(
           width: double.infinity,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               controller.isLoading
                   ? const CircularProgressIndicator()
@@ -43,9 +44,8 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
                           icon: controller.team.logo,
                           name: controller.team.name,
                         ),
-                        FootballFieldWidget(
-                          players: controller.players,
-                          function: () {},
+                        TeamDetailWidget(
+                          controller: controller,
                         ),
                       ],
                     )
@@ -54,5 +54,72 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
         ),
       );
     });
+  }
+}
+
+class TeamDetailWidget extends StatelessWidget {
+  const TeamDetailWidget({
+    super.key,
+    required this.controller,
+  });
+
+  final TeamDetailPageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1501 / 2400,
+      child: Stack(
+        children: [
+          const Image(
+            image: AssetImage("assets/images/team/football_field.png"),
+            fit: BoxFit.fitWidth,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: buildList(),
+          )
+        ],
+      ),
+    );
+  }
+
+  buildList() {
+    var players = getTeamPLayers(controller.players, true);
+    controller.players = players[1];
+    List<Widget> list = [];
+
+    var goalKeeper = 2;
+
+    list.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          goalKeeper,
+          (i) => GestureDetector(
+            child: PointsPlayerWidget(player: controller.players[0 + i]),
+          ),
+        )));
+
+    var defender = 5;
+    list.add(buildRow(defender, 1, goalKeeper));
+
+    var midfielder = 5;
+    list.add(buildRow(midfielder, 2, defender + goalKeeper));
+
+    var forward = 3;
+    list.add(buildRow(forward, 3, defender + midfielder + goalKeeper));
+    return list;
+  }
+
+  buildRow(int playerNumber, int position, int index) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: List.generate(
+          playerNumber,
+          (i) => GestureDetector(
+            onTap: () {},
+            child: PointsPlayerWidget(player: controller.players[index + i]),
+          ),
+        ));
   }
 }

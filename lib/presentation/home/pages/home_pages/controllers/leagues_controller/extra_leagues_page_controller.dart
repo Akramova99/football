@@ -50,8 +50,12 @@ class ExtraLeaguesPageController extends GetxController {
   }
 
   copyLink() async {
-    await Clipboard.setData(ClipboardData(text: myLeague.id ?? ""));
-    ToastService.showSuccess("Copied");
+    if (myLeague.id != null) {
+      await Clipboard.setData(ClipboardData(text: myLeague.id!));
+      ToastService.showSuccess("Copied");
+    } else {
+      ToastService.showSuccess("No league");
+    }
   }
 
   LeagueDetailModel league = LeagueDetailModel();

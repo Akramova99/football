@@ -75,7 +75,7 @@ class PlayerDataTable extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "${model.scoreDetails?.assist ?? ""}",
+                    "${model.scoreDetails?.assist ?? "-"}",
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -88,7 +88,7 @@ class PlayerDataTable extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    "${model.scoreDetails?.halfTime ?? ""}",
+                    "${model.scoreDetails?.halfTime ?? "-"}",
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -101,7 +101,7 @@ class PlayerDataTable extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '${model.scoreDetails?.red ?? ""}',
+                    '${model.scoreDetails?.red ?? "-"}',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -116,7 +116,7 @@ class PlayerDataTable extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    '${model.scoreDetails?.yellow ?? ""}',
+                    '${model.scoreDetails?.yellow ?? "-"}',
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -130,7 +130,7 @@ class PlayerDataTable extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '${model.totalScore ?? ""}',
+                    '${model.totalScore ?? "-"}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),

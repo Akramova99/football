@@ -25,7 +25,11 @@ class TransferPageController extends GetxController {
   TransferSummaryModel transferSummaryModel = TransferSummaryModel();
   bool isLoading = false;
   late String userId;
+
   List<bool> chosen = List.generate(15, (_) => false);
+
+  List<bool> isExpandedList = List.generate(15, (_) => true);
+
   List<ClubModel> clubs = [];
 
   List<Player> playerToBuy = [];
@@ -71,9 +75,11 @@ class TransferPageController extends GetxController {
     update();
   }
 
+  String previous = "Forward";
+
   onClubChange(int? index) {
     clubsIndex = index ?? 0;
-
+    searchPlayers(previous.toUpperCase());
     update();
   }
 
@@ -117,20 +123,22 @@ class TransferPageController extends GetxController {
   selectPlayer(Player player) {
     var index = primaryTeam.indexOf(player);
     List<Player> list = [];
-    if (chosen[index]) {
-      chosen[index] = !chosen[index];
-    } else {
-      chosen = List.generate(15, (_) => false);
-      chosen[index] = true;
-    } // Reset chosen list
+    // Reset chosen list
 
-    // for (var i = 0; i < playerToBuy.length; i++) {
-    //   if (playerToBuy[i].position == player.position) {
-    //     list.add(playerToBuy[i]);
-    //   }
-    // }
+    if (isExpandedList[index]) {
+      isExpandedList[index] = false;
+    } else {
+      isExpandedList[index] = true;
+    }
+
     if (player.name == null) {
-      print("\nposition:${player.position}\nis primary: ${player.isPrimary}");
+      if (chosen[index]) {
+        chosen[index] = !chosen[index];
+      } else {
+        chosen = List.generate(15, (_) => false);
+        chosen[index] = true;
+      }
+      previous = player.position!;
       searchPlayers(player.position);
       selectivePlayers = list;
       playersDetails = list;
@@ -155,7 +163,7 @@ class TransferPageController extends GetxController {
         getTransferSummary();
         update();
       } on DioException catch (e) {
-        if (e.response?.statusCode == 400) {
+        if (e.response?.statusCode == 409) {
           ToastService.showError("Sizda tekin transfer yo'q");
         } else {
           ToastService.showError("Xatolik yuz berdi");
@@ -211,18 +219,17 @@ class TransferPageController extends GetxController {
   var listPoints = ['Hamma Ochko', 'Hozirgi ochko'];
   var sortListen = ["total", "current"];
 
-  onPositionChange(index) {
-    positionIndex = index;
-    update();
-  }
+  // onPositionChange(index) {
+  //   positionIndex = index;
+  //   update();
+  // }
 
-  onPointsChange(index) {
-    pointsIndex = index;
-    update();
-  }
+  // onPointsChange(index) {
+  //   pointsIndex = index;
+  //   update();
+  // }
 
   onPriceChange(index, min, max) {
-    print(index);
     if (index == 0) minPrice = min;
     if (index == 1) maxPrice = max;
     update();
@@ -237,17 +244,21 @@ class TransferPageController extends GetxController {
     print(path);
     isLoadingPLayer = true;
     update();
-    var response = await DioService.dio.get<String>(path);
-    if (response.statusCode == 200) {
-      print("Searching");
-      var jsonData = (response.data!);
-      var players = playerModelFromJson(jsonData);
-      playersDetails = convertPlayerSelectionModelListToPlayerList(players);
-      selectivePlayers = playersDetails;
-      isLoadingPLayer = false;
-      update();
-    } else {
-      print(response.statusMessage);
+    try {
+      var response = await DioService.dio.get<String>(path);
+      if (response.statusCode == 200) {
+        print("Searching");
+        var jsonData = (response.data!);
+        var players = playerModelFromJson(jsonData);
+        playersDetails = convertPlayerSelectionModelListToPlayerList(players);
+        selectivePlayers = playersDetails;
+        isLoadingPLayer = false;
+        update();
+      } else {
+        print(response.statusMessage);
+      }
+    } on DioException catch (e) {
+      print(e);
     }
   }
 

@@ -84,6 +84,13 @@ const List homeMenuItems = [
       key: PageStorageKey("LeaguesPage"),
     )
   },
+  {
+    "image": "assets/images/home/rating.png",
+    "label": "Reyting",
+    "rout": RatingPage(
+      key: PageStorageKey("Rating page"),
+    )
+  },
 ];
 
 const List settingMenuItems = [

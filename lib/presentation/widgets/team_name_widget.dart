@@ -18,7 +18,7 @@ class TeamNameWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: const BoxDecoration(
-          color: Colors.green,
+          color: Color.fromRGBO(94, 129, 58, 1),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(
                 10,
@@ -40,6 +40,7 @@ class TeamNameWidget extends StatelessWidget {
             placeholder: (context, url) => Container(
               color: Colors.grey,
             ),
+            errorWidget: (context, url, error) => Container(),
           ),
           const Spacer(),
         ],
@@ -65,7 +66,7 @@ class TeamNameWidget2 extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: const BoxDecoration(
-          color: Color.fromRGBO(0, 185, 0, 1),
+          color: Color.fromRGBO(94, 129, 58, 1),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(
                 10,

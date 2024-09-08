@@ -215,7 +215,7 @@ class _TransferPageState extends State<TransferPage> {
                                             child: SizedBox(
                                                 width: 150,
                                                 child: index == 0
-                                                    ? Text("All teams")
+                                                    ? const Text("All teams")
                                                     : Text(
                                                         club.teamName ?? "")));
                                       },
@@ -292,6 +292,11 @@ class _TransferPageState extends State<TransferPage> {
                                                                 return Image.asset(
                                                                     "assets/images/home/player_img.png");
                                                               },
+                                                              errorWidget: (context,
+                                                                      url,
+                                                                      error) =>
+                                                                  Image.asset(
+                                                                      "assets/images/home/player_img.png"),
                                                             ),
                                                           SizedBox(
                                                             width: 100,

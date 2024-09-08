@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class DioService {
-  static const String SERVER = "http://64.227.145.145:8080";
+  static const String SERVER = "http://46.101.131.127:8080";
   static Dio dio = Dio(BaseOptions(baseUrl: SERVER));
 
   static Future<String> POST(String api, Map? data) async {
@@ -114,4 +114,8 @@ class DioService {
   static const LEAGUE_PAID_API = "/api/v1/leagues/available";
   static const LEAGUES_API = "/api/v1/users/joinedLeagues?userId=";
   static const LEAGUE_CREATE_API = "/api/v1/leagues/create/";
+
+
+  //transfer buy
+
 }

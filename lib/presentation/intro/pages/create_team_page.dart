@@ -51,12 +51,18 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("BUFGET"),
+                        const Text(
+                          "BUDGET",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54),
+                        ),
                         Text(
                           controller.balance.ceilToDouble().toString(),
                           style: const TextStyle(
                               color: Color.fromRGBO(31, 222, 0, 1),
-                              fontSize: 14),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
                         )
                       ],
                     ),
@@ -205,6 +211,12 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                                     return Image.asset(
                                                         "assets/images/home/player_img.png");
                                                   },
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Image.asset(
+                                                            "assets/images/home/player_img.png",
+                                                            width: 54,
+                                                          ),
                                                 ),
                                               SizedBox(
                                                 width: 100,

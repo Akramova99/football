@@ -37,6 +37,10 @@ class PlayerWidget extends StatelessWidget {
                         "assets/images/home/player_img.png",
                         width: 54,
                       ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        "assets/images/home/player_img.png",
+                        width: 54,
+                      ),
                     )
                   : Image.asset(
                       "assets/images/home/player_img.png",
@@ -148,6 +152,10 @@ class PlayerSelectionWidget extends StatelessWidget {
                               "assets/images/home/player_img.png",
                               width: 40,
                             ),
+                            errorWidget: (context, url, error) => Image.asset(
+                              "assets/images/home/player_img.png",
+                              width: 54,
+                            ),
                           )
                         : Image.asset(
                             "assets/images/home/player_img.png",
@@ -223,9 +231,9 @@ class PlayerTransferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return player.name == null
-        ? Container(
+        ? SizedBox(
             height: 50,
-            width: 40,
+            width: 50,
             child: GestureDetector(
               onTap: () {
                 Get.find<TransferPageController>().selectPlayer(player);
@@ -233,6 +241,7 @@ class PlayerTransferWidget extends StatelessWidget {
                     .searchPlayers(player.position);
               },
               child: Image.asset(
+                height: 40,
                 "assets/images/home/player_img.png",
               ),
             ),
@@ -240,7 +249,7 @@ class PlayerTransferWidget extends StatelessWidget {
         : Container(
             padding: EdgeInsets.all(5),
             height: 79,
-            width: 40,
+            width: 50,
             child: Column(
               children: [
                 GestureDetector(
@@ -287,8 +296,8 @@ class PlayerTransferWidget extends StatelessWidget {
                                     ),
                                   ],
                                 )
-                              : SizedBox()
-                          : SizedBox(),
+                              : const SizedBox()
+                          : const SizedBox(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -303,6 +312,13 @@ class PlayerTransferWidget extends StatelessWidget {
                                   placeholder: (context, url) => Image.asset(
                                     "assets/images/home/player_img.png",
                                     width: 40,
+                                    height: 40,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    "assets/images/home/player_img.png",
+                                    width: 40,
+                                    height: 40,
                                   ),
                                 )
                               : Image.asset(
@@ -352,18 +368,21 @@ class PlayerTransferWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (true)
+                if (isExpanded)
                   Column(
                     children: [
                       Text(
                         "\$${player.price ?? ""}",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Get.find<TransferPageController>()
+                                  .selectPlayer(player);
+                            },
                             child: SizedBox(
                               height: 13,
                               width: 13,
@@ -371,7 +390,7 @@ class PlayerTransferWidget extends StatelessWidget {
                                   Image.asset("assets/images/transfer/no.png"),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 3,
                           ),
                           GestureDetector(

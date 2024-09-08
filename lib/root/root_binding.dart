@@ -35,7 +35,7 @@ class RootBinding implements Bindings {
     Get.lazyPut(() => HomePageController(), fenix: true);
     Get.lazyPut(() => PointsPageController(), fenix: true);
     Get.lazyPut(() => CreateTeamController(), fenix: true);
-    Get.lazyPut(() => FootballFieldController(), fenix: true);
+    //Get.lazyPut(() => FootballFieldController(), fenix: true);
     Get.lazyPut(() => CapitanSelectionController(), fenix: true);
     Get.lazyPut(() => MyTeamController(), fenix: true);
     Get.lazyPut(() => TransferPageController(), fenix: true);

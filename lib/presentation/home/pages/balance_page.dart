@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football/models/transfer_maket_model.dart';
 import 'package:football/presentation/home/controllers/balance_page_controller.dart';
 import 'package:get/get.dart';
 
@@ -17,16 +18,9 @@ class _BalancePageState extends State<BalancePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    controller.getData();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    Get.delete<BalancePageController>();
+    controller.getUserData();
+    controller.getTransferPackets();
   }
 
   @override
@@ -51,7 +45,7 @@ class _BalancePageState extends State<BalancePage> {
                     style: TextStyle(fontSize: 20),
                   ),
                   Text(
-                    controller.balance ?? "",
+                    "${controller.user.balance ?? ""}",
                     style: const TextStyle(
                         fontSize: 16, color: Color.fromRGBO(34, 245, 0, 1)),
                   )
@@ -60,12 +54,21 @@ class _BalancePageState extends State<BalancePage> {
               Expanded(
                 child: ListView(
                   controller: ScrollController(),
-                  children: [
-                    BalanceButton(title: '1 ta Transfer', coins: 100),
-                    BalanceButton(title: '3 ta Transfer', coins: 200),
-                    BalanceButton(title: '4ta Transfer', coins: 300),
-                    BalanceButton(title: 'Full packet', coins: 1000),
-                  ],
+                  children: List.generate(
+                    controller.packets.length,
+                    (index) {
+                      TransferPacketModel packet = controller.packets[index];
+                      return BalanceButton(
+                        title: packet.name ?? "",
+                        coins: packet.coinValue ?? 0,
+                        itemIndex: index + 1,
+                        chosenIndex: controller.index,
+                        onPress: controller.onPacketChosen,
+                        cost: packet.cost ?? 0,
+                        transferNumber: packet.numberOfTransfers!,
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

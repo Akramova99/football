@@ -64,7 +64,7 @@ class LoginRegisterController extends GetxController {
       var response = await DioService.dio
           .post<String>(DioService.REGISTER_API, data: data);
       if (response.statusCode == 201) {
-        ToastService.showSuccess("Ok");
+        ToastService.showSuccess("Xush kelibsiz");
         var userData = loginResponseModelFromJson(response.data!);
         userId = userData.userId.toString();
 
@@ -99,6 +99,8 @@ class LoginRegisterController extends GetxController {
       if (e.toString().contains("400")) {
         ToastService.showError("Bu ism royhatdan otgan");
       }
+      isLoading = false;
+      update();
     }
   }
 
