@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:football/models/player_selection_model.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/my_team_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/transfer_page_controller.dart';
+import 'package:football/utils/constants/app_colors.dart';
 import 'package:get/get.dart';
 
 import '../../models/team_model.dart';
@@ -27,20 +28,32 @@ class PlayerWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               player.jersey != null
-                  ? CachedNetworkImage(
-                      imageUrl: player.jersey!,
-                      // player.jersey!,
-                      width: 54,
-                      height: 60,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Image.asset(
-                        "assets/images/home/player_img.png",
-                        width: 54,
-                      ),
-                      errorWidget: (context, url, error) => Image.asset(
-                        "assets/images/home/player_img.png",
-                        width: 54,
-                      ),
+                  ? Stack(
+                      children: [
+                        Container(
+                          decoration:BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColors.playerBg.withOpacity(0.55),) ,
+
+                          width: 60,
+                          height: 54,
+                        ),
+                        CachedNetworkImage(
+                          imageUrl: player.jersey!,
+                          // player.jersey!,
+                          width: 60,
+                          height: 54,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Image.asset(
+                            "assets/images/home/player_img.png",
+                            width: 40,
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            "assets/images/home/player_img.png",
+                            width: 54,
+                          ),
+                        )
+                      ],
                     )
                   : Image.asset(
                       "assets/images/home/player_img.png",
@@ -142,25 +155,49 @@ class PlayerSelectionWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     player.jersey != null
-                        ? CachedNetworkImage(
-                            imageUrl: player.jersey!,
-                            // player.jersey!,
-                            width: 60,
-                            height: 54,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Image.asset(
-                              "assets/images/home/player_img.png",
-                              width: 40,
-                            ),
-                            errorWidget: (context, url, error) => Image.asset(
-                              "assets/images/home/player_img.png",
-                              width: 54,
-                            ),
-                          )
-                        : Image.asset(
+                        ? Stack(
+                      children: [
+                        Container(
+                          decoration:BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColors.playerBg.withOpacity(0.55),) ,
+
+                          width: 60,
+                          height: 54,
+                        ),
+                        CachedNetworkImage(
+                          imageUrl: player.jersey!,
+                          // player.jersey!,
+                          width: 60,
+                          height: 54,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Image.asset(
                             "assets/images/home/player_img.png",
                             width: 40,
                           ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            "assets/images/home/player_img.png",
+                            width: 54,
+                          ),
+                        )
+                      ],
+                    )
+                        : Stack(
+                      children: [
+                        Container(
+                          decoration:BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppColors.playerBg.withOpacity(0.55),) ,
+
+                          width: 60,
+                          height: 54,
+                        ),
+                        Image.asset(
+                          "assets/images/home/player_img.png",
+                          width: 100,
+                        ),
+                      ],
+                    )
                   ],
                 ),
                 Container(
@@ -303,24 +340,33 @@ class PlayerTransferWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           player.jersey != null
-                              ? CachedNetworkImage(
-                                  imageUrl: player.jersey!,
-                                  // player.jersey!,
+                              ? Stack(
+                            children: [
+                              Container(
+                                decoration:BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppColors.playerBg.withOpacity(0.55),) ,
+
+                                width: 60,
+                                height: 54,
+                              ),
+                              CachedNetworkImage(
+                                imageUrl: player.jersey!,
+                                // player.jersey!,
+                                width: 60,
+                                height: 54,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Image.asset(
+                                  "assets/images/home/player_img.png",
                                   width: 40,
-                                  height: 36,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Image.asset(
-                                    "assets/images/home/player_img.png",
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    "assets/images/home/player_img.png",
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                )
+                                ),
+                                errorWidget: (context, url, error) => Image.asset(
+                                  "assets/images/home/player_img.png",
+                                  width: 54,
+                                ),
+                              )
+                            ],
+                          )
                               : Image.asset(
                                   "assets/images/home/player_img.png",
                                   width: 26,
@@ -495,17 +541,33 @@ class PlayerTransferCardWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           player.jersey != null
-                              ? CachedNetworkImage(
-                                  imageUrl: player.jersey!,
-                                  // player.jersey!,
-                                  width: 60,
-                                  height: 54,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Image.asset(
-                                    "assets/images/home/player_img.png",
-                                    width: 40,
-                                  ),
-                                )
+                              ?Stack(
+                            children: [
+                              Container(
+                                decoration:BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: AppColors.playerBg.withOpacity(0.55),) ,
+
+                                width: 60,
+                                height: 54,
+                              ),
+                              CachedNetworkImage(
+                                imageUrl: player.jersey!,
+                                // player.jersey!,
+                                width: 60,
+                                height: 54,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Image.asset(
+                                  "assets/images/home/player_img.png",
+                                  width: 40,
+                                ),
+                                errorWidget: (context, url, error) => Image.asset(
+                                  "assets/images/home/player_img.png",
+                                  width: 54,
+                                ),
+                              )
+                            ],
+                          )
                               : Image.asset(
                                   "assets/images/home/player_img.png",
                                   width: 40,

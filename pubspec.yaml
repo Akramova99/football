@@ -30,6 +30,7 @@ dependencies:
   flutter_xlider: ^3.4.0
   http: ^1.2.2
   cached_network_image: ^3.3.1
+  fl_chart: ^0.69.0
 
 dev_dependencies:
   flutter_test:
@@ -52,5 +53,11 @@ flutter:
     - assets/images/test/
     - assets/images/balance/
     - assets/images/transfer/
+    - assets/poppins/
   #   - images/a_dot_ham.jpeg
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/poppins/Poppins-Regular.ttf
+        #- asset: poppins/Poppins-ExtraBoldItalic.ttf
 

@@ -16,22 +16,23 @@ class CustomHomeMenuItem extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 5),
-        height: 60,
-        decoration: BoxDecoration(
-          color: Colors.white,
+        height: 40, decoration: BoxDecoration(
+          color: Colors.black,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(
               color: const Color.fromRGBO(246, 246, 246, 1), width: 2),
         ),
         padding: const EdgeInsets.all(10),
-        child: Row(
+        child: Wrap(
+          direction: Axis.horizontal,
           children: [
             SizedBox(
-              height: 24,
-              width: 24,
+              height: 20,
+              width: 20,
               child: Image.asset(
                 data["image"]!,
                 fit: BoxFit.cover,
+                color: Colors.white,
               ),
             ),
             const SizedBox(
@@ -40,14 +41,9 @@ class CustomHomeMenuItem extends StatelessWidget {
             Text(
               data["label"]!,
               style: const TextStyle(
-                  fontSize: 20, color: Color.fromRGBO(51, 51, 51, 1)),
+                  fontSize: 12, color: Colors.white),
             ),
-            const Spacer(),
-            const Icon(
-              Icons.navigate_next,
-              size: 30,
-              color: Color.fromRGBO(51, 51, 51, 1),
-            )
+
           ],
         ),
       ),

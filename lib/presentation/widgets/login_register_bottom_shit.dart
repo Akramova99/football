@@ -26,7 +26,7 @@ loginBottomShit(
                     const Text(
                       "Hush kelibsiz!",
                       style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 28, fontWeight: FontWeight.w600,fontFamily: "Poppins"),
                     ),
                     const SizedBox(
                       height: 20,
@@ -67,6 +67,7 @@ loginBottomShit(
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Phone number",
+                                hintStyle: TextStyle(fontFamily: "Poppins")
                               ),
                             ),
                           ),
@@ -107,6 +108,8 @@ loginBottomShit(
                                 ),
                                 border: InputBorder.none,
                                 hintText: "Password",
+                                  hintStyle: TextStyle(fontFamily: "Poppins")
+
                               ),
                             ),
                           ),
@@ -213,7 +216,7 @@ registerBottomShit(
                     const Text(
                       "Hush kelibsiz!",
                       style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: 28, fontWeight: FontWeight.w600,fontFamily: "Poppins"),
                     ),
                     const SizedBox(
                       height: 20,
@@ -247,6 +250,8 @@ registerBottomShit(
                                 ),
                                 border: InputBorder.none,
                                 hintText: "Taxallus",
+                                  hintStyle: TextStyle(fontFamily: "Poppins")
+
                               ),
                             ),
                           ),
@@ -333,6 +338,7 @@ registerBottomShit(
                                     height: 20,
                                   ),
                                   hintText: "Password",
+                                  hintStyle: TextStyle(fontFamily: "Poppins"),
                                   suffixIcon: IconButton(
                                     icon: controller.showPassword
                                         ? const Icon(Icons.visibility)
@@ -354,7 +360,8 @@ registerBottomShit(
                             controller.saveUserData();
                           },
                         ),
-                        const Text("Eslab qolish")
+                        const Text("Eslab qolish",                                style: TextStyle(fontFamily: "Poppins")
+                        )
                       ],
                     ),
                     Row(
@@ -380,8 +387,8 @@ registerBottomShit(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Text(
-                          "Akkauntingiz bo’rmi?",
-                          style: TextStyle(fontSize: 14),
+                          "Akkauntingiz bormi?",
+                          style: TextStyle(fontSize: 14,fontFamily: "Poppins"),
                         ),
                         const SizedBox(
                           width: 10,
@@ -389,7 +396,7 @@ registerBottomShit(
                         GestureDetector(
                           child: const Text(
                             "Kirish!",
-                            style: TextStyle(color: Colors.green, fontSize: 14),
+                            style: TextStyle(color: Colors.green, fontSize: 14,fontFamily: "Poppins"),
                           ),
                           onTap: () {
                             loginBottomShit(

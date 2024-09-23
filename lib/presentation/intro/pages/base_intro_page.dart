@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:football/presentation/intro/pages/create_team_page.dart';
 import 'package:football/presentation/intro/pages/intro_page.dart';
 import 'package:football/presentation/intro/pages/select_team_name_page.dart';
+import 'package:football/utils/constants/app_colors.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -20,23 +21,26 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgColor,
       body: Column(
         children: [
           Expanded(
             child: PageView(
               controller: pageController,
               children: [
+                // IntroPag(
+                //   key: PageStorageKey('IntroPage1'),
+                //   introData: intro[0],
+                // ),
                 IntroPag(
                   key: PageStorageKey('IntroPage1'),
                   introData: intro[0],
+                  isSkip: true,
                 ),
                 IntroPag(
                   key: PageStorageKey('IntroPage2'),
                   introData: intro[1],
-                ),
-                IntroPag(
-                  key: PageStorageKey('IntroPage3'),
-                  introData: intro[2],
+                  isSkip: false,
                 ),
                 CreateTeamPage(
                   pageController: pageController,
@@ -51,9 +55,14 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
           ),
           SmoothPageIndicator(
             controller: pageController,
-            count: 6,
-            effect: const JumpingDotEffect(
-                activeDotColor: Color(0xFF10A3A3), dotColor: Color(0xFFB2EBF2)),
+            count: 5,
+            effect:  const ExpandingDotsEffect(
+                radius: 10,
+                dotHeight: 10,
+                dotWidth: 10,
+                spacing: 5,
+                activeDotColor:AppColors.HRed,
+                dotColor: AppColors.red),
           ),
           const SizedBox(
             height: 60,

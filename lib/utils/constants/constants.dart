@@ -14,16 +14,16 @@ import '../../presentation/home/pages/settings_pages/pages/invite_friends_page.d
 
 const intro = [
   {
-    'image': "assets/images/intro/intro_img_1.png",
-    "title": "Futbol o'yini",
-    "text": "Professional liga futbol uchrashuvlarini tomosha qiling va o’ynang"
+    'image': "assets/images/intro/intro_img_2.png",
+    "title": "Siz tayyormisiz?",
+    "text": "Siz futbol ligasida o’ynashga tayyormisiz va biz siz bilanmiz!"
   },
   {
-    'image': "assets/images/intro/intro_img_2.png",
+    'image': "assets/images/intro/intro_img_3.png",
     "title": ""
-        "Real vaqt statistikasi",
+        "Siz do’stlaringiz bilan zerikmaysiz!",
     "text":
-        "105 mln ga 15 nafar uyinchini sotib oling va ularning xakikiy uyinlardagi xarakatlari uchun ochkolarni kulga kiriting. Xush, orzuingizdagi jamoaga kimlarni olasiz?"
+        "Siz futbol ligasida o’ynashga tayyormisiz va biz siz bilanmiz!"
   },
   {
     'image': "assets/images/intro/intro_img_3.png",
@@ -92,7 +92,7 @@ const List homeMenuItems = [
     )
   },
 ];
-
+const List<String> statisticPosition= ["Forward","Midfielder","Defender","Goalkeeper"];
 const List settingMenuItems = [
   {
     "image": "assets/images/settings/language_img.png",

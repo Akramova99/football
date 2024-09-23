@@ -108,6 +108,7 @@ class DioService {
   static const TRANSFER_SUMMARY = "/api/v1/users/tranfer-summary/";
   static const ALL_ClUBS = "/api/football-teams/all";
   static const CURRENT_MATCHWEEK = "/api/matchweeks/current";
+  static const PLAYER_STATISTIC = "/api/v1/players/api/players/statistics?position=";
 
   static const LEAGUE_EXTRA_API = "/api/v1/leagues";
   static const LEAGUE_DETAIL_API = "/api/v1/leagues/";

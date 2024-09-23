@@ -12,19 +12,24 @@ import '../../models/team_model.dart';
 import 'change_player_football_field.dart';
 
 class CreateTeamWidget extends StatelessWidget {
-  const CreateTeamWidget({super.key, required this.controller});
+  const 
+  
+  CreateTeamWidget({super.key, required this.controller});
 
   final CreateTeamController controller;
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1501 / 2400,
+      aspectRatio: 1501 / 1700, //2400
       child: Stack(
         children: [
-          const Image(
-            image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.fitWidth,
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6.0),
+            child: Image(
+              image: AssetImage("assets/images/team/football_field.png"),
+              fit: BoxFit.fitWidth,
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -254,12 +259,14 @@ class CapitanSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1501 / 2400,
+      aspectRatio: 1501 / 2100,
       child: Stack(
         children: [
           const Image(
+            width: 370,
+            height: 462,
             image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

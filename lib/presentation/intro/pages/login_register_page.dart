@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/intro/controllers/login_register_controller.dart';
-import 'package:football/presentation/widgets/login_register_bottom_shit.dart';
-import 'package:football/presentation/widgets/toast.dart';
+import 'package:football/presentation/widgets/base_button.dart';
+import 'package:football/utils/constants/styles.dart';
+
 import 'package:get/get.dart';
+
+import '../../widgets/login_register_bottom_shit.dart';
+import '../../widgets/toast.dart';
 
 class LoginRegisterPage extends StatefulWidget {
   const LoginRegisterPage({super.key});
@@ -46,7 +50,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Container(),
                 ),
                 Expanded(
@@ -64,9 +68,9 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                         const SizedBox(
                           height: 40,
                         ),
-                        const Text(
+                         Text(
                           "Futboll haqida hamma narsani bilib oling!",
-                          style: TextStyle(fontSize: 32),
+                          style: CustomStyles.text,
                         ),
                         const SizedBox(
                           height: 20,
@@ -78,66 +82,28 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                               "Nimani kutyapsiz? Keling, boshlaylik!",
                               style: TextStyle(
                                   fontSize: 16,
-                                  color: Color.fromRGBO(101, 101, 107, 1)),
+                                  color: Color.fromRGBO(101, 101, 107, 1),fontFamily: "Poppins"),
                             ),
                           ],
                         ),
-                        Expanded(
-                          child: Container(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 63,
-                                    decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(0, 185, 0, 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(16))),
-                                    child: MaterialButton(
-                                      onPressed: () {
-                                        loginBottomShit(
-                                            context: context,
-                                            controller: controller);
-                                      },
-                                      textColor: Colors.white,
-                                      child: const Text(
-                                        "Kirish",
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 63,
-                                    decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(0, 185, 0, 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(16))),
-                                    child: MaterialButton(
-                                      onPressed: () {
-                                        controller.teamId != null
-                                            ? registerBottomShit(
-                                                context: context,
-                                                controller: controller)
-                                            : ToastService.showError(
-                                                "Sizda jamoma mavjud emas");
-                                      },
-                                      textColor: Colors.white,
-                                      child: const Text(
-                                        "Ro'yhatdan o'tish",
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+
+                        const SizedBox(
+                          height: 20,
                         ),
+                        BaseButton(text: "Kirish", onPress: (){    loginBottomShit(
+                            context: context,
+                            controller: controller);}, icon: Icons.login, color: 1,),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        BaseButton(text: "Ro'yhatdan o'tish", onPress: (){
+                          controller.teamId != null
+                              ? registerBottomShit(
+                              context: context,
+                              controller: controller)
+                              : ToastService.showError(
+                              "Sizda jamoma mavjud emas");
+                        }, icon: Icons.person_add, color: 0.6,),
                       ],
                     ),
                   ),

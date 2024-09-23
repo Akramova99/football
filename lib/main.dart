@@ -37,11 +37,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: DbService.getLoggedIn() ? const BasePage() : const BaseIntroPage(),
+      home:
+      DbService.getLoggedIn() ? const BasePage() :
+      const BaseIntroPage(),
       initialBinding: RootBinding(),
       routes: {
         '/a': (context) => LeaguesPage(),
