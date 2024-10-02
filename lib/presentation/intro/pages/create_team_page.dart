@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:football/presentation/intro/controllers/create_team_controller.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:football/presentation/widgets/football_field_widget.dart';
 import 'package:football/utils/constants/img_roots.dart';
 import 'package:football/utils/constants/styles.dart';
@@ -9,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/converter.dart';
+import '../../home/pages/statistics/controllers/statistics_page_controller.dart';
 import '../../home/pages/statistics/pages/player_detail_page.dart';
 import '../../widgets/custom_button.dart';
 
@@ -23,6 +27,7 @@ class CreateTeamPage extends StatefulWidget {
 
 class _CreateTeamPageState extends State<CreateTeamPage> {
   final controller = Get.find<CreateTeamController>();
+  final controller2 = Get.find<StatisticsPageController>();
 
   @override
   void initState() {
@@ -87,6 +92,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                     ImgRoots.budget,
                                     height: 24,
                                     width: 24,
+                                    color: AppColors.baseColor,
                                   )
                                 ],
                               )
@@ -141,7 +147,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   controller
                                       .goToNextPage(widget.pageController);
                                   controller.saveGameTactics();
-                                }),
+                                }, color: AppColors.baseColor,),
                           ),
                     controller.isLoadingPLayer
                         ? const CircularProgressIndicator()
@@ -194,7 +200,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   controller.playersDetails.length,
                                   (index) {
                                     var player =
-                                        controller.playersDetails[index];
+                                          controller.playersDetails[index];
                                     return DataRow(
                                         color: WidgetStateProperty.all(
                                             AppColors.tableColor),
@@ -235,14 +241,19 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                                             );
                                                           },
                                                           errorWidget: (context,
-                                                                  url, error) =>
-                                                              Image.asset(
+                                                                  url, error) {
+                                                            print(
+                                                                "+++++++++++++++++++++++$error");
+                                                            print(
+                                                                "+++++++++++++++++++++++$url");
+                                                            return Image.asset(
                                                             "assets/images/home/player_img.png",
                                                             width: 54,
-                                                          ),
+                                                          );
+                                                          },
                                                         ),
                                                       SizedBox(
-                                                        width: 100,
+                                                        width: 100.w,
                                                         child: Text(
                                                           player.name!,
                                                           style: const TextStyle(
@@ -259,7 +270,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                                   ),
                                                 ),
                                                 SizedBox(
-                                                  width: 130,
+                                                  width: 130.w,
                                                   child: Text(
                                                     "  ${player.clubName ?? ""}",
                                                     style: const TextStyle(
@@ -287,7 +298,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                                   MaterialPageRoute(builder:
                                                       (BuildContext context) {
                                                 return PlayerDetailPage(
-                                                    player: player);
+                                                    player: controller2.players!);
                                               }));
                                             },
                                           )),
@@ -297,8 +308,8 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                               ),
                             ),
                           ),
-                    const SizedBox(
-                      height: 25,
+                     SizedBox(
+                      height: 25.h,
                     ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -315,8 +326,8 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                 //  const SizedBox(width: 5),
                                 // Increase the slider's width for more flexibility
                                 Container(
-                                  width: 190,
-                                  height: 40,
+                                  width: 190.w,
+                                  height: 40.h,
                                   child: FlutterSlider(
                                     //  axis: Axis.horizontal,
                                     values: [

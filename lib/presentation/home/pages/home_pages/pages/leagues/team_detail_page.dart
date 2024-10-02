@@ -73,8 +73,9 @@ class TeamDetailWidget extends StatelessWidget {
         children: [
           const Image(
             image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.fitWidth,
-          ),
+            fit: BoxFit.cover,
+            width: 370,
+            height: 423,          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: buildList(),

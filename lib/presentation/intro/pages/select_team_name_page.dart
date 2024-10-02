@@ -124,6 +124,7 @@ class _SelectTeamNamePageState extends State<SelectTeamNamePage> {
                    Padding(
                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                      child: CustomButton(
+                       color: AppColors.baseColor,
                        text: "Keyingi >",
                        onPress: () {
                          _controller.save(context);
@@ -137,6 +138,7 @@ class _SelectTeamNamePageState extends State<SelectTeamNamePage> {
                : Container(
              padding: EdgeInsets.all(10),
              child: CustomButton(
+               color: AppColors.baseColor,
                text: "Davom etish",
                onPress: () {
                  _controller.callRegisterPage(context);

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:football/models/team_model.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/points_page_controller.dart';
 import 'package:football/utils/constants/constants.dart';
+import 'package:football/utils/size.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'change_player_football_field.dart';
 
@@ -153,12 +155,16 @@ class PointsPageFootballField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1501 / 2400,
+      aspectRatio: 18 / 24,
+      //1505 / 2400,
       child: Stack(
         children: [
-          const Image(
+          Image(
             image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.fitWidth,
+            width: 371.w,
+            height: 481.h,
+            // height: 510,
+            fit: BoxFit.cover,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

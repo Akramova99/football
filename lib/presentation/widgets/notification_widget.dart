@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:football/models/notification_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class NotificationWidget extends StatefulWidget {
   final FirebaseNotification notification;
@@ -93,13 +95,11 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                     fit: BoxFit.cover,
                   ),
                 ),
-              const SizedBox(
-                width: 10,
+               SizedBox(
+                width: 20.w,
               ),
-              Container(
-                width: 200,
-                height: 100,
-                padding: EdgeInsets.all(10),
+              SizedBox(
+                width: 120.w,
                 child: Text(
                   maxLines: null,
                   widget.notification.body ?? "",
@@ -119,7 +119,7 @@ showNotif(context, FirebaseNotification notification) {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            height: 535,
+            height: 400,
             margin: const EdgeInsets.all(10),
             width: double.infinity,
             padding: const EdgeInsets.all(20.0),

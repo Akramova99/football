@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:football/utils/constants/app_colors.dart';
+import 'package:football/utils/constants/styles.dart';
 import 'package:football/utils/constants/test.dart';
 
 import '../../models/match_model.dart';
@@ -27,7 +29,7 @@ class MatchListView extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.lBlack,
                         borderRadius: BorderRadius.circular(10),
                         border:
                             Border.all(color: Colors.grey.shade200, width: 2)),
@@ -41,6 +43,7 @@ class MatchListView extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 4,
                                 child: Text(
                                   match.home!.teamName!,
+                                  style: CustomStyles.dataTitle,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.start,
                                 ),
@@ -61,6 +64,7 @@ class MatchListView extends StatelessWidget {
                             width: 39,
                             child: Text(
                               "${match.startTime}",
+                              style: CustomStyles.dataTitle,
                               maxLines: 1,
                             )),
                         const SizedBox(width: 10),
@@ -79,6 +83,7 @@ class MatchListView extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 4,
                                 child: Text(
                                   match.away!.teamName!,
+                                  style: CustomStyles.dataTitle,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.end,
                                 ),

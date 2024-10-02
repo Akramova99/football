@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:football/models/transfer_maket_model.dart';
 import 'package:football/presentation/widgets/toast.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 import '../../../models/user_data_model.dart';
 import '../../../services/db_service.dart';
@@ -27,12 +28,14 @@ class BalancePageController extends GetxController {
   getTransferPackets() async {
     try {
       var result = await DioService.dio
-          .get<String>("/api/v1/transfers/available-transfers-packs");
+          .get<String>(DioService.BALANCE_API);
       if (result.statusCode == 200) {
         packets = transferPacketModelFromJson(result.data!);
+        Logger().e(packets[0].name);
         update();
       }
     } on DioException catch (e) {
+      Logger().e(e);
       //handle exception
     }
   }

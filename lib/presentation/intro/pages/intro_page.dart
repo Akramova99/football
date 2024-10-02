@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/intro/pages/login_register_page.dart';
 import 'package:football/presentation/intro/pages/select_team_name_page.dart';
+import 'package:football/utils/constants/app_colors.dart';
 
 class IntroPag extends StatelessWidget {
   final Map<String, String> introData;
@@ -17,6 +18,7 @@ class IntroPag extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
+
                   // height: 300,
                   child: Image(image: AssetImage(introData['image']!))),
               Row(
@@ -31,13 +33,13 @@ class IntroPag extends StatelessWidget {
                               ),
                             );
                           },
-                          child: const Text(
+                          child:  const Text(
                             "Skip",
                             style: TextStyle(
                                 fontSize: 16,
                                 decoration: TextDecoration.underline,
-                                color: Colors.red,
-                                decorationColor: Colors.red),
+                                color: AppColors.baseColor,
+                                decorationColor: AppColors.baseColor),
                           ),
                         )
                       : const SizedBox(),

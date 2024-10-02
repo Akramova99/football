@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:football/presentation/widgets/custom_button.dart';
 import 'package:get/get.dart';
 
+import '../../utils/constants/app_colors.dart';
 import '../home/controllers/balance_page_controller.dart';
 
 class BalanceButton extends StatelessWidget {
@@ -107,7 +108,7 @@ class BalanceButton extends StatelessWidget {
             ],
           ),
           if (itemIndex == chosenIndex)
-            CustomButton(text: "Sotib olish", onPress: () {})
+            CustomButton(text: "Sotib olish", onPress: () {} ,color: AppColors.baseColor,)
         ],
       ),
     );

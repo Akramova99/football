@@ -5,6 +5,7 @@ import 'package:football/presentation/widgets/player_selection_widget.dart';
 
 import '../../models/team_model.dart';
 import '../../utils/constants/constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 getTeamPLayers(List<Player> players, bool isTransferPage) {
   List<Player> primaryTeam = List.generate(
@@ -137,12 +138,14 @@ class ChangePlayerFootballField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1501 / 2400,
+      aspectRatio: 18 / 24,
       child: Stack(
         children: [
-          const Image(
+           Image(
             image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
+            height: 481.h,
+            width: 371.w,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -201,7 +204,7 @@ class TransferFootballField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1501 / 2400,
+      aspectRatio:18/24,
       child: Stack(
         children: [
           const Image(

@@ -4,6 +4,8 @@ import 'package:football/presentation/widgets/mateches_widget.dart';
 import 'package:football/presentation/widgets/points_player_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class PointsPage extends StatefulWidget {
   const PointsPage({super.key});
@@ -57,19 +59,19 @@ class _PointsPageState extends State<PointsPage> {
                                   style: CustomStyles.teamName,
                                 ),
                                 SizedBox(
-                                  width: 5,
+                                  width: 5.w,
                                 ),
                                 controller.team.logo != null
                                     ? SizedBox(
-                                        width: 30,
-                                        height: 30,
+                                        width: 30.w,
+                                        height: 30.h,
                                         child:
                                             Image.network(controller.team.logo))
                                     : const SizedBox()
                               ],
                             ),
-                            const SizedBox(
-                              height: 5,
+                             SizedBox(
+                              height: 5.h,
                             ),
                             Row(
                               children: [
@@ -89,12 +91,12 @@ class _PointsPageState extends State<PointsPage> {
                             PointsPageFootballField(controller: controller),
                             PointsPlayerCardWidget(
                                 players: controller.reservePlayers),
-                            const SizedBox(
-                              height: 20,
+                             SizedBox(
+                              height: 20.h,
                             ),
                             Container(
                               margin: EdgeInsets.all(2),
-                              height: 400,
+                              height: 400.h,
                               decoration: const BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [

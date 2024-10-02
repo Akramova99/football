@@ -18,7 +18,7 @@ class CustomBottomNavigationItem extends StatelessWidget {
         Image(
           color:isSelected? Colors.white:Colors.white.withOpacity(0.22),
               image: AssetImage(data["image"]!,),
-              height: 30,
+              height: 24,
             ),
     );
   }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:football/main.dart';
 import 'package:football/presentation/intro/controllers/capitan_selection_controller.dart';
 import 'package:football/presentation/widgets/custom_button.dart';
+import 'package:football/utils/constants/app_colors.dart';
 import 'package:football/utils/constants/styles.dart';
+import 'package:football/utils/size.dart';
 import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/constants/img_roots.dart';
 import '../../widgets/football_field_widget.dart';
@@ -62,7 +66,7 @@ class _CapitanSelectionPageState extends State<CapitanSelectionPage> {
                               ? Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                                      padding:  EdgeInsets.symmetric(vertical: 20.h),
                                       child: Text(
                                         "Jamoa uchun Sardorni tanlang",
                                         style: CustomStyles.appBarStyle,
@@ -85,7 +89,7 @@ class _CapitanSelectionPageState extends State<CapitanSelectionPage> {
                                   onPress: () {
                                     controller
                                         .saveCapitan(widget.pageController);
-                                  })
+                                  }, color: AppColors.baseColor,)
                               : const SizedBox()
                         ],
                       ),

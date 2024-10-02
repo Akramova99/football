@@ -4,6 +4,8 @@ import 'package:football/presentation/widgets/custom_button.dart';
 import 'package:football/presentation/widgets/toast.dart';
 import 'package:get/get.dart';
 
+import '../../utils/constants/app_colors.dart';
+
 loginBottomShit(
     {required BuildContext context,
     required LoginRegisterController controller}) {
@@ -141,7 +143,7 @@ loginBottomShit(
                         text: "Kirish",
                         onPress: () {
                           controller.login(context);
-                        }),
+                        }, color: AppColors.baseColor,),
                     const SizedBox(
                       height: 10,
                     ),
@@ -378,7 +380,7 @@ registerBottomShit(
                         text: "Ro'yhatdan o'tish",
                         onPress: () {
                           controller.register(context);
-                        }),
+                        }, color: AppColors.baseColor,),
                     const SizedBox(
                       height: 10,
                     ),

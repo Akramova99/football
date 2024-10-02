@@ -4,6 +4,8 @@ import 'package:football/presentation/widgets/notification_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
 
+import '../../../../../utils/constants/img_roots.dart';
+
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
 
@@ -30,34 +32,71 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return GetBuilder<NotificationPageController>(builder: (_) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Bildirishnomalar",
-            style: CustomStyles.pageTitle,
-          ),
-        ),
-        body: controller.notifications.isNotEmpty
-            ? ListView.builder(
-                itemCount: controller.notifications.length,
-                itemBuilder: (context, index) {
-                  var notification = controller.notifications[index];
-                  return GestureDetector(
-                    key: UniqueKey(),
-                    onTap: () {
-                      controller.removeNotification(notification);
-                      showNotif(context, notification);
-                    },
-                    child: NotificationWidget(
-                      key: ValueKey(notification.title),
-                      notification: notification,
+        body: Stack(
+          children: [
+            Image.asset(
+              ImgRoots.bg1,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.arrow_back_ios)),
+                          Spacer(),
+                          Text(
+                            "Bildirishnomalar",
+                            style: CustomStyles.appBarStyle,
+                          ),
+                          Spacer(),
+                        ],
+                      ),
                     ),
-                  );
-                },
-              )
-            : const Center(
-                child: Text("Sizda bildirishnomalr yoq"),
+                    controller.notifications.isNotEmpty
+                        ? ListView.builder(
+                         shrinkWrap: true,
+                           physics: NeverScrollableScrollPhysics(),
+                      itemCount: controller.notifications.length,
+                      itemBuilder: (context, index) {
+                        var notification = controller.notifications[index];
+                        return GestureDetector(
+                          key: UniqueKey(),
+                          onTap: () {
+
+                            showNotif(context, notification);
+                            controller.removeNotification(notification);
+                          },
+                          child: NotificationWidget(
+                            key: ValueKey(notification.title),
+                            notification: notification,
+                          ),
+                        );
+                      },
+                    )
+                        : const Center(
+                        child: Text("Sizda bildirishnomalr yoq"),
+                    ),
+                  ],
+                ),
               ),
+            )
+          ],
+        ),
       );
+
+
     });
   }
 }

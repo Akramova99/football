@@ -13,7 +13,7 @@ class LeaguesPageController extends GetxController {
     var userId = DbService.getUserId();
     try {
       var response =
-          await DioService.dio.get<String>(DioService.LEAGUES_API + userId);
+          await DioService.dio.get<String>(DioService.LEAGUE_EXTRA_API);
       if (response.statusCode == 200) {
         var list = leagueModelFromJson(response.data!);
         leagues = list;

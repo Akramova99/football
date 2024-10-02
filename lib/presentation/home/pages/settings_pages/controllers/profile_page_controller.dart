@@ -100,6 +100,7 @@ class ProfilePageController extends GetxController {
     }
   }
 
+
   updateUserData() async {
     var username = nameCont.text;
     var phoneNumber = phoneNumberCont.text;

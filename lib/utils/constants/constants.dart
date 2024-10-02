@@ -11,7 +11,7 @@ import 'package:football/presentation/home/pages/settings_pages/pages/profile_pa
 
 import '../../presentation/home/pages/settings_pages/pages/intro_page.dart';
 import '../../presentation/home/pages/settings_pages/pages/invite_friends_page.dart';
-
+const position = ["FORWARD", "MIDFIELDER", "DEFENDER", "GOALKEEPER"];
 const intro = [
   {
     'image': "assets/images/intro/intro_img_2.png",
@@ -120,6 +120,7 @@ const List settingMenuItems = [
     "rout": InviteFriendsPage()
   },
 ];
+String text= "Bizning sovrinli ligamizga Hush kelibsiz va juda ham qiziqarli bolib otadi!";
 
 var tactics = [
   [1, 3, 4, 3],

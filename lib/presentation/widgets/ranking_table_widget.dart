@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/team_detail_page.dart';
+import 'package:football/utils/constants/app_colors.dart';
+import 'package:football/utils/constants/styles.dart';
 
 import '../../models/team_reyting_model.dart';
 import '../../utils/constants/test.dart';
@@ -18,43 +20,45 @@ class SoccerRankingTable extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: DataTable(
+          headingRowColor:  WidgetStateProperty.resolveWith<Color?>(
+                (Set<WidgetState> states) {
+              // Set the color of the row to black
+              return Colors.black;
+            },
+          ),
           columnSpacing: 10,
           border: TableBorder(
             bottom: BorderSide(color: Colors.grey.shade100, width: 0.5),
-            horizontalInside:
-                BorderSide(color: Colors.grey.shade100, width: 0.5),
+            horizontalInside: BorderSide(color: Colors.grey.shade100, width: 0.5),
           ),
           clipBehavior: Clip.hardEdge,
           dividerThickness: 1,
-          columns: const [
-            DataColumn(label: Text('#')),
+          columns:  [
+            DataColumn(label: Text('#',style: CustomStyles.dataTitle,)),
             DataColumn(
-              label: Text('Jamoalar'),
+              label: Text('Jamoalar',style: CustomStyles.dataTitle,),
             ),
-            DataColumn(label: Text('M')),
-            DataColumn(label: Text('PTS')),
+            DataColumn(label: Text('M',style: CustomStyles.dataTitle,)),
+            DataColumn(label: Text('PTS',style: CustomStyles.dataTitle,)),
           ],
           rows: List.generate(
             teams.length,
-            (index) {
+                (index) {
               final team = teams[index];
               return DataRow(
                 onLongPress: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return TeamDetailPage(
-                      id: team.id ?? 0,
-                    );
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                    return TeamDetailPage(id: team.id ?? 0);
                   }));
                 },
-                color: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                    if (index == 1) return Colors.blue.withOpacity(0.1);
-                    return null;
+                color: WidgetStateProperty.resolveWith<Color?>(
+                      (Set<WidgetState> states) {
+                    // Set the color of the row to black
+                    return Colors.black;
                   },
                 ),
                 cells: [
-                  DataCell(Text((index + 1).toString())),
+                  DataCell(Text((index + 1).toString(), style: TextStyle(color: Colors.white))),
                   DataCell(Row(
                     children: [
                       SizedBox(
@@ -62,31 +66,30 @@ class SoccerRankingTable extends StatelessWidget {
                         width: 25,
                         child: team.logo != null
                             ? CachedNetworkImage(
-                                imageUrl: team.logo!,
-                                placeholder: (context, url) => Container(),
-                                errorWidget: (context, url, error) =>
-                                    Container(),
-                              )
-                            : Image.asset(
-                                teamLogos[Random().nextInt(teamLogos.length)]),
+                          imageUrl: team.logo!,
+                          placeholder: (context, url) => Container(),
+                          errorWidget: (context, url, error) => Container(),
+                        )
+                            : Image.asset(teamLogos[Random().nextInt(teamLogos.length)]),
                       ),
                       const SizedBox(width: 5),
                       SizedBox(
                         width: 120,
                         child: Text(
                           team.name!,
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 12, color: Colors.white),
                         ),
                       ),
                     ],
                   )),
-                  DataCell(Text(team.currentScore!.toString())),
-                  DataCell(Text(team.totalScore!.toString())),
+                  DataCell(Text(team.currentScore!.toString(), style: TextStyle(color: Colors.white))),
+                  DataCell(Text(team.totalScore!.toString(), style: TextStyle(color: Colors.white))),
                 ],
               );
             },
           ),
-        ),
+        )
+        ,
       ),
     );
   }

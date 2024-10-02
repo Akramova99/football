@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:football/models/player_detail_model.dart';
 import 'package:football/presentation/home/widgets/player_profile_widget.dart';
 import 'package:football/presentation/widgets/player_table_widget.dart';
 import 'package:football/utils/constants/app_colors.dart';
@@ -14,7 +15,7 @@ import '../controllers/player_detail_controller.dart';
 class PlayerDetailPage extends StatefulWidget {
   const PlayerDetailPage({super.key, required this.player});
 
-  final Player player;
+  final PlayerDetail player;
 
   @override
   State<PlayerDetailPage> createState() => _PlayerDetailPageState();
@@ -22,10 +23,11 @@ class PlayerDetailPage extends StatefulWidget {
 
 class _PlayerDetailPageState extends State<PlayerDetailPage> {
   final controller = Get.find<PlayerDetailController>();
-
+PlayerDetail cn= PlayerDetail();
   @override
   void initState() {
     super.initState();
+    cn.id;
     controller.getPlayerDetails(widget.player.id!);
     controller.getPlayerHistoryDetails(widget.player.id!);
   }

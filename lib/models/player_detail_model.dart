@@ -5,6 +5,7 @@
 import 'dart:convert';
 
 PlayerDetailModel playerDetailModelFromJson(String str) => PlayerDetailModel.fromJson(json.decode(str));
+PlayerDetail playerDetailFromJson(String str) => PlayerDetail.fromJson(json.decode(str));
 
 String playerDetailModelToJson(PlayerDetailModel data) => json.encode(data.toJson());
 

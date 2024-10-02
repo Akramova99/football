@@ -28,7 +28,9 @@ class CreateTeamWidget extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 6.0),
             child: Image(
               image: AssetImage("assets/images/team/football_field.png"),
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
+              width: 370,
+              height: 423,
             ),
           ),
           Column(

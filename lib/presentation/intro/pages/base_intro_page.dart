@@ -5,7 +5,9 @@ import 'package:football/presentation/intro/pages/select_team_name_page.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/size.dart';
 import 'capitan_selection_page.dart';
 
 class BaseIntroPage extends StatefulWidget {
@@ -20,6 +22,10 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    // Logger().i(height);
+    // Logger().d(width);
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       body: Column(
@@ -28,10 +34,7 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
             child: PageView(
               controller: pageController,
               children: [
-                // IntroPag(
-                //   key: PageStorageKey('IntroPage1'),
-                //   introData: intro[0],
-                // ),
+
                 IntroPag(
                   key: PageStorageKey('IntroPage1'),
                   introData: intro[0],
@@ -64,8 +67,8 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
                 activeDotColor:AppColors.HRed,
                 dotColor: AppColors.red),
           ),
-          const SizedBox(
-            height: 60,
+           SizedBox(
+            height: 60.h,
           )
         ],
       ),

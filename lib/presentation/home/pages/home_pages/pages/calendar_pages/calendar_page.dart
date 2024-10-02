@@ -40,6 +40,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                   bottom: TabBar(
                     isScrollable: true,
+                    tabAlignment: TabAlignment.start,
                     indicatorSize: TabBarIndicatorSize.label,
                     tabs: List.generate(
                       controller.weeks.length,
