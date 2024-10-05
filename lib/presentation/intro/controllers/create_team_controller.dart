@@ -4,6 +4,7 @@ import 'package:football/models/player_selection_model.dart';
 import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../../models/club_model.dart';
 import '../../../models/team_model.dart';
@@ -40,6 +41,8 @@ class CreateTeamController extends GetxController {
         getTeam();
       }
     } on DioException catch (e) {
+      Logger().e(e);
+      Logger().e(teamId);
       ToastService.showError("Qayta urining");
     }
   }
@@ -222,7 +225,7 @@ class CreateTeamController extends GetxController {
   }
 
   goToNextPage(PageController controller) {
-    controller.animateToPage(4,
+    controller.animateToPage(3,
         duration: const Duration(milliseconds: 400), curve: Curves.linear);
   }
 
@@ -286,4 +289,5 @@ class CreateTeamController extends GetxController {
       }
     }
   }
+
 }

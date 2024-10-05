@@ -5,12 +5,13 @@ import 'package:football/presentation/home/pages/home_pages/pages/leagues/league
 import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/points_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/rating_page.dart';
-import 'package:football/presentation/home/pages/home_pages/pages/transfer_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/transfer_pages/transfer_page.dart';
+import 'package:football/presentation/home/pages/settings_pages/pages/introduction_game.dart';
 import 'package:football/presentation/home/pages/settings_pages/pages/notification_page.dart';
 import 'package:football/presentation/home/pages/settings_pages/pages/profile_page.dart';
 
-import '../../presentation/home/pages/settings_pages/pages/intro_page.dart';
 import '../../presentation/home/pages/settings_pages/pages/invite_friends_page.dart';
+
 const position = ["FORWARD", "MIDFIELDER", "DEFENDER", "GOALKEEPER"];
 const intro = [
   {
@@ -22,8 +23,7 @@ const intro = [
     'image': "assets/images/intro/intro_img_3.png",
     "title": ""
         "Siz do’stlaringiz bilan zerikmaysiz!",
-    "text":
-        "Siz futbol ligasida o’ynashga tayyormisiz va biz siz bilanmiz!"
+    "text": "Siz futbol ligasida o’ynashga tayyormisiz va biz siz bilanmiz!"
   },
   {
     'image': "assets/images/intro/intro_img_3.png",
@@ -92,35 +92,117 @@ const List homeMenuItems = [
     )
   },
 ];
-const List<String> statisticPosition= ["Forward","Midfielder","Defender","Goalkeeper"];
+const List<Map<String, String>> homeMenuTitle = [
+  {
+    "label": "Ochkolar",
+  },
+  {
+    "label": "Mening Jamoam",
+  },
+  {
+    "label": "Taqvim",
+  },
+  {
+    "label": "Transfer",
+  },
+  {
+    "label": "Ligalar",
+  },
+  {
+    "label": "Reyting",
+  },
+];
+const String homeTex =
+    "Details and reaction after Spain beat France 2-0 in the first women’s national league final";
+const List<String> statisticPosition = [
+  "Forward",
+  "Midfielder",
+  "Defender",
+  "Goalkeeper"
+];
+
+// Actionlar ro'yxati
+final List<String> actions = [
+  "60 daqiqagacha o\'ynash uchun",
+  "60 daqiqa yoki undan ko\'proq o\'ynash uchun",
+  "Darvozabon tomonidan kiritilgan har bir gol uchun",
+  "Himoyachi tomonidan kiritilgan har bir gol uchun",
+  "Yarim himoyachi urgan har bir gol uchun",
+  "Hujumchi tomonidan kiritilgan har bir gol uchun",
+  "Har bir golli uzatma uchun",
+  "Darvozabon yoki himoyachi tomonidan toza gol uchun",
+  "Yarim himoyachining o\'z darvozasi daxlsizligi uchun",
+  "Har 3 zarba uchun darvozabon tomonidan seyv",
+  "Har bir penalti uchun tejamkorlik",
+  "Har bir o\'tkazib yuborilgan penalti uchun",
+  "Uchrashuvdagi eng yaxshi o\'yinchi uchun bonus ballari",
+  "Darvozabon yoki himoyachi o\'tkazib yuborgan har 2 ta gol uchun",
+  "Har bir sariq kartochka uchun",
+  "Har bir qizil kartochka uchun",
+  "Har bir shaxsiy maqsad uchun",
+];
+
+// Points ro'yxati
+final List<dynamic> points = [
+  1,
+  2,
+  10,
+  6,
+  5,
+  4,
+  3,
+  4,
+  1,
+  1,
+  5,
+  -2,
+  "1-3",
+  -1,
+  -1,
+  -3,
+  -2
+];
+
 const List settingMenuItems = [
-  {
-    "image": "assets/images/settings/language_img.png",
-    "label": "Tilni Tanlang",
-    "rout": ""
-  },
-  {
-    "image": "assets/images/settings/intro_img.png",
-    "label": "Tanishtiruv",
-    "rout": IntroPage()
-  },
-  {
-    "image": "assets/images/settings/profile.png",
-    "label": "Profile",
-    "rout": ProfilePage()
-  },
+  {"image": "assets/images/settings/language_img.png", "rout": ""},
+  {"image": "assets/images/settings/intro_img.png", "rout": IntroductionGame()},
+  {"image": "assets/images/settings/profile.png", "rout": ProfilePage()},
   {
     "image": "assets/images/settings/notification_img.png",
-    "label": "Bildirishnomalar",
     "rout": NotificationPage()
   },
   {
     "image": "assets/images/settings/invite_friends_img.png",
-    "label": "Do'stlarni taklif qiling",
     "rout": InviteFriendsPage()
   },
 ];
-String text= "Bizning sovrinli ligamizga Hush kelibsiz va juda ham qiziqarli bolib otadi!";
+const List<Map<String, String>> settingTitle = [
+  {
+    "label": "Tilni Tanlang",
+  },
+  {
+    "label": "O\'yin haqida tanishtiruv",
+  },
+  {
+    "label": "Profil",
+  },
+  {
+    "label": "Bildirishnomalar",
+  },
+  {
+    "label": "Do\'stlarga ulashing",
+  },
+];
+String text =
+    "Bizning sovrinli ligamizga Hush kelibsiz va juda ham qiziqarli bolib otadi!";
+
+String formatPhoneNumber(String phoneNumber) {
+  // Telefon raqamini bo'laklarga ajratib formatlash
+  return phoneNumber.replaceAllMapped(
+    RegExp(r'(\+998)(\d{2})(\d{3})(\d{2})(\d{2})'),
+    (Match m) => '${m[1]} (${m[2]}) ${m[3]}-${m[4]}-${m[5]}',
+  );
+}
 
 var tactics = [
   [1, 3, 4, 3],

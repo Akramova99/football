@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:football/main.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/presentation/intro/controllers/capitan_selection_controller.dart';
 import 'package:football/presentation/widgets/custom_button.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:football/utils/constants/styles.dart';
-import 'package:football/utils/size.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../utils/constants/img_roots.dart';
 import '../../widgets/football_field_widget.dart';
@@ -66,7 +64,8 @@ class _CapitanSelectionPageState extends State<CapitanSelectionPage> {
                               ? Column(
                                   children: [
                                     Padding(
-                                      padding:  EdgeInsets.symmetric(vertical: 20.h),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 20.h),
                                       child: Text(
                                         "Jamoa uchun Sardorni tanlang",
                                         style: CustomStyles.appBarStyle,
@@ -89,19 +88,25 @@ class _CapitanSelectionPageState extends State<CapitanSelectionPage> {
                                   onPress: () {
                                     controller
                                         .saveCapitan(widget.pageController);
-                                  }, color: AppColors.baseColor,)
+                                  },
+                                  color: AppColors.baseColor,
+                                )
                               : const SizedBox()
                         ],
                       ),
                     )
                   : Container(
+                      height: 500,
                       padding: EdgeInsets.all(10),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "Sizda jamoa mavjud emas",
-                            style: TextStyle(fontSize: 20),
+                          Center(
+                            child: Text(
+                              "Sizda jamoa mavjud emas",
+                              style: TextStyle(fontSize: 20),
+                            ),
                           )
                         ],
                       ),

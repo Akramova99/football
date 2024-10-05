@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/controllers/setting_page_controller.dart';
 import 'package:football/presentation/home/pages/settings_pages/controllers/profile_page_controller.dart';
+import 'package:football/presentation/home/pages/settings_pages/pages/intro_page.dart';
+import 'package:football/presentation/home/pages/settings_pages/pages/profile_page.dart';
 import 'package:football/presentation/home/pages/settings_pages/widgets/settings_items.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import 'package:get/get.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/constants.dart';
 import '../../../utils/constants/img_roots.dart';
+import '../../widgets/custom_diolog.dart';
 import '../../widgets/language_dialog.dart';
 import 'home_pages/controllers/leagues_controller/create_league_controller.dart';
 
@@ -26,18 +29,16 @@ class _SettingsPageState extends State<SettingsPage> {
   final profile = Get.find<ProfilePageController>();
   final chooseImg = Get.find<CreateLeagueController>();
 
-
   @override
   void initState() {
     super.initState();
     profile.getData();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfilePageController>(builder: (_) {
-      return  Scaffold(
+      return Scaffold(
         body: Stack(
           children: [
             Image.asset(
@@ -60,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           //   Navigator.pop(context);
                           // }, icon: Icon(Icons.arrow_back_ios)),
                           Text(
-                            "Sozlamalar",
+                            "Sozlamalar".tr,
                             style: CustomStyles.appBarStyle,
                           ),
                         ],
@@ -70,7 +71,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 90,
                       width: double.infinity,
                       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                      padding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                       decoration: BoxDecoration(
                           color: AppColors.baseColor,
                           boxShadow: [
@@ -98,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 return Stack(
                                   children: [
                                     Image.asset(
-                                      "assets/images/home/player_img.png",
+                                      "assets/images/settings/default_img.png",
                                       width: 54,
                                       height: 54,
                                     ),
@@ -106,20 +108,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                 );
                               },
                               errorWidget: (context, url, error) => Image.asset(
-                                "assets/images/home/player_img.png",
+                                "assets/images/settings/default_img.png",
                                 width: 54,
                                 height: 54,
                               ),
-                              imageUrl:
-                              profile.user.image??'http://46.101.131.127:8080/api/v1/files/league_eeb750ce-6ce1-4622-a713-5bc6e826bce0.png',
+                              imageUrl: profile.user.image ??
+                                  '',
                             ),
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 textAlign: TextAlign.center,
-                                profile.name?? "",
+                                profile.name ?? "",
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -127,23 +130,38 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                               Text(
                                 textAlign: TextAlign.center,
-                                profile.user.email??"",
-                                style: CustomStyles.dataTitle,
+                                // Telefon raqamini String formatida ko'rsatish
+                                profile.user.email != null
+                                    ? formatPhoneNumber(profile.user.email!)
+                                    : '',
+                                style: CustomStyles.dataTitle!
+                                    .copyWith(color: Colors.white),
                               ),
                             ],
                           ),
-                          Image.asset(
-                            ImgRoots.edit,
-                            height: 24,
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ProfilePage()),
+                              );
+                            },
+                            child: Image.asset(
+                              ImgRoots.edit,
+                              height: 24,
+                            ),
                           )
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      margin:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(10)),
                         border: Border.all(
                             color: const Color.fromRGBO(246, 246, 246, 1),
                             width: 2),
@@ -158,7 +176,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               data: settingMenuItems[index],
                               changeLanguage: () {
                                 showLanguageDialog(context);
-                              },
+                              }, data2: settingTitle[index],
                             )
                                 : SettingsItem(
                               data: settingMenuItems[index],
@@ -167,114 +185,146 @@ class _SettingsPageState extends State<SettingsPage> {
                                     builder: (BuildContext context) {
                                       return settingMenuItems[index]['rout'];
                                     }));
-                              },
+                              }, data2: settingTitle[index],
                             );
                           },
                         ),
                       ),
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 5.0),
-                        // Blur effektini qo'shish
-                        child: Container(
-                          height: 104,
-                          width: 340,
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white12,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "Ko'proq",
-                                  style: CustomStyles.dataTitle!.copyWith(
-                                      fontSize: 14, color: AppColors.redy),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: 5,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const IntroPage()),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 5.0),
+                          // Blur effektini qo'shish
+                          child: Container(
+                            height: 104,
+                            width: 340,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white12,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    "Ko'proq".tr,
+                                    style: CustomStyles.dataTitle!.copyWith(
+                                        fontSize: 14, color: AppColors.redy),
                                   ),
-                                  height: 45,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: AppColors.red1,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
-                                        ),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.asset(
-                                              ImgRoots.info,
-                                              height: 15,
-                                              width: 15,
-                                              fit: BoxFit.cover,
-                                              color: Colors.white,
+                                  Container(
+                                    margin: EdgeInsets.symmetric(
+                                      horizontal: 5,
+                                    ),
+                                    height: 45,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.red1,
+                                            borderRadius:
+                                            BorderRadius.all(
+                                                Radius.circular(10)),
+                                          ),
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                              const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                ImgRoots.info,
+                                                height: 15,
+                                                width: 15,
+                                                fit: BoxFit.cover,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Haqida",
-                                            style: CustomStyles.pageTitle!
-                                                .copyWith(fontSize: 14),
-                                          ),
-                                          Text(
-                                            "Version 1.2",
-                                            style: CustomStyles.popText.copyWith(
-                                                fontSize: 10, color: Colors.grey),
-                                          ),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      const Icon(
-                                        Icons.navigate_next,
-                                        size: 30,
-                                        color: Color.fromRGBO(51, 51, 51, 1),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Haqida".tr,
+                                              style: CustomStyles.pageTitle!
+                                                  .copyWith(fontSize: 14),
+                                            ),
+                                            Text(
+                                              "${"Versiya".tr} 1.2",
+                                              style: CustomStyles.popText
+                                                  .copyWith(
+                                                  fontSize: 10,
+                                                  color: Colors.grey),
+                                            ),
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        const Icon(
+                                          Icons.navigate_next,
+                                          size: 30,
+                                          color: Color.fromRGBO(51, 51, 51, 1),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      margin:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: AppColors.red1,
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: MaterialButton(
-                        onPressed: () {},
-                        child: const Row(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CustomDialog(
+                                    title: "Hisobdan chiqish".tr,
+                                    content:
+                                    "Siz tizimdan chiqarilib, barcha ma\'lumotlaringiz qurilmadan o\'chiriladi!".tr,
+                                    button1Text: "Ha".tr,
+                                    button2Text: "Yo'q".tr,
+                                    button1Function: () {
+                                      controller.logOut(context);
+                                    },
+                                    button2Function: () {
+                                      Navigator.pop(context);
+                                    });
+                              });
+                        },
+                        child:  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Hisobdan chiqish",
-                              style: TextStyle(
+                              "Hisobdan chiqish".tr,
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 13,
                                   fontFamily: "Poppins",
@@ -283,7 +333,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             SizedBox(
                               width: 20,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.logout,
                               color: Colors.white,
                               size: 24,
@@ -299,8 +349,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         ),
       );
-    })
-     ;
+    });
   }
 }
-

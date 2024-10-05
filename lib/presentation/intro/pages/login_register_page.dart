@@ -78,11 +78,13 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              "Nimani kutyapsiz? Keling, boshlaylik!",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color.fromRGBO(101, 101, 107, 1),fontFamily: "Poppins"),
+                            Expanded(
+                              child: Text(
+                                "Nimani kutyapsiz? Keling, boshlaylik!",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromRGBO(101, 101, 107, 1),fontFamily: "Poppins"),
+                              ),
                             ),
                           ],
                         ),

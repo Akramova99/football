@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 void showLanguageDialog(BuildContext context) {
   showDialog(
@@ -15,9 +17,12 @@ void showLanguageDialog(BuildContext context) {
             children: [
               buildLanguageOption(
                   context, 'Ru', 'assets/images/settings/rus_l.png'),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               buildLanguageOption(
                   context, 'Uzb', 'assets/images/settings/uzb_l.png'),
+              const SizedBox(height: 10),
+              buildLanguageOption(
+                  context, 'En', 'assets/images/settings/usa_flag.png'),
             ],
           ),
         ),
@@ -29,11 +34,28 @@ void showLanguageDialog(BuildContext context) {
 Widget buildLanguageOption(
     BuildContext context, String language, String asset) {
   return GestureDetector(
-    onTap: () {
-      Navigator.of(context).pop(); // Close the dialog
-      print(language);
-    },
-    child: Container(
+      onTap: () {
+        // Perform language switch based on the selected language
+        if (language == "Ru") {
+          // Set to Russian
+          Get.updateLocale(Locale('ru', 'RU'));
+          Logger().e("Ru nkdsj");
+        } else if (language == "Uzb") {
+          // Set to Uzbek
+          Get.updateLocale(Locale('uz', 'UZ'));
+        } else if (language == "En") {
+          // Set to English
+          Get.updateLocale(Locale('en', 'US'));
+        }
+
+        // Close the dialog after selecting the language
+        Navigator.of(context).pop();
+
+        // Print the selected language for debugging purposes
+        print(language);
+      }
+,
+      child: Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.grey[200],

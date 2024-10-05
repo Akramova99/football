@@ -16,7 +16,6 @@ import '../../../../../../utils/constants/img_roots.dart';
 import '../../../../../intro/controllers/create_team_controller.dart';
 import '../../controllers/leagues_controller/create_league_controller.dart';
 import '../../controllers/leagues_controller/extra_leagues_page_controller.dart';
-import 'join_league_page.dart';
 
 class LeaguesPage extends StatefulWidget {
   const LeaguesPage({super.key});
@@ -34,6 +33,7 @@ class _LeaguesPageState extends State<LeaguesPage> {
   @override
   void initState() {
     super.initState();
+    // Set TabController in the controller
     controller.createTeam();
     controller.getClubs();
     controller.searchPlayers("FORWARD");
@@ -46,315 +46,278 @@ class _LeaguesPageState extends State<LeaguesPage> {
     double width = MediaQuery.of(context).size.width;
     Logger().i(height);
     Logger().d(width);
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            title: Text(
-              "Ligalar",
-              style: CustomStyles.appBarStyle,
-            ),
-            leading: IconButton(
+
+    return GetBuilder<CreateLeagueController>(
+      builder: (_) {
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              title: Text(
+                "Ligalar".tr,
+                style: CustomStyles.appBarStyle,
+              ),
+              leading: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+               //   Navigator.pop(context);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+
                 },
-                icon: Icon(Icons.arrow_back_ios)),
-            bottom: TabBar(
-              labelStyle:
-                  CustomStyles.dataTitle!.copyWith(color: AppColors.HRed),
-              indicatorColor: AppColors.HRed,
-              indicatorSize: TabBarIndicatorSize.tab,
-              tabs: [
-                Tab(
-                  text: 'Ligalar',
-                ),
-                Tab(text: "Qo'shimcha ligalar"),
-              ],
+                icon: Icon(Icons.arrow_back_ios),
+              ),
+              bottom: TabBar(
+                labelStyle: CustomStyles.dataTitle!.copyWith(color: AppColors.HRed),
+                indicatorColor: AppColors.HRed,
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs:  [
+                  Tab(text: 'Ligalar'.tr),
+                  Tab(text: "Qo'shimcha ligalar".tr),
+                ],
+              ),
             ),
-          ),
-          body: GetBuilder<LeaguesPageController>(
-            builder: (_) {
-              return Stack(
-                children: [
-                  Center(
-                    child: Positioned(
-                      top: 0,
-                      child: Image.asset(
-                        ImgRoots.bg3,
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height,
-                        fit: BoxFit.cover,
+            body: GetBuilder<LeaguesPageController>(
+              builder: (controller1) {
+                return Stack(
+                  children: [
+                    Center(
+                      child: Positioned(
+                        top: 0,
+                        child: Image.asset(
+                          ImgRoots.bg3,
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      ClipRRect(
-                        child: SizedBox(
-                          height: 50,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 15),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.3),
-                                gradient: const LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomCenter,
-                                    colors: [Colors.white60, Colors.white]),
-                              ),
+                    Column(
+                      children: [
+                        _buildBlurredHeader(),
+                        _buildBlurredHeader(),
+                        _buildBlurredHeader(),
+                      ],
+                    ),
+                    TabBarView(
+                      children: [
+                        Column(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: _buildLeaguesList(controller1),
                             ),
-                          ),
+                            Expanded(
+                              flex: 1,
+                              child: _buildCreateJoinButtons(),
+                            ),
+                          ],
                         ),
-                      ),
-                      ClipRRect(
-                        child: SizedBox(
-                          height: 50,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.3),
-                                gradient: const LinearGradient(
-                                    end: Alignment.topLeft,
-                                    begin: Alignment.bottomCenter,
-                                    colors: [Colors.white60, Colors.white]),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      ClipRRect(
-                        child: SizedBox(
-                          height: 50,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 6),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.3),
-                                gradient: const LinearGradient(
-                                    end: Alignment.topLeft,
-                                    begin: Alignment.bottomCenter,
-                                    colors: [Colors.white60, Colors.white]),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TabBarView(
-                    children: [
-                      Column(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey.shade500,
-                                          blurRadius: 5,
-                                          offset: Offset(0, 0))
-                                    ]),
-                                width: double.infinity,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: const Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text("#"),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Text("Ligalar")
-                                            ],
-                                          ),
-                                          Divider()
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                          itemCount: controller1.leagues.length,
-                                          itemBuilder: (ctx, index) {
-                                            var league =
-                                                controller1.leagues[index];
-                                            return GestureDetector(
-                                              onTap: () {
-                                                controller1.callLeagueDetail(
-                                                    league, context);
-                                              },
-                                              child: Container(
-                                                padding: EdgeInsets.all(10),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text("${index + 1}"),
-                                                        ClipOval(
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl:
-                                                                league.image ??
-                                                                    img.img,
-                                                            width: 30,
-                                                            height: 30,
-                                                            fit: BoxFit.cover,
-                                                            placeholder:
-                                                                (context, url) {
-                                                              print(
-                                                                  "+++++++++++++++++++++++");
-                                                              return Stack(
-                                                                children: [
-                                                                  Image.asset(
-                                                                      "assets/images/home/player_img.png")
-                                                                ],
-                                                              );
-                                                            },
-                                                            errorWidget:
-                                                                (context, url,
-                                                                    error) {
-                                                              print(
-                                                                  "+++++++++++++++++++++++$error");
-                                                              print(
-                                                                  "+++++++++++++++++++++++$url");
-                                                              return Image
-                                                                  .asset(
-                                                                "assets/images/home/player_img.png",
-                                                                width: 54,
-                                                              );
-                                                            },
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 20,
-                                                        ),
-                                                        Text(league.name ?? "")
-                                                      ],
-                                                    ),
-                                                    Divider()
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                    )
-                                  ],
-                                )),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              width: double.infinity,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CreateButton(
-                                      text: "Liga yaratish",
-                                      onPress: () {
-                                        //   nextPage.callNextPage(CreateLeaguePage(), context);
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          //   isScrollControlled: true, // To'liq ekran qilish uchun
-                                          builder: (context) =>
-                                              const CreateLeaguePage(),
-                                        );
-                                      },
-                                      color: AppColors.baseColor),
-                                  CreateButton(
-                                      text: "Ligaga qo'shilish",
-                                      onPress: () {
-                                        showModalBottomSheet(
-                                          context: context,
-
-                                          // isScrollControlled: true, // To'liq ekran qilish uchun
-                                          builder: (context) =>
-                                              const JoinLeaguePage(),
-                                        );
-                                      },
-                                      color: AppColors.baseColor),
-                                  // Import this to use Clipboard
-
-                                  img.isCreate
-                                      ? Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: AppColors.baseColor,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: MaterialButton(
-                                            onPressed: () {
-                                              // Function to copy the text to clipboard
-                                              Clipboard.setData(
-                                                  ClipboardData(
-                                                      text: controller1
-                                                          .leagues
-                                                          .last
-                                                          .id!));
-
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  controller1.leagues.last.id!,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 13,
-                                                      fontFamily: "Poppins",
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                const SizedBox(
-                                                  width: 20,
-                                                ),
-                                                const Icon(
-                                                  Icons.content_copy,
-                                                  color: Colors.white,
-                                                  size: 24,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox()
-
-                                  // CustomButton(
-                                  //
-                                  //     text: "Qoshimcha ligalar",
-                                  //     onPress: () {
-
-                                  //     }),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      ExtraLeaguesPage()
-                    ],
-                  )
-                ],
-              );
-            },
-          )),
+                        const ExtraLeaguesPage(),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
+
+  Widget _buildBlurredHeader() {
+    return ClipRRect(
+      child: SizedBox(
+        height: 50,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.3),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white60, Colors.white],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLeaguesList(LeaguesPageController controller1) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade500,
+            blurRadius: 5,
+            offset: Offset(0, 0),
+          ),
+        ],
+      ),
+      width: double.infinity,
+      child: Column(
+        children: [
+          _buildLeaguesHeader(),
+          GetBuilder<CreateLeagueController>(
+            builder: (_) {
+              return   Expanded(
+                child: controller1.leagues.isEmpty
+                    ? Center(child: Text('Hech qanday liga mavjud emas'.tr))
+                    : ListView.builder(
+                  itemCount: controller1.leagues.length,
+                  itemBuilder: (ctx, index) {
+                    var league = controller1.leagues[index];
+                    return _buildLeagueItem(league, index);
+                  },
+                ),
+              );
+            },
+          )
+        ,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLeaguesHeader() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child:  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              Text("#"),
+              const SizedBox(width: 20),
+              Text("Ligalar".tr),
+            ],
+          ),
+          Divider(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLeagueItem(league, int index) {
+    return GestureDetector(
+      onLongPress: () {
+        controller1.deleteLeague(); // Correct deletion handling needed here
+      },
+      onTap: () {
+        controller1.callLeagueDetail(league, context); // Navigate to league details
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                Text("${index + 1}"),
+                const SizedBox(width: 10),
+                ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: league.image ?? img.img,
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Image.asset(
+                      "assets/images/home/player_img.png",
+                      width: 54,
+                    ),
+                    errorWidget: (context, url, error) => Image.asset(
+                      "assets/images/home/player_img.png",
+                      width: 54,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Text(league.name ?? "Unnamed League"),
+              ],
+            ),
+            Divider(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCreateJoinButtons() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          CreateButton(
+            text: "Liga yaratish".tr,
+            onPress: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => const CreateLeaguePage(),
+              );
+            },
+            color: AppColors.baseColor,
+          ),
+          CreateButton(
+            text: "Ligaga qo'shilish".tr,
+            onPress: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => const CreateLeaguePage(),
+              ).whenComplete(() {
+                // Additional logic can go here if necessary when the bottom sheet is dismissed
+                Navigator.pop(context);
+              });
+            },
+            color: AppColors.baseColor,
+          ),
+          img.isCreate
+              ? Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.baseColor,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: MaterialButton(
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: controller1.leagues.last.id!));
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    controller1.leagues.last.id!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  const Icon(Icons.content_copy, color: Colors.white, size: 24),
+                ],
+              ),
+            ),
+          )
+              : const SizedBox(),
+        ],
+      ),
+    );
+  }
+
+
+
+
 }

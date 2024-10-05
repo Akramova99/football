@@ -56,16 +56,19 @@ class _BaseIntroPageState extends State<BaseIntroPage> {
               ],
             ),
           ),
-          SmoothPageIndicator(
-            controller: pageController,
-            count: 5,
-            effect:  const ExpandingDotsEffect(
-                radius: 10,
-                dotHeight: 10,
-                dotWidth: 10,
-                spacing: 5,
-                activeDotColor:AppColors.HRed,
-                dotColor: AppColors.red),
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0),
+            child: SmoothPageIndicator(
+              controller: pageController,
+              count: 5,
+              effect:  const ExpandingDotsEffect(
+                  radius: 10,
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  spacing: 5,
+                  activeDotColor:AppColors.HRed,
+                  dotColor: AppColors.red),
+            ),
           ),
            SizedBox(
             height: 60.h,

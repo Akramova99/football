@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomStyles {
   static TextStyle? pageTitle =
       const TextStyle(fontSize: 17, fontWeight: FontWeight.w600);
-  static TextStyle? dataTitle =
+  static TextStyle?   dataTitle =
   const TextStyle(fontSize: 12.27, fontWeight: FontWeight.w400,color: Colors.white,fontFamily: "Poppins");
   static TextStyle team =
       const TextStyle(fontSize: 20, fontWeight: FontWeight.w400);

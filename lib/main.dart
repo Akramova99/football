@@ -2,13 +2,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:football/presentation/home/controllers/deadline_controller.dart';
 import 'package:football/presentation/home/pages/base_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/leagues_page.dart';
 import 'package:football/presentation/intro/pages/base_intro_page.dart';
 import 'package:football/root/root_binding.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/firebase_notification_service.dart';
+import 'package:football/utils/languages/languages.dart';
 import 'package:get/get.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +29,10 @@ Future<void> main() async {
   await FirebaseNotificationService.initNotification();
   FirebaseMessaging.onBackgroundMessage(
       FirebaseNotificationService.firebaseMessagingBackgroundHandler);
-
-  runApp(const MyApp());
+  Get.put(DeadlineController());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -45,16 +50,36 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
+          fallbackLocale: Locale('en', 'US'),
+            locale: Locale("uz","UZ"),
+        //  locale: Get.deviceLocale,
+          translations: AppTranslations(),
+          // List of supported locales
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate, // Material localizations
+            GlobalWidgetsLocalizations.delegate,  // Widget localizations
+            GlobalCupertinoLocalizations.delegate, // Cupertino localizations
+          ],
+          supportedLocales: const [
+            Locale('uz', 'UZ'),
+            Locale('en', 'US'), // English
+            Locale('ru', 'RU'), // Russian
+            // Uzbek
+          ],
+
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
           home:
-          DbService.getLoggedIn() ? const BasePage():
-          const BaseIntroPage(),
+          // DbService.getLoggedIn()
+          //     ? const BasePage()
+          //     : const
+          BaseIntroPage(),
           initialBinding: RootBinding(),
           routes: {
             '/a': (context) => LeaguesPage(),
+            BasePage.id: (context) => const BasePage(),
           },
         );
       },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/widgets/ranking_table_widget.dart';
 import 'package:football/utils/constants/styles.dart';
-
+import 'package:get/get.dart';
 import '../../../../../../models/team_reyting_model.dart';
 
 class AllRatingPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class AllRatingPage extends StatelessWidget {
       backgroundColor: Color.fromRGBO(241, 241, 241, 1),
       appBar: AppBar(
         title: Text(
-          "Umumiy reyting",
+          "Umumiy reyting".tr,
           style: CustomStyles.pageTitle,
         ),
       ),
@@ -35,6 +35,7 @@ class AllRatingPage extends StatelessWidget {
           color: Colors.white,
         ),
         child: SoccerRankingTable(
+          isSeeAll: false,
           teams: teams,
         ),
       ),

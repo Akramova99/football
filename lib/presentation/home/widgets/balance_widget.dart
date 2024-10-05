@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:football/services/url_launcher_service.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/constants/styles.dart';
@@ -31,9 +34,9 @@ class BalanceWidget extends StatelessWidget {
     return GetBuilder<BalancePageController>(builder: (_) {
       return AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        width: isExpanded ? MediaQuery.of(context).size.width * 0.9 : 150,
+        width: isExpanded ? 311.w : 150.w,
         // Adjust width dynamically
-        height: 127,
+        height: 127.h,
         margin: EdgeInsets.only(bottom: 16),
         padding: EdgeInsets.all(16),
         alignment: alignment,
@@ -42,7 +45,10 @@ class BalanceWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
         ),
         child: InkWell(
-          onTap: () => onTap(),
+          onTap: () {
+            onTap();
+            controller.postPayment(controller.packets[index].name!);
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +85,7 @@ class BalanceWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${controller.packets.isNotEmpty ? controller.packets[index].numberOfTransfers : ""} ta Tranfer",
+                        "${controller.packets.isNotEmpty ? controller.packets[index].numberOfTransfers : ""} ${"ta Transfer".tr}",
                         style: CustomStyles.dataTitle!.copyWith(
                           color:
                               iconImg == "price" ? Colors.black : Colors.white,
@@ -87,7 +93,7 @@ class BalanceWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Sale -30%",
+                        "${"Sotish ".tr}-30%",
                         style: CustomStyles.dataTitle!.copyWith(
                           color: iconImg == "price"
                               ? Color(0xff929393)
@@ -102,18 +108,24 @@ class BalanceWidget extends StatelessWidget {
                   // Use Expanded to allow the Checkout button to expand
                   Expanded(
                     child: isExpanded
-                        ? Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppColors.cyan,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: FittedBox(
-                              fit:
-                                  BoxFit.scaleDown, // Scales the text if needed
-                              child: Text(
-                                "Checkout",
-                                style: TextStyle(color: Colors.white),
+                        ? InkWell(
+                        onTap: () async {
+                        UrlBrowser.launchInBrowser(controller.paymentUrl);
+                        },
+
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: AppColors.cyan,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: FittedBox(
+                                fit: BoxFit
+                                    .scaleDown, // Scales the text if needed
+                                child: Text(
+                                  "Checkout",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           )

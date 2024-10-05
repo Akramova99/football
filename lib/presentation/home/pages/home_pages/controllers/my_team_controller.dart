@@ -12,6 +12,7 @@ class MyTeamController extends GetxController {
   int points = 0;
   TeamModel team = TeamModel();
   bool isLoading = false;
+  bool isOne = false;
 
   List<bool> chosen = List.generate(11, (_) => false);
 
@@ -21,8 +22,12 @@ class MyTeamController extends GetxController {
 
   onTacticsChange(index) {
     tacticsIndex = index;
+    index==1||index==2? isOne = true:false;
     changeTactic();
     update();
+  }
+  checkTactics(index){
+    index==1||index==2? isOne = true:false;
   }
 
   changeTactic() async {

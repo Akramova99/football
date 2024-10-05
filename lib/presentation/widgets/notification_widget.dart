@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football/models/notification_model.dart';
+import 'package:football/utils/constants/styles.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -57,7 +58,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 222,
+
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       width: double.infinity,
@@ -81,15 +82,15 @@ class _NotificationWidgetState extends State<NotificationWidget> {
             widget.notification.title ?? "",
             style: const TextStyle(fontSize: 20),
           ),
-          const SizedBox(
-            height: 10,
+           SizedBox(
+            height: 10.h,
           ),
           Row(
             children: [
               if (isValid && widget.notification.image != null)
                 SizedBox(
-                  width: 150,
-                  height: 140,
+                  width: 150.w,
+                  height: 140.h,
                   child: Image.network(
                     widget.notification.image!,
                     fit: BoxFit.cover,
@@ -119,7 +120,11 @@ showNotif(context, FirebaseNotification notification) {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            height: 400,
+            // constraints: const BoxConstraints(
+            //   minHeight: 450,
+            //   maxHeight: 500,
+            // ),
+            height: 450.h,
             margin: const EdgeInsets.all(10),
             width: double.infinity,
             padding: const EdgeInsets.all(20.0),
@@ -127,29 +132,29 @@ showNotif(context, FirebaseNotification notification) {
               children: [
                 Text(
                   notification.title ?? "",
-                  style: const TextStyle(
-                      fontSize: 25,
+                  style:  TextStyle(
+                      fontSize: 20.h,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: 10.h,
                 ),
                 if (notification.image != null)
                   Image.network(
                     notification.image!,
-                    height: 200,
-                    width: 200,
+                    height: 200.h,
+                    width: 200.w,
                     fit: BoxFit.cover,
                   ),
-                const SizedBox(
-                  height: 10,
+                 SizedBox(
+                  height: 10.h,
                 ),
                 SizedBox(
-                  height: 200,
+                  // height: 200,
                   child: SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      child: Text(notification.body ?? "")),
+                      child: Text(notification.body ?? "",style: CustomStyles.dataTitle!.copyWith(color: Colors.black87),)),
                 )
               ],
             ),

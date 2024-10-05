@@ -4,17 +4,21 @@ import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/services/db_service.dart';
 import 'package:football/services/dio_service.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingPageController extends GetxController {
+  bool isLogout= false;
   logOut(context) async {
     var email = DbService.getUserEmail();
     print(email);
+    Logger().d(email);
     try {
       var response = await DioService.dio.post(
           DioService.LOG_OUT_API + DioService.logOuApi(email),
           data: null);
       print(response.statusMessage);
+      Logger().d(response.statusMessage);
       if (response.statusCode == 204 || response.statusCode == 200) {
         DbService.setLoggedIn(false);
         DbService.clear();
@@ -26,6 +30,7 @@ class SettingPageController extends GetxController {
       }
     } catch (e) {
       print("log out $e");
+      Logger().d("log out $e");
     }
   }
 

@@ -1,11 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/my_team_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/transfer_page_controller.dart';
 import 'package:football/presentation/widgets/player_selection_widget.dart';
+import 'package:football/presentation/widgets/tactics_menu_button.dart';
+import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../models/team_model.dart';
 import '../../utils/constants/constants.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../home/pages/home_pages/pages/players_places.dart';
 
 getTeamPLayers(List<Player> players, bool isTransferPage) {
   List<Player> primaryTeam = List.generate(
@@ -141,7 +145,7 @@ class ChangePlayerFootballField extends StatelessWidget {
       aspectRatio: 18 / 24,
       child: Stack(
         children: [
-           Image(
+          Image(
             image: AssetImage("assets/images/team/football_field.png"),
             fit: BoxFit.cover,
             height: 481.h,
@@ -150,6 +154,19 @@ class ChangePlayerFootballField extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: buildList(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                  height: 38.h,
+                  padding: EdgeInsets.only(left: 25),
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.45),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: TacticsMenuButton2(controller: controller)),
+            ],
           )
         ],
       ),
@@ -182,15 +199,18 @@ class ChangePlayerFootballField extends StatelessWidget {
       children: List.generate(
         playerNumber,
         (i) => GestureDetector(
-          onTap: () {
-            var player = controller.primaryTeam[index + i];
-            controller.selectPlayer(player);
-            print(player.name);
-            print((index + i).toString());
-          },
-          child:
-              PlayerSelectionWidget(player: controller.primaryTeam[index + i]),
-        ),
+            onTap: () {
+              Logger().e(playerNumber);
+              var player = controller.primaryTeam[index + i];
+              controller.selectPlayer(player);
+              print(player.name);
+              print((index + i).toString());
+            },
+            child: PointsPlayerWidget1(
+              player: controller.primaryTeam[index + i],
+            )
+            //    child:  PlayerSelectionWidget(player: controller.primaryTeam[index + i]),
+            ),
       ),
     );
   }
@@ -203,28 +223,31 @@ class TransferFootballField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio:18/24,
-      child: Stack(
-        children: [
-          Center(
-            child:  Image(
-              image: AssetImage("assets/images/team/football_field.png"),
-              width: 370.w,
-              height: 423.h,
-              fit: BoxFit.cover,
+    return GetBuilder<TransferPageController>(builder: (_) {
+
+      return AspectRatio(
+        aspectRatio: 18 / 24,
+        child: Stack(
+          children: [
+            Center(
+              child: Image(
+                image: AssetImage("assets/images/team/football_field.png"),
+                width: 380.w,
+                height: 423.h,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buildList(),
-            ),
-          )
-        ],
-      ),
-    );
+            Container(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: buildList(),
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 
   buildList() {
@@ -237,11 +260,13 @@ class TransferFootballField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(
         2,
-        (i) => PlayerTransferWidget(
-          player: controller.primaryTeam[0 + i],
-          isExpanded: controller.isExpandedList[0 + i],
-          key: UniqueKey(),
-        ),
+        (i) {
+          return PlayerTransferWidget(
+            player: controller.primaryTeam[0 + i],
+            isExpanded: controller.isExpandedList[0 + i],
+            key: UniqueKey(),
+          );
+        },
       ),
     ));
 

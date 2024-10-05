@@ -79,6 +79,7 @@ class _JoinLeaguePageState extends State<JoinLeaguePage> {
                   onPress: () {
 
                     controllerJoin.joinLeague(context);
+                    Navigator.pop(context);
                   },
                   color: AppColors.cyan),
             ],

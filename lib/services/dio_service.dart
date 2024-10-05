@@ -76,6 +76,20 @@ class DioService {
     }
   }
 
+  static Future<String> DELETE(String api, Map? data) async {
+    try {
+      var response = await dio.delete<String>(api, data: data);
+      if (response.statusCode == 200) {
+        return response.data ?? "";
+      } else {
+        return "${response.statusMessage}";
+      }
+    } on Exception catch (e) {
+      return "$e";
+    }
+  }
+
+
   static Future<String> PUT(String api, Map? data) async {
     try {
       var response = await dio.put<String>(api, data: data);
@@ -121,8 +135,15 @@ class DioService {
   static setFirebaseToken(String userId) {
     return "/api/v1/users/$userId/save-token";
   }
+  static getPayment(String userId) {
+    return "/api/v1/users/$userId/payment-history";
+  }
   static chooseImg(String userId) {
     return "/api/v1/users/$userId/upload-image";
+  }
+  static chartApi(String userId,int year) {
+   // return "/api/v1/users/1/buy-transfer-history/chart?year=$year";
+    return "/api/v1/users/$userId/buy-transfer-history/chart?year=$year";
   }
 
   static getPlayerDetails(int playerId) {
@@ -135,6 +156,9 @@ class DioService {
 
   static joinLeagueApi(String leagueId, String userId) {
     return "/api/v1/users/$leagueId/join?userId=$userId";
+  }
+  static balanceForTransfer( String userId,String type) {
+    return "/api/v1/users/generatePaymentUrl/$userId/$type";
   }
 
   static const GET_NOTIFICATION = "/api/v1/users/1/notifications";
@@ -163,12 +187,15 @@ class DioService {
   static const PLAYER_STATISTIC = "/api/v1/players/api/players/statistics?position=";
   static const BALANCE_API = "/api/v1/transfers/available-transfers-packs";
   static const SEARCH_Players = "/api/v1/players/search/";
+  static const STANDING_PLAYERS = "/api/v1/standings/standings";
 
   static const LEAGUE_EXTRA_API = "/api/v1/leagues";
   static const LEAGUE_DETAIL_API = "/api/v1/leagues/";
   static const LEAGUE_PAID_API = "/api/v1/leagues/available";
   static const LEAGUES_API = "/api/v1/users/joinedLeagues?userId=";
   static const LEAGUE_CREATE_API = "/api/v1/leagues/create/";
+  static const MY_LEAUGE = "/api/v1/users/myLeagues";
+  static const DEADLINE = "/api/calendars/get-start-match-week";
 
 
   //transfer buy

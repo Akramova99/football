@@ -6,7 +6,7 @@ import 'package:football/utils/constants/styles.dart';
 import 'package:football/utils/constants/test.dart';
 
 import '../../models/match_model.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MatchListView extends StatelessWidget {
   final List<MatchModel> matches;
 
@@ -25,6 +25,7 @@ class MatchListView extends StatelessWidget {
       },
           child: Container(
               width: double.infinity,
+
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -35,7 +36,8 @@ class MatchListView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final match = matches[index];
                     return Container(
-                      height: 50,
+                      height: 65.h,
+                      margin: EdgeInsets.only(bottom: 5),
                       padding:
                           const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
@@ -109,12 +111,13 @@ class MatchListView extends StatelessWidget {
               ),
             ),
         )
-        : Container(
+        : SizedBox(
             width: double.infinity,
-            child: const Center(
+            child:  Center(
               child: Text(
                 "Hozircha hech qanday matchlar yo'q",
-                style: TextStyle(fontSize: 30),
+                style: CustomStyles.appBarStyle.copyWith(fontSize: 25),
+                textAlign: TextAlign.center,
               ),
             ),
           );

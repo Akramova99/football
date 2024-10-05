@@ -1,9 +1,11 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class CustomHomeMenuItem extends StatelessWidget {
   final Map data;
+  final Map<String,String> data2;
 
-  const CustomHomeMenuItem({super.key, required this.data});
+  const CustomHomeMenuItem({super.key, required this.data,required this.data2});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,8 @@ class CustomHomeMenuItem extends StatelessWidget {
               width: 10,
             ),
             Text(
-              data["label"]!,
+              data2["label"]!.tr,
+
               style: const TextStyle(
                   fontSize: 12, color: Colors.white),
             ),

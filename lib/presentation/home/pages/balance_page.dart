@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/controllers/balance_page_controller.dart';
+import 'package:football/presentation/home/pages/settings_pages/controllers/profile_page_controller.dart';
 import 'package:football/presentation/home/widgets/balance_widget.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,9 @@ import 'package:get/get.dart';
 import '../../../utils/constants/img_roots.dart';
 import '../../../utils/constants/styles.dart';
 import '../widgets/bar_chart_sample.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'home_pages/controllers/transfer_page_controller.dart';
 
 class BalancePage extends StatefulWidget {
   const BalancePage({super.key});
@@ -17,6 +21,9 @@ class BalancePage extends StatefulWidget {
 
 class _BalancePageState extends State<BalancePage> {
   final controller = Get.find<BalancePageController>();
+  final controller2 = Get.find<TransferPageController>();
+ final profileController = Get.find<ProfilePageController>(); // Get the profile controller
+
   int? selectedIndex;
   int selectedWidgetIndex = -1;
 
@@ -25,6 +32,10 @@ class _BalancePageState extends State<BalancePage> {
     super.initState();
     controller.getUserData();
     controller.getTransferPackets();
+    controller.getPaymentHistory();
+    controller2.getTransferSummary();
+
+
   }
 
   @override
@@ -50,7 +61,7 @@ class _BalancePageState extends State<BalancePage> {
                         top: 40.0,
                       ),
                       child: Text(
-                        "Balans",
+                        "Balans".tr,
                         style: CustomStyles.pageTitle,
                       ),
                     ),
@@ -68,13 +79,19 @@ class _BalancePageState extends State<BalancePage> {
                           padding: const EdgeInsets.only(
                             left: 10.0,
                           ),
-                          child: Text(
-                            "12,580",
-                            style: CustomStyles.pageTitle!.copyWith(
-                                color: AppColors.HRed,
-                                fontSize: 32,
-                                fontWeight: FontWeight.w900),
-                          ),
+                          child:
+                          GetBuilder<ProfilePageController>(builder: (_) {
+                            profileController.getData();
+                            return      Text(
+                              "${profileController.user.coins??" "}",
+                              style: CustomStyles.pageTitle!.copyWith(
+                                  color: AppColors.HRed,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w900),
+                            );
+                          }),
+
+
                         ),
                       ],
                     ),
@@ -94,21 +111,21 @@ class _BalancePageState extends State<BalancePage> {
                             color: Colors.black,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          tabs: const [
+                          tabs:  [
                             Tab(
-                              text: "   Price Transfers     ",
+                              text: "   ${"Transfer narxi".tr}      ",
                             ),
                             Tab(
-                              text: "         History          ",
+                              text: "         ${"Tarix".tr}          ",
                             ),
                           ]),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 20.h,
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: 800,
+                      height: 800.h,
                       child: TabBarView(
                         children: [
                           SingleChildScrollView(
@@ -182,7 +199,7 @@ class _BalancePageState extends State<BalancePage> {
                                 padding: const EdgeInsets.only(
                                     left: 12.0, bottom: 15),
                                 child: Text(
-                                  "Harajatlar",
+                                  "Harajatlar".tr,
                                   style: CustomStyles.dataTitle!.copyWith(
                                       color: Colors.black, fontSize: 16),
                                 ),
@@ -204,147 +221,106 @@ class _BalancePageState extends State<BalancePage> {
                                               BorderRadius.circular(5),
                                           color: Colors.white),
                                       child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                          // Row(
+                                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          //   children: [
+                                          //     const CircleAvatar(
+                                          //       child: Icon(
+                                          //         Icons.arrow_upward,
+                                          //         color: Colors.white,
+                                          //       ),
+                                          //       backgroundColor: AppColors.green, //
+                                          //     ),
+                                          //     Column(
+                                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                                          //       children: [
+                                          //         Text("Balansni to\'ldirish".tr,
+                                          //             style: CustomStyles.dataTitle!.copyWith(
+                                          //                 color: Colors.black, fontSize: 14)),
+                                          //         Text("Balansni to\'ldirish".tr,
+                                          //             style: CustomStyles.dataTitle!.copyWith(
+                                          //                 color: AppColors.chartC2, fontSize: 12)),
+                                          //       ],
+                                          //     ),
+                                          //     Text("+\$1,323.00",
+                                          //         style: CustomStyles.dataTitle!.copyWith(
+                                          //             color: AppColors.green, fontSize: 18)),
+                                          //   ],
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 8.h,
+                                          // ),
+                                          // Row(
+                                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          //   children: [
+                                          //     SizedBox(
+                                          //       child: VerticalDivider(),
+                                          //       height: 17.h,
+                                          //     ),
+                                          //     SizedBox(
+                                          //       child: Divider(),
+                                          //       width: 260.w,
+                                          //     ),
+                                          //   ],
+                                          // ),
+
+                                          // ListView.builder qo'llaniladi
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: NeverScrollableScrollPhysics(), // Scroll to'xtatilgan
+                                            itemCount:  controller.payment.length,//controller.payment.isEmpty ? 1 :
+                                            itemBuilder: (context, index) {
+
+                                              var payment = controller.payment[index];
+                                              return Column(
                                                 children: [
-                                                  CircleAvatar(
-                                                    child: Icon(
-                                                      Icons.arrow_upward,
-                                                      color: Colors.white,
-                                                    ),
-                                                    backgroundColor:
-                                                        AppColors.green, //
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Text("Balance Full",
-                                                          style: CustomStyles
-                                                              .dataTitle!
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      14)),
-                                                      Text("Balance Full",
-                                                          style: CustomStyles
-                                                              .dataTitle!
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .chartC2,
-                                                                  fontSize:
-                                                                      12)),
+                                                      const CircleAvatar(
+                                                        child: Icon(
+                                                          Icons.arrow_downward,
+                                                          color: Colors.white,
+                                                        ),
+                                                        backgroundColor: AppColors.light_red, //
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text("Transfer sotib olindi".tr,
+                                                              style: CustomStyles.dataTitle!.copyWith(
+                                                                  color: Colors.black, fontSize: 14)),
+                                                          Text("Tranfer uchun ishlatilindi".tr,
+                                                              style: CustomStyles.dataTitle!.copyWith(
+                                                                  color: AppColors.chartC2, fontSize: 12)),
+                                                        ],
+                                                      ),
+                                                      Text("-\$${payment.amount}",
+                                                          style: CustomStyles.dataTitle!.copyWith(
+                                                              color: AppColors.light_red, fontSize: 18)),
                                                     ],
                                                   ),
-                                                  Text("+\$1,323.00",
-                                                      style: CustomStyles
-                                                          .dataTitle!
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .green,
-                                                              fontSize: 18)),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              const Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  SizedBox(
-                                                    child: VerticalDivider(),
-                                                    height: 17,
-                                                  ),
-                                                  SizedBox(
-                                                    child: Divider(),
-                                                    width: 260,
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  CircleAvatar(
-                                                    child: Icon(
-                                                      Icons.arrow_downward,
-                                                      color: Colors.white,
-                                                    ),
-                                                    backgroundColor:
-                                                        AppColors.light_red, //
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                     children: [
-                                                      Text(
-                                                          "Transfer sotib olindi",
-                                                          style: CustomStyles
-                                                              .dataTitle!
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      14)),
-                                                      Text(
-                                                          "Tranfer uchun ishlatilindi",
-                                                          style: CustomStyles
-                                                              .dataTitle!
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .chartC2,
-                                                                  fontSize:
-                                                                      12)),
+                                                      SizedBox(
+                                                        child: VerticalDivider(),
+                                                        height: 17.h,
+                                                      ),
+                                                      SizedBox(
+                                                        child: Divider(),
+                                                        width: 260.w,
+                                                      ),
                                                     ],
                                                   ),
-                                                  Text("-\$150.00",
-                                                      style: CustomStyles
-                                                          .dataTitle!
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .light_red,
-                                                              fontSize: 18)),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              const Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
                                                   SizedBox(
-                                                    child: VerticalDivider(),
-                                                    height: 17,
-                                                  ),
-                                                  SizedBox(
-                                                    child: Divider(),
-                                                    width: 260,
+                                                    height: 8.h,
                                                   ),
                                                 ],
-                                              ),
-                                            ],
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -369,52 +345,4 @@ class _BalancePageState extends State<BalancePage> {
     });
   }
 }
-// Scaffold(
-//         appBar: AppBar(
-//           title: Text(
-//             "Balans",
-//             style: CustomStyles.pageTitle,
-//           ),
-//         ),
-//         body: Container(
-//           padding: EdgeInsets.all(20),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Row(
-//                 children: [
-//                   const Text(
-//                     "Hisobimda :",
-//                     style: TextStyle(fontSize: 20),
-//                   ),
-//                   Text(
-//                     "${controller.user.balance ?? ""}",
-//                     style: const TextStyle(
-//                         fontSize: 16, color: Color.fromRGBO(34, 245, 0, 1)),
-//                   )
-//                 ],
-//               ),
-//               Expanded(
-//                 child: ListView(
-//                   controller: ScrollController(),
-//                   children: List.generate(
-//                     controller.packets.length,
-//                     (index) {
-//                       TransferPacketModel packet = controller.packets[index];
-//                       return BalanceButton(
-//                         title: packet.name ?? "",
-//                         coins: packet.coinValue ?? 0,
-//                         itemIndex: index + 1,
-//                         chosenIndex: controller.index,
-//                         onPress: controller.onPacketChosen,
-//                         cost: packet.cost ?? 0,
-//                         transferNumber: packet.numberOfTransfers!,
-//                       );
-//                     },
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//        )
+

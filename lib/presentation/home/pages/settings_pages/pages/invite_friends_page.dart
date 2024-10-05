@@ -52,7 +52,7 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                             icon: Icon(Icons.arrow_back_ios)),
                         Spacer(),
                         Text(
-                          "Do'stlarni taklif qilish",
+                          "Do\'stlarga ulashing".tr,
                           style: CustomStyles.appBarStyle,
                         ),
                         Spacer(),
@@ -87,16 +87,16 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "Baham Ko’rish",
+                                     Text(
+                                      "Baham Ko\'rish".tr,
                                       style: TextStyle(
                                           fontSize: 24, fontWeight: FontWeight.w500),
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    const Text(
-                                      "Do’stlaringiz bilan baham ko’ring va ulashing",
+                                     Text(
+                                      "Do\'stlaringiz bilan baham ko\'ring va ulashing".tr,
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w400,
@@ -115,10 +115,10 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                         onPressed: () {
                                           controller.share();
                                         },
-                                        child: const Row(
+                                        child:  Row(
                                           children: [
                                             Text(
-                                              "Havolani almashish",
+                                              "Havolani almashish".tr,
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w400,
@@ -157,16 +157,16 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "Liga kodi",
+                                     Text(
+                                      "Liga kodi".tr,
                                       style: TextStyle(
                                           fontSize: 24, fontWeight: FontWeight.w500),
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    const Text(
-                                      "Ushbu havolani do'stlaringizga yuboring va ularni Ligaga taklif qiling",
+                                     Text(
+                                      "Ushbu havolani do'stlaringizga yuboring va ularni Ligaga taklif qiling".tr,
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w400,
@@ -229,16 +229,16 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "Ligaga havola",
+                                     Text(
+                                      "Ligaga havola".tr,
                                       style: TextStyle(
                                           fontSize: 24, fontWeight: FontWeight.w500),
                                     ),
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    const Text(
-                                      "Ushbu havolani do'stlaringizga yuboring va ularni Ligaga taklif qiling",
+                                     Text(
+                                      "Ushbu havolani do'stlaringizga yuboring va ularni Ligaga taklif qiling".tr,
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w400,

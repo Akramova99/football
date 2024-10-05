@@ -37,7 +37,10 @@ class IntroPage extends StatelessWidget {
                         Text(
                           "Fantasy football introduction",
                           style: CustomStyles.appBarStyle,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1, // Matnni bitta qatorda cheklash
                         ),
+
                         Spacer(),
                       ],
                     ),

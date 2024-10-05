@@ -1,15 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/leagues_controller/extra_leagues_page_controller.dart';
-import 'package:football/presentation/home/pages/home_pages/pages/leagues/create_league_page.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/constants/img_roots.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../utils/constants/app_colors.dart';
-import '../../../../../../utils/constants/styles.dart';
 import '../../../../../widgets/custom_button.dart';
-import 'join_league_page.dart';
 
 class ExtraLeaguesPage extends StatefulWidget {
   const ExtraLeaguesPage({super.key});
@@ -57,7 +54,7 @@ class _ExtraLeaguesPageState extends State<ExtraLeaguesPage> {
                         topLeft: Radius.circular(10))),
                 child:   Text(
                   textAlign: TextAlign.center,
-                  text,
+                  text.tr,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13),
@@ -84,7 +81,7 @@ class _ExtraLeaguesPageState extends State<ExtraLeaguesPage> {
                               height: 221,fit: BoxFit.cover,),
                           ),
                           Text(
-                            "Open Asia Championship (MW1-MW4) ",
+                            "Ochiq Osiyo chempionati".tr+" (MW1-MW4) ",
                             style: const TextStyle(
                                 color: Color.fromRGBO(0, 185, 0, 1),
                                 fontSize: 13),
@@ -92,7 +89,7 @@ class _ExtraLeaguesPageState extends State<ExtraLeaguesPage> {
                           Row(
                             children: [
                               Text(
-                                "Teams in:",
+                                "Jamoalar".tr+":",
                                 style:  TextStyle(
                                     color: Colors.black87,
                                     fontSize: 13),
@@ -108,7 +105,7 @@ class _ExtraLeaguesPageState extends State<ExtraLeaguesPage> {
                           Divider(),
                           CustomButton(
                             color: AppColors.baseColor,
-                            text: "Join This Prize league",
+                            text: "Ushbu sovrinli ligaga qo'shiling".tr,
                             onPress: () {
 
                             },
@@ -120,8 +117,6 @@ class _ExtraLeaguesPageState extends State<ExtraLeaguesPage> {
                   ],//Open Asia Championship (MW1-MW4)
                 ),
               ),
-
-
             ],
           ),
         );

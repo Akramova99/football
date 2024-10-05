@@ -3,7 +3,7 @@ import 'package:football/presentation/home/pages/settings_pages/controllers/noti
 import 'package:football/presentation/widgets/notification_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../utils/constants/img_roots.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -57,12 +57,15 @@ class _NotificationPageState extends State<NotificationPage> {
                                 Navigator.pop(context);
                               },
                               icon: Icon(Icons.arrow_back_ios)),
-                          Spacer(),
-                          Text(
-                            "Bildirishnomalar",
-                            style: CustomStyles.appBarStyle,
+
+                          Padding(
+                            padding:  EdgeInsets.only(right: 98.w),
+                            child: Text(
+                              "Bildirishnomalar".tr,
+                              style: CustomStyles.appBarStyle,
+                            ),
                           ),
-                          Spacer(),
+
                         ],
                       ),
                     ),
@@ -78,7 +81,7 @@ class _NotificationPageState extends State<NotificationPage> {
                           onTap: () {
 
                             showNotif(context, notification);
-                            controller.removeNotification(notification);
+                           controller.removeNotification(notification);
                           },
                           child: NotificationWidget(
                             key: ValueKey(notification.title),
@@ -87,8 +90,8 @@ class _NotificationPageState extends State<NotificationPage> {
                         );
                       },
                     )
-                        : const Center(
-                        child: Text("Sizda bildirishnomalr yoq"),
+                        :  Center(
+                        child: Text("Sizda bildirishnomalr yoq".tr),
                     ),
                   ],
                 ),

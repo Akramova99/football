@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:football/services/db_service.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../../../../../models/league_detail_model.dart';
 import '../../../../../../models/league_model.dart';
@@ -92,6 +93,7 @@ class ExtraLeaguesPageController extends GetxController {
           ToastService.showSuccess("Siz ligaga qo'shildingiz");
         } else {
           errorMessage = response.statusMessage;
+          Logger().e(errorMessage);
         }
       } on DioException catch (e) {
         if (e.response!.statusCode == 409) {

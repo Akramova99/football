@@ -2,26 +2,32 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:football/utils/constants/styles.dart';
+import 'package:logger/logger.dart';
 
+import '../../../models/statistic_model.dart';
 import '../pages/statistics/controllers/player_detail_controller.dart';
 
 class PlayerDetailWidget extends StatelessWidget {
   //i need PlayerDetailModel
 
   final PlayerDetailController controller;
+  final  StatisticModel playerModel;
 
   const PlayerDetailWidget({
     super.key,
     required this.controller,
+    required this.playerModel,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Logger().d(playerModel.playerNumber);
+      },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-        height: 109,
+     //   height: 109,
         decoration: BoxDecoration(
           color: AppColors.statistic,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -41,7 +47,7 @@ class PlayerDetailWidget extends StatelessWidget {
                       child: CachedNetworkImage(
                         height: 45,
                         width: 41,
-                        imageUrl: controller.modelCurrent?.player?.jersey ?? "",
+                        imageUrl: playerModel.playerJersey ?? "",
                         placeholder: (context, url) => Image.asset(
                           'assets/images/team/placeholder.png',
                         ),
@@ -55,13 +61,13 @@ class PlayerDetailWidget extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      controller.modelCurrent?.player?.name ?? "",
+                      playerModel.playerName ?? "",
                       style: CustomStyles.appBarStyle
                           .copyWith(color: Colors.white),
                     ),
                   ],
                 ),
-                SizedBox(width: 90,),
+
                 Stack(
                   children: [
                     Image.asset(
@@ -72,7 +78,7 @@ class PlayerDetailWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 14.0, top: 12),
                       child: Text(
-                        controller.modelCurrent?.player?.playerNumber
+                        playerModel.playerNumber
                                 .toString() ??
                             "",
                         style: CustomStyles.appBarStyle
@@ -95,35 +101,38 @@ class PlayerDetailWidget extends StatelessWidget {
             Row(
  mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Row(
-                children: [
-                  Text(
-                    "Narxi:",
-                    style: const TextStyle(
-                        fontSize: 13.14,
-                        color: AppColors.textColor,
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      "${controller.modelCurrent?.player?.price.toString()}\$",
-                      style: const TextStyle(
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      "Narxi:",
+                      style: TextStyle(
                           fontSize: 13.14,
-                          color: Colors.white,
+                          color: AppColors.textColor,
                           fontFamily: "Poppins",
-                          fontWeight: FontWeight.w600),
+                          fontWeight: FontWeight.w500),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        "${controller.modelCurrent?.player?.price.toString()}\$",
+                        style: const TextStyle(
+                            fontSize: 13.14,
+                            color: Colors.white,
+                            fontFamily: "Poppins",
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Pozitsiyasi:",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 13.14,
                           color: AppColors.textColor,
                           fontFamily: "Poppins",
@@ -144,22 +153,33 @@ class PlayerDetailWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text(
-                      "Klubi:",
-                      style: const TextStyle(
+                    const Text(
+                      "Klubi: ",
+                      style: TextStyle(
                           fontSize: 13.14,
                           color: AppColors.textColor,
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w500),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child:   Image.asset(
-                        "assets/images/team/club_img.png",
-                        width: 23,
-                        height: 20,
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 8.0),
+                    //   child:   Image.asset(
+                    //     "assets/images/team/club_img.png",
+                    //     width: 23,
+                    //     height: 20,
+                    //   ),
+                    // ),
+                    CachedNetworkImage(
+                      height: 20,
+                      width: 23,
+                      imageUrl: playerModel.clubLogo ?? "",
+                      placeholder: (context, url) => Image.asset(
+                        'assets/images/team/placeholder.png',
                       ),
-                    ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        'assets/images/team/placeholder.png',
+                      ),
+                    )
                   ],
                 )
               ],

@@ -10,8 +10,10 @@ import 'package:football/presentation/widgets/toast.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/converter.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../../../../models/player_selection_model.dart';
+import '../../../../../models/standing_model.dart';
 import '../../../../../models/team_model.dart';
 import '../../../../../services/db_service.dart';
 import '../../../../../services/dio_service.dart';
@@ -22,8 +24,10 @@ class TransferPageController extends GetxController {
   String? balance;
   int points = 0;
   TeamModel team = TeamModel();
-  TransferSummaryModel transferSummaryModel = TransferSummaryModel();
+  TransferSummaryModel transferSummaryModel =
+      TransferSummaryModel(balance: 0.0);
   bool isLoading = false;
+  bool isLoading2 = false;
   late String userId;
 
   List<bool> chosen = List.generate(15, (_) => false);
@@ -40,15 +44,17 @@ class TransferPageController extends GetxController {
   List<Player> selectivePlayers = [];
   List<Player> playersDetails = [];
   int clubsIndex = 0;
-
   String deadline = "";
   MatchWeek matchWeek = MatchWeek();
+  List<Team> standing = [];
+  List<int> indexes = [];
 
   getTransferSummary() async {
+    String userId = DbService.getUserId();
     var response =
         await DioService.GET(DioService.TRANSFER_SUMMARY + userId, null);
     transferSummaryModel = transferSummaryModelFromJson(response);
-
+    Logger().i(transferSummaryModel.balance);
     var _deadline =
         await DioService.dio.get<String>("/api/calendars/get-start-match-week");
     if (_deadline.statusCode == 200) {
@@ -75,6 +81,13 @@ class TransferPageController extends GetxController {
     update();
   }
 
+  getStanding() async {
+    var response = await DioService.GET(DioService.STANDING_PLAYERS, null);
+    standing = standingModelFromJson(response);
+    Logger().i(standing[0].leagueId);
+    update();
+  }
+
   String previous = "Forward";
 
   onClubChange(int? index) {
@@ -89,7 +102,7 @@ class TransferPageController extends GetxController {
       'Goalkeeper'.toUpperCase(): tatcic![0],
       'Defender'.toUpperCase(): tatcic[1],
       'Midfielder'.toUpperCase(): tatcic[2],
-      'Forward'.toUpperCase(): tatcic[3],
+      'Forward'.toUpperCase(): tatcic[3]
     };
     return values;
   }
@@ -98,6 +111,7 @@ class TransferPageController extends GetxController {
     userId = DbService.getUserId();
     var response =
         await DioService.GET(DioService.GET_MYTEAM_API + userId, null);
+    Logger().i(response);
     var result = teamModelFromJson(response);
     team = result;
     primaryTeam = fillTeamWithRequiredPositions(team.players!, getTactics());
@@ -122,9 +136,8 @@ class TransferPageController extends GetxController {
 
   selectPlayer(Player player) {
     var index = primaryTeam.indexOf(player);
-    List<Player> list = [];
     // Reset chosen list
-
+    Logger().i("select");
     if (isExpandedList[index]) {
       isExpandedList[index] = false;
     } else {
@@ -140,25 +153,27 @@ class TransferPageController extends GetxController {
       }
       previous = player.position!;
       searchPlayers(player.position);
-      selectivePlayers = list;
-      playersDetails = list;
+      selectivePlayers.clear();
+      playersDetails.clear();
     }
     update();
   }
 
   sellPLayer(Player player) async {
-    print("selling");
-    var index = primaryTeam.indexOf(player);
+    Logger().i("selling");
+
+    int index = primaryTeam.indexOf(player);
     if (index != -1) {
       try {
         var response = await DioService.dio
             .post(DioService.sellPLayer(userId, team.id, player.id));
 
         if (response.statusCode == 200) {
-          print(
-              "player sold:\nposition:${player.position}\nis primary: ${player.isPrimary}");
+          Logger().i(
+              "player sold:\nposition:${player.position}\nis primary: ${player.isPrimary}\nindex$index");
           primaryTeam[index] =
               Player(position: player.position, isPrimary: player.isPrimary);
+          indexes.add(index);
         }
         getTransferSummary();
         update();
@@ -173,32 +188,43 @@ class TransferPageController extends GetxController {
   }
 
   buyPlayer(Player player) async {
-    for (var i = 0; i < chosen.length; i++) {
-      if (chosen[i]) {
-        bool isPrimary = primaryTeam[i].isPrimary!;
-        try {
-          var response = await DioService.dio.post(
-              DioService.buyPLayer(userId, team.id, player.id, isPrimary));
-
-          if (response.statusCode == 200) {
-            print(
-                "player bought\n name:${player.name}\npostion:${player.position}\nis primary: $isPrimary");
-            primaryTeam[i] = player;
-            print(primaryTeam[i].name);
-            selectivePlayers.remove(player);
-            // var response = await DioService.POST(
-            //     DioService.buyPLayer(userId, team.id, player.id), null);
-            // print(response);
-
-            update();
-            getTransferSummary();
-            chosen[i] = false;
-            playerToBuy.remove(player);
-          } else {
-            print(response.statusMessage);
+    // Logger().e(chosen[i]);
+    if (true) {
+      isLoading2 = false;
+      bool isPrimary = player.isPrimary ?? true;
+      Logger().e(isPrimary);
+      try {
+        var response = await DioService.dio
+            .post(DioService.buyPLayer(userId, team.id, player.id, isPrimary));
+        Logger().i(
+            "player bought\n userId:${userId}\nteam.id:${team.id}\nis player.id: ${player.id}\nis isPrimary: ${isPrimary}");
+        if (response.statusCode == 200) {
+          Logger().i(
+              "player bought\n name:${player.name}\npostion:${player.position}\nis primary: $isPrimary");
+          for (int item in indexes) {
+            primaryTeam[item] = player;
+            indexes.remove(item);
+            break;
           }
-        } on Exception catch (e) {}
-        ToastService.showError("Xatolik");
+
+          selectivePlayers.remove(player);
+          // var response = await DioService.POST(
+          //     DioService.buyPLayer(userId, team.id, player.id), null);
+          // print(response);
+
+          update();
+          getTransferSummary();
+
+          playerToBuy.remove(player);
+          isLoading2 = true;
+          ToastService.showSuccess("Sotib olindi");
+          Logger().e("Sotib olindi");
+        } else {
+          Logger().e(response.statusMessage.toString());
+        }
+      } on Exception catch (e) {
+        ToastService.showError("BUdget yetarli emas");
+        Logger().e(e);
       }
     }
   }
@@ -264,6 +290,6 @@ class TransferPageController extends GetxController {
 
   goToBalancePage(context) {
     Navigator.pop(context);
-    Get.find<BasePageController>().onBottomNavItemClick(1);
+    Get.find<BasePageController>().onBottomNavItemClick(2);
   }
 }

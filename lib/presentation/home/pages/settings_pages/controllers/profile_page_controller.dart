@@ -40,7 +40,7 @@ bool isUpload =false;
 
   getData() async {
     userId = DbService.getUserId();
-    Logger().i("Pfofile data: $userId");
+    //Logger().i("Pfofile data: $userId");
     var response =
         await DioService.GET(DioService.USER_DATA_API + userId, null);
     user = userModelFromJson(response);

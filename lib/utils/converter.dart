@@ -22,6 +22,7 @@ Player convertToPlayer(PlayerSelectionModel player) {
     position: player.position,
     playerNumber: player.playerNumber,
     clubName: player.clubName,
+    clubLogo: player.clubLogo,
     price: player.price,
     currentScore: player.currentScore,
     score: player.score,

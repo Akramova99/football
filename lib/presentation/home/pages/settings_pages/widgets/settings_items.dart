@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:football/utils/constants/styles.dart';
 
 import '../../../../../utils/constants/app_colors.dart';
+import 'package:get/get.dart';
 
 
 
 class SettingsItem extends StatelessWidget {
   final Map data;
+  final Map<String,String> data2;
   final Function changeLanguage;
 
   const SettingsItem(
-      {super.key, required this.data, required this.changeLanguage});
+      {super.key, required this.data, required this.changeLanguage,required this.data2});
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +53,11 @@ class SettingsItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  data["label"]!,
+                  data2["label"]!.tr,
                   style: CustomStyles.pageTitle!.copyWith(fontSize: 14),
                 ),
                 Text(
-                  data["label"]!,
+                  data2["label"]!.tr,
                   style: CustomStyles.popText.copyWith(fontSize: 10,color: AppColors.purple),
                 ),
               ],

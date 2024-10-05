@@ -11,7 +11,6 @@ class TacticsMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder<CreateTeamController>(builder: (_) {
       return DropdownButtonHideUnderline(
         child: DropdownButton<int>(
@@ -64,7 +63,6 @@ class TacticsMenuButton extends StatelessWidget {
   }
 }
 
-
 class TacticsMenuButton2 extends StatelessWidget {
   final MyTeamController controller;
 
@@ -72,53 +70,57 @@ class TacticsMenuButton2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GetBuilder<CreateTeamController>(builder: (_) {
-      return DropdownButtonHideUnderline(
-        child: DropdownButton<int>(
-          value: controller.tacticsIndex,
-          style: const TextStyle(
-            color: Colors.black,
-            // Color of the items when displayed in the dropdown
-            fontSize: 20,
-          ),
-          dropdownColor: Colors.white,
-          items: List<DropdownMenuItem<int>>.generate(
-            4,
-                (int index) => DropdownMenuItem<int>(
-              value: index,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  tacticsString[index],
-                  style: const TextStyle(
-                    color: Colors.black,
-                    // Color of the items when displayed in the dropdown
-                    fontSize: 20,
+      return Padding(
+        padding: const EdgeInsets.only(right: 12.0),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<int>(
+            menuWidth: 120,
+            borderRadius: BorderRadius.circular(20),
+            value: controller.tacticsIndex,
+            style: const TextStyle(
+              color: Colors.white,
+              // Color of the items when displayed in the dropdown
+              fontSize: 20,
+            ),
+            dropdownColor: Colors.black.withOpacity(0.56),
+            items: List<DropdownMenuItem<int>>.generate(
+              4,
+              (int index) => DropdownMenuItem<int>(
+                value: index,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    tacticsString[index],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      // Color of the items when displayed in the dropdown
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          selectedItemBuilder: (BuildContext context) {
-            return [
-              for (String item in tacticsString)
-                Center(
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      // Color of the selected item when closed
-                      fontSize: 20,
+            selectedItemBuilder: (BuildContext context) {
+              return [
+                for (String item in tacticsString)
+                  Center(
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        // Color of the selected item when closed
+                        fontSize: 20,
+                      ),
                     ),
-                  ),
-                )
-            ];
-          },
-          onChanged: (index) {
-            controller.onTacticsChange(index);
-          },
-          icon: const Icon(null, color: Colors.white),
+                  )
+              ];
+            },
+            onChanged: (index) {
+              controller.onTacticsChange(index);
+            },
+            icon: const Icon(null, color: Colors.white),
+          ),
         ),
       );
     });

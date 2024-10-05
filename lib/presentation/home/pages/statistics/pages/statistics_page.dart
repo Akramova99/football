@@ -8,7 +8,6 @@ import '../../../../../utils/constants/img_roots.dart';
 import '../../../../../utils/constants/styles.dart';
 import '../../../../intro/controllers/create_team_controller.dart';
 import '../../../widgets/dropdawn_buttons.dart';
-import '../../home_pages/controllers/transfer_page_controller.dart';
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
@@ -21,7 +20,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
   final controller = Get.find<StatisticsPageController>();
   final filter = Get.find<CreateTeamController>();
 
-  String myValue= "Clubs";
+  String myValue = "Clubs";
+
   @override
   void didChangeDependencies() {
     filter.getClubs();
@@ -29,6 +29,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     Logger().w(controller.isCheck);
     super.didChangeDependencies();
   }
+
   // @override
   // void initState() {
   //   super.initState();
@@ -60,33 +61,37 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       top: 40.0,
                     ),
                     child: Text(
-                      "O'yinchilar statistikasi",
+                      "O'yinchilar statistikasi".tr,
                       style: CustomStyles.pageTitle,
                     ),
                   ),
-                   const Row(
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      DropdownBut(text: "Clubs", isClub: true,),
-                      DropdownBut(text: "Position", isClub: false,),
-
+                      DropdownBut(
+                        text: "Clubs",
+                        isClub: true,
+                      ),
+                      DropdownBut(
+                        text: "Position",
+                        isClub: false,
+                      ),
                     ],
                   ),
-
                   ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-Logger().e(controller.statics[index].playerName);
+                       // Logger().e(controller.statics[index].playerName);
                         return PlayerStatisticWidget(
                           controller: controller,
                           index: index,
                         );
                       },
                       itemCount: controller.statics.length),
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
-
                 ],
               ),
             ),

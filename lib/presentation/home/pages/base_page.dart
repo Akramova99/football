@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
 
 class BasePage extends StatefulWidget {
+  static const String id = "basepage";
   const BasePage({super.key});
 
   @override

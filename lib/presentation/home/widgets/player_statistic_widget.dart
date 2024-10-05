@@ -31,15 +31,15 @@ class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
     return GetBuilder<StatisticsPageController>(builder: (_) {
       return GestureDetector(
         onTap: () {
-          widget.controller
-              .callPLayerDetailPage(controller.players!, context);
+        widget.controller
+              .callPLayerDetailPage(controller.players!, context,widget.controller,widget.index);
         },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
           height: 145,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.statistic,
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           padding: const EdgeInsets.only(top: 22, left: 16),
           child: Row(
@@ -89,9 +89,8 @@ class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
                 child: CachedNetworkImage(
                   height: 143,
                   width: 127,
-                  imageUrl: controller.statics.isNotEmpty
-                      ? controller.statics[widget.index].clubLogo
-                      : "",
+                  imageUrl: controller.statics[widget.index].playerJersey??
+                       "",
                   placeholder: (context, url) =>
                       Image.asset('assets/images/team/placeholder.png'),
                   errorWidget: (context, url, error) => Image.asset(

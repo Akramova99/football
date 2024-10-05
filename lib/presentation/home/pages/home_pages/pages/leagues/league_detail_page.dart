@@ -41,6 +41,7 @@ class _LeagueDetailPageState extends State<LeagueDetailPage> {
                 ]),
             width: double.infinity,
             child: SoccerRankingTable(
+              isSeeAll: true,
               teams: controller.team,
             ),
           ));

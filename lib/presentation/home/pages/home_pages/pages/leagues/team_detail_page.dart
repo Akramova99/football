@@ -1,10 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/leagues_controller/team_detail_page_controller.dart';
-import 'package:football/presentation/widgets/points_player_widget.dart';
 import 'package:football/presentation/widgets/team_name_widget.dart';
 import 'package:get/get.dart';
+
+import '../../../../../../utils/constants/app_colors.dart';
+import '../../../../../../utils/constants/styles.dart';
 import '../../../../../widgets/change_player_football_field.dart';
+import '../players_places.dart';
 
 class TeamDetailPage extends StatefulWidget {
   final int id;
@@ -31,25 +35,55 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
         appBar: AppBar(
           title: Text("Team detail"),
         ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              controller.isLoading
-                  ? const CircularProgressIndicator()
-                  : Column(
-                      children: [
-                        TeamNameWidget(
-                          icon: controller.team.logo,
-                          name: controller.team.name,
-                        ),
-                        TeamDetailWidget(
-                          controller: controller,
-                        ),
-                      ],
-                    )
-            ],
+        body: Padding(
+          padding: const EdgeInsets.all(0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (controller.isLoading) const CircularProgressIndicator() else Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: AppColors.field.withOpacity(0.45),
+                                border: Border.all(color: Colors.white),
+                                borderRadius: const BorderRadius.only(
+                                    bottomRight: Radius.circular(
+                                      10,
+                                    ),
+                                    bottomLeft: Radius.circular(10))),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    controller.team.name ?? "",
+                                    style: CustomStyles.pageTitle!.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                                Spacer(),
+                                CachedNetworkImage(
+                                  height: 32,
+                                  width: 27,
+                                  imageUrl:  controller.team.logo ?? "",
+                                  placeholder: (context, url) => Container(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          TeamDetailWidget(
+                            controller: controller,
+                          ),
+                        ],
+                      )
+              ],
+            ),
           ),
         ),
       );
@@ -71,12 +105,13 @@ class TeamDetailWidget extends StatelessWidget {
       aspectRatio: 1501 / 2400,
       child: Stack(
         children: [
-           Center(
+          Center(
             child: Image(
               image: AssetImage("assets/images/team/football_field.png"),
               fit: BoxFit.cover,
               width: 370.w,
-              height: 423.h,          ),
+              height: 510.h,
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,37 +127,28 @@ class TeamDetailWidget extends StatelessWidget {
     controller.players = players[1];
     List<Widget> list = [];
 
+    // Har bir pozitsiyadagi o'yinchilarni PointsPlayerWidget1 asosida chiqaramiz
     var goalKeeper = 2;
-
-    list.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(
-          goalKeeper,
-          (i) => GestureDetector(
-            child: PointsPlayerWidget(player: controller.players[0 + i]),
-          ),
-        )));
+    list.add(buildRow(goalKeeper, 0));
 
     var defender = 5;
-    list.add(buildRow(defender, 1, goalKeeper));
+    list.add(buildRow(defender, goalKeeper));
 
     var midfielder = 5;
-    list.add(buildRow(midfielder, 2, defender + goalKeeper));
+    list.add(buildRow(midfielder, defender + goalKeeper));
 
     var forward = 3;
-    list.add(buildRow(forward, 3, defender + midfielder + goalKeeper));
+    list.add(buildRow(forward, defender + midfielder + goalKeeper));
+
     return list;
   }
 
-  buildRow(int playerNumber, int position, int index) {
+  buildRow(int playerNumber, int index) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(
           playerNumber,
-          (i) => GestureDetector(
-            onTap: () {},
-            child: PointsPlayerWidget(player: controller.players[index + i]),
-          ),
+          (i) => PointsPlayerWidget1(player: controller.players[index + i]),
         ));
   }
 }

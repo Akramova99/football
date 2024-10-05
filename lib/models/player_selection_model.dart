@@ -14,6 +14,7 @@ String playerModelToJson(List<PlayerSelectionModel> data) => json.encode(List<dy
     String? position;
     dynamic playerNumber;
     String? clubName;
+    String? clubLogo;
     double? price;
     int? currentScore;
     int? score;
@@ -25,6 +26,7 @@ String playerModelToJson(List<PlayerSelectionModel> data) => json.encode(List<dy
     this.position,
     this.playerNumber,
     this.clubName,
+    this.clubLogo,
     this.price,
     this.currentScore,
     this.score,
@@ -37,6 +39,7 @@ String playerModelToJson(List<PlayerSelectionModel> data) => json.encode(List<dy
     position: json["position"],
     playerNumber: json["playerNumber"],
     clubName: json["clubName"],
+    clubLogo: json["clubLogo"],
     price: json["price"]?.toDouble(),
     currentScore: json["currentScore"],
     score: json["score"],
@@ -49,6 +52,7 @@ String playerModelToJson(List<PlayerSelectionModel> data) => json.encode(List<dy
     "position": position,
     "playerNumber": playerNumber,
     "clubName": clubName,
+    "clubLogo": clubLogo,
     "price": price,
     "currentScore": currentScore,
     "score": score,

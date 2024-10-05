@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/calendar_page_controller.dart';
 import 'package:get/get.dart';
 
@@ -34,9 +35,13 @@ class _CalendarPageState extends State<CalendarPage> {
               child: Scaffold(
                 backgroundColor: Color.fromRGBO(241, 241, 241, 1),
                 appBar: AppBar(
+                  automaticallyImplyLeading: false,
                   backgroundColor: Colors.white,
+                  leading: IconButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, icon: Icon(Icons.arrow_back_ios,size: 23,)),
                   title: Text(
-                    'Taqvim',
+                    'Taqvim'.tr,
                     style: CustomStyles.pageTitle,
                   ),
                   bottom: TabBar(
@@ -53,68 +58,46 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                   ),
                 ),
-                body: Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
+                body: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          height: 400.h, // Muayyan balandlik belgilash
                           child: TabBarView(
                             children: controller.matches
                                 .map((match) => MatchListView(
-                                      matches: match,
-                                    ))
+                              matches: match,
+                            ))
                                 .toList(),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    controller.callAllRating(context);
-                                  },
-                                  child: Text(
-                                    "Umumiy Reyting",
-                                    style: CustomStyles.pageTitle,
-                                  ),
-                                ),
+                        SizedBox(height: 20.h),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
                               ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.2),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                  color: Colors.white,
-                                ),
-                                child: SoccerRankingTable(
-                                  teams: controller.teams,
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: SoccerRankingTable(
+                            isSeeAll: true,
+                            teams: controller.teams,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -122,17 +105,18 @@ class _CalendarPageState extends State<CalendarPage> {
           : Scaffold(
               appBar: AppBar(
                 title: Text(
-                  "Taqvim",
+                  "Taqvim".tr,
                   style: CustomStyles.pageTitle,
                 ),
               ),
-              body: const Center(
+              body:  Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircularProgressIndicator(),
                     Text(
-                      "Please wait...",
+                      "${"Iltimos kuting".tr}...",
                       style: TextStyle(fontSize: 30),
                     )
                   ],

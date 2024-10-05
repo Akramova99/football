@@ -52,6 +52,7 @@ class Player {
   String? name;
   String? position;
   String? clubName;
+  String? clubLogo;
   String? jersey;
   int? score;
   double? price;
@@ -66,6 +67,7 @@ class Player {
     this.name,
     this.position,
     this.clubName,
+    this.clubLogo,
     this.jersey,
     this.score,
     this.price,
@@ -81,6 +83,7 @@ class Player {
     name: json["name"],
     position: json["position"],
     clubName: json["clubName"],
+    clubLogo: json["clubLogo"],
     jersey: json["jersey"],
     score: json["score"],
     price: json["price"]?.toDouble(),
@@ -96,6 +99,7 @@ class Player {
     "name": name,
     "position": position,
     "clubName": clubName,
+    "clubLogo": clubLogo,
     "jersey": jersey,
     "score": score,
     "price": price,
