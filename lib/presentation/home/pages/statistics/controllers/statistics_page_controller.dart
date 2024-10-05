@@ -21,6 +21,7 @@ class StatisticsPageController extends GetxController {
     var response = await DioService.GET(DioService.getPlayerDetails(playerId), null);
     var result = playerDetailModelFromJson(response);
     players = result.player;
+    update();
   }
 
   // Fetch statistics with dynamic filtering by position and club

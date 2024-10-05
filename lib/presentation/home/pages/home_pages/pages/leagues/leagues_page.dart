@@ -78,11 +78,16 @@ class _LeaguesPageState extends State<LeaguesPage> {
             builder: (_) {
               return Stack(
                 children: [
-                  Image.asset(
-                    ImgRoots.bg3,
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height,
-                    fit: BoxFit.cover,
+                  Center(
+                    child: Positioned(
+                      top: 0,
+                      child: Image.asset(
+                        ImgRoots.bg3,
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   Column(
                     children: [

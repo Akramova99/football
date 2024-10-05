@@ -44,11 +44,13 @@ class _StatisticsPageState extends State<StatisticsPage> {
         backgroundColor: Color.fromRGBO(241, 241, 241, 1),
         body: Stack(
           children: [
-            Image.asset(
-              ImgRoots.bg1,
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height,
-              fit: BoxFit.cover,
+            Center(
+              child: Image.asset(
+                ImgRoots.bg1,
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height,
+                fit: BoxFit.cover,
+              ),
             ),
             SingleChildScrollView(
               child: Column(

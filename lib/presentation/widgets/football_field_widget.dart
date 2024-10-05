@@ -6,9 +6,10 @@ import 'package:football/presentation/intro/controllers/create_team_controller.d
 import 'package:football/presentation/widgets/player_selection_widget.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/converter.dart';
-import 'package:get/get.dart';
 
-import '../../models/team_model.dart';
+import '../../../utils/size.dart';
+
+
 import 'change_player_football_field.dart';
 
 class CreateTeamWidget extends StatelessWidget {
@@ -24,13 +25,15 @@ class CreateTeamWidget extends StatelessWidget {
       aspectRatio: 1501 / 1700, //2400
       child: Stack(
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.symmetric(horizontal: 6.0),
-            child: Image(
-              image: AssetImage("assets/images/team/football_field.png"),
-              fit: BoxFit.cover,
-              width: 370,
-              height: 423,
+            child: Center(
+              child: Image(
+                image: AssetImage("assets/images/team/football_field.png"),
+                fit: BoxFit.cover,
+                width: 370.w,
+                height: 423.h,
+              ),
             ),
           ),
           Column(
@@ -264,11 +267,13 @@ class CapitanSelectionWidget extends StatelessWidget {
       aspectRatio: 1501 / 2100,
       child: Stack(
         children: [
-          const Image(
-            width: 370,
-            height: 462,
-            image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.cover,
+          Center(
+            child:  Image(
+              width: 370.w,
+              height: 462.h,
+              image: AssetImage("assets/images/team/football_field.png"),
+              fit: BoxFit.cover,
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -207,9 +207,13 @@ class TransferFootballField extends StatelessWidget {
       aspectRatio:18/24,
       child: Stack(
         children: [
-          const Image(
-            image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.fitWidth,
+          Center(
+            child:  Image(
+              image: AssetImage("assets/images/team/football_field.png"),
+              width: 370.w,
+              height: 423.h,
+              fit: BoxFit.cover,
+            ),
           ),
           Container(
             padding: const EdgeInsets.only(top: 20),

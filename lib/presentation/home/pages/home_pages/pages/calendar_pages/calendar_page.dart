@@ -27,7 +27,8 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CalendarPageController>(builder: (_) {
-      return controller.isDataReady
+      return
+        controller.isDataReady
           ? DefaultTabController(
               length: controller.weeks.length,
               child: Scaffold(

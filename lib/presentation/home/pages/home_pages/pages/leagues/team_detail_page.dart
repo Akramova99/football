@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/leagues_controller/team_detail_page_controller.dart';
 import 'package:football/presentation/widgets/points_player_widget.dart';
 import 'package:football/presentation/widgets/team_name_widget.dart';
 import 'package:get/get.dart';
-
 import '../../../../../widgets/change_player_football_field.dart';
 
 class TeamDetailPage extends StatefulWidget {
@@ -71,11 +71,13 @@ class TeamDetailWidget extends StatelessWidget {
       aspectRatio: 1501 / 2400,
       child: Stack(
         children: [
-          const Image(
-            image: AssetImage("assets/images/team/football_field.png"),
-            fit: BoxFit.cover,
-            width: 370,
-            height: 423,          ),
+           Center(
+            child: Image(
+              image: AssetImage("assets/images/team/football_field.png"),
+              fit: BoxFit.cover,
+              width: 370.w,
+              height: 423.h,          ),
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: buildList(),

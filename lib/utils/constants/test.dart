@@ -54,7 +54,7 @@ final teamLogos = [
   'assets/images/test/img_10.png',
   'assets/images/test/img_11.png',
   'assets/images/test/img_12.png',
-  'assets/images/test/username_img.png',
+//  'assets/images/test/username_img.png',
   'assets/images/test/img_1.png',
   'assets/images/test/img_2.png',
   'assets/images/test/img_3.png',
@@ -67,7 +67,7 @@ final teamLogos = [
   'assets/images/test/img_10.png',
   'assets/images/test/img_11.png',
   'assets/images/test/img_12.png',
-  'assets/images/test/username_img.png',
+  //'assets/images/test/username_img.png',
 ];
 
 List<LeagueModel> generateRandomLeagues(int count) {

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/settings_pages/controllers/profile_page_controller.dart';
 import 'package:football/presentation/widgets/custom_button.dart';
@@ -16,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final controller = Get.find<ProfilePageController>();
-
+bool isChooseImg =false;
   @override
   void initState() {
     super.initState();
@@ -76,63 +77,17 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                width: 100,
-                                height: 100,
-                                child: Stack(
-                                  alignment: Alignment.bottomRight,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.3),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                              offset: Offset(0, 3),
-                                            ),
-                                          ]),
-                                      width: 100,
-                                      height: 100,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: controller.profileImage != null
-                                            ? Image.network(
-                                                controller.profileImage!,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Container(
-                                                color: Colors.grey,
-                                              ),
-                                      ),
-                                    ),
-
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(26),
-                                        border: Border.all(
-                                            color: Colors.black, width: 2),
-                                        color: Colors.orange,
-                                      ),
-                                      child: IconButton(
-                                        color: Colors.white,
-                                        onPressed: () {
-                                          controller.chooseImage();
-                                        },
-                                        icon: const Icon(
-                                          Icons.edit,
-                                          size: 16,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                              !isChooseImg
+                                  ? InkWell(
+                                onTap: () async {
+                                  await controller.chooseImage();
+                                  setState(() {
+                                    isChooseImg = true;
+                                  });
+                                },
+                                child: _buildImagePicker(),
+                              )
+                                  : _buildSelectedImage(),
 
 
 
@@ -367,5 +322,93 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     });
+  }
+
+  Widget _buildImagePicker() {
+    return Center(
+      child: Stack(
+        children: [
+          ClipOval(
+            child: Image.asset(
+              'assets/images/settings/default_img.png',
+              width: 90,
+              height: 87,
+              fit: BoxFit.cover,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSelectedImage() {
+    return Center(
+      child: Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                child: ClipOval(
+                  child: controller.isUpload
+                      ? Image.file(
+                    controller.imageFile!,
+                    width: 90,
+                    height: 87,
+                    fit: BoxFit.cover,
+                  )
+                      : Image.asset(
+                    'assets/images/settings/default_img.png',
+                    width: 90,
+                    height: 87,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 100),
+                        IconButton(
+                          onPressed: () async {
+                            setState(() {
+                              controller.isUpload = false;
+                              isChooseImg = false;
+                            });
+
+                            // Allow some time for the UI to reset
+                            await Future.delayed(const Duration(milliseconds: 100));
+
+                            // Then call chooseImage
+                            await controller.chooseImage();
+
+                            // Make sure to call setState again after image is picked
+                            setState(() {
+                              isChooseImg = true;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.close_outlined,
+                            color: AppColors.redy,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

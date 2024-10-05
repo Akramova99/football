@@ -34,10 +34,12 @@ class _NotificationPageState extends State<NotificationPage> {
       return Scaffold(
         body: Stack(
           children: [
-            Image.asset(
-              ImgRoots.bg1,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            Center(
+              child: Image.asset(
+                ImgRoots.bg1,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

@@ -9,6 +9,7 @@ import 'package:football/presentation/widgets/football_field_widget.dart';
 import 'package:football/utils/constants/img_roots.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/converter.dart';
@@ -28,6 +29,7 @@ class CreateTeamPage extends StatefulWidget {
 class _CreateTeamPageState extends State<CreateTeamPage> {
   final controller = Get.find<CreateTeamController>();
   final controller2 = Get.find<StatisticsPageController>();
+  final statisticController = Get.find<StatisticsPageController>();
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
     controller.createTeam();
     controller.getClubs();
     controller.searchPlayers("FORWARD");
+
   }
 
   @override
@@ -149,11 +152,11 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   controller.saveGameTactics();
                                 }, color: AppColors.baseColor,),
                           ),
-                    controller.isLoadingPLayer
-                        ? const CircularProgressIndicator()
-                        : Container(
+                    if (controller.isLoadingPLayer) const CircularProgressIndicator() else
+                      Container(
+
                             height: 500,
-                            width: double.infinity,
+
                             margin: EdgeInsets.all(10),
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
@@ -167,143 +170,143 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                   ),
                                 ],
                                 borderRadius: BorderRadius.circular(10)),
-                            child: SingleChildScrollView(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              child: DataTable(
-                                headingRowColor: WidgetStateProperty.all(
-                                    AppColors.tableColor),
-                                dataRowHeight: 60,
-                                columnSpacing: 20,
-                                columns: [
-                                  DataColumn(
-                                      label: Text(
-                                    "#",
-                                    style: CustomStyles.dataTitle,
-                                  )),
-                                  DataColumn(
-                                      label: Text(
-                                    "Oyinchilar",
-                                    style: CustomStyles.dataTitle,
-                                  )),
-                                  DataColumn(
-                                      label: Text(
-                                    "Narxi",
-                                    style: CustomStyles.dataTitle,
-                                  )),
-                                  DataColumn(
-                                      label: Text(
-                                    "Info",
-                                    style: CustomStyles.dataTitle,
-                                  )),
-                                ],
-                                rows: List.generate(
-                                  controller.playersDetails.length,
-                                  (index) {
-                                    var player =
-                                          controller.playersDetails[index];
-                                    return DataRow(
-                                        color: WidgetStateProperty.all(
-                                            AppColors.tableColor),
-                                        cells: [
-                                          DataCell(Text(
-                                            "${index + 1}",
-                                            style: CustomStyles.dataTitle,
-                                          )),
-                                          DataCell(GestureDetector(
-                                            onTap: () {
-                                              controller.assignPlayer(
-                                                  convertToPlayerSelectionModel(
-                                                      player));
-                                            },
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  width: 130,
-                                                  child: Row(
-                                                    children: [
-                                                      if (player.jersey != null)
-                                                        CachedNetworkImage(
-                                                          imageUrl:
-                                                              player.jersey!,
-                                                          width: 30,
-                                                          height: 30,
-                                                          placeholder:
-                                                              (context, url) {
-                                                            print(
-                                                                "+++++++++++++++++++++++");
-                                                            return Stack(
-                                                              children: [
-                                                                Image.asset(
-                                                                    "assets/images/home/player_img.png")
-                                                              ],
+                            child: SizedBox(
+                             // width:370,
+                              child: SingleChildScrollView(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  child: DataTable(
+                                    headingRowColor: WidgetStateProperty.all(
+                                        AppColors.tableColor),
+                                    dataRowHeight: 60,
+                                    columnSpacing: 20,
+                                    columns: [
+                                      DataColumn(
+                                          label: Text(
+                                        "#",
+                                        style: CustomStyles.dataTitle,
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        "Oyinchilar",
+                                        style: CustomStyles.dataTitle,
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        "Narxi",
+                                        style: CustomStyles.dataTitle,
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        "Info",
+                                        style: CustomStyles.dataTitle,
+                                      )),
+                                    ],
+                                    rows: List.generate(
+                                      controller.playersDetails.length,
+                                      (index) {
+                                        var player =
+                                              controller.playersDetails[index];
+                                        return DataRow(
+
+                                            color: WidgetStateProperty.all(
+                                                AppColors.tableColor),
+                                            cells: [
+                                              DataCell(Text(
+                                                "${index + 1}",
+                                                style: CustomStyles.dataTitle,
+                                              )),
+                                              DataCell(GestureDetector(
+                                                onTap: () {
+                                                  controller.assignPlayer(
+                                                      convertToPlayerSelectionModel(
+                                                          player));
+                                                },
+                                                child: Column(
+
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+
+                                                      children: [
+                                                        if (player.jersey != null)
+                                                          CachedNetworkImage(
+                                                            imageUrl:
+                                                                player.jersey!,
+                                                            width: 30,
+                                                            height: 30,
+                                                            placeholder:
+                                                                (context, url) {
+                                                              print(
+                                                                  "+++++++++++++++++++++++");
+                                                              return Stack(
+                                                                children: [
+                                                                  Image.asset(
+                                                                      "assets/images/home/player_img.png")
+                                                                ],
+                                                              );
+                                                            },
+                                                            errorWidget: (context,
+                                                                    url, error) {
+                                                              print(
+                                                                  "+++++++++++++++++++++++$error");
+                                                              print(
+                                                                  "+++++++++++++++++++++++$url");
+                                                              return Image.asset(
+                                                              "assets/images/home/player_img.png",
+                                                              width: 54,
                                                             );
-                                                          },
-                                                          errorWidget: (context,
-                                                                  url, error) {
-                                                            print(
-                                                                "+++++++++++++++++++++++$error");
-                                                            print(
-                                                                "+++++++++++++++++++++++$url");
-                                                            return Image.asset(
-                                                            "assets/images/home/player_img.png",
-                                                            width: 54,
-                                                          );
-                                                          },
-                                                        ),
-                                                      SizedBox(
-                                                        width: 100.w,
-                                                        child: Text(
-                                                          player.name!,
+                                                            },
+                                                          ),
+                                                        Text(
+                                                          player.name!.length > 11
+                                                              ? player.name!.substring(0, 11) + '...'
+                                                              : player.name!,
                                                           style: const TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontFamily:
-                                                                  "Poppins",
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .fade),
+                                                            color: Colors.white,
+                                                            fontFamily: "Poppins",
+                                                          ),
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 130.w,
-                                                  child: Text(
-                                                    "  ${player.clubName ?? ""}",
-                                                    style: const TextStyle(
-                                                        fontSize: 12,
+
+                                                      ],
+
+                                                    ),
+                                                    Text(
+                                                      "  ${player.clubName ?? ""}".length > 14
+                                                          ? "  ${player.clubName ?? ""}".substring(0, 14) + '...'
+                                                          : "  ${player.clubName ?? ""}",
+                                                      style: const TextStyle(
                                                         color: Colors.white,
                                                         fontFamily: "Poppins",
-                                                        overflow: TextOverflow
-                                                            .ellipsis),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )),
-                                          DataCell(Text(
-                                            "\$ ${player.price}",
-                                            style: CustomStyles.dataTitle,
-                                          )),
-                                          DataCell(GestureDetector(
-                                            child: const Icon(
-                                              Icons.info_outline,
-                                              color: Colors.green,
-                                            ),
-                                            onTap: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(builder:
-                                                      (BuildContext context) {
-                                                return PlayerDetailPage(
-                                                    player: controller2.players!);
-                                              }));
-                                            },
-                                          )),
-                                        ]);
-                                  },
+                                                      ),
+                                                    ),
+
+
+                                                  ],
+                                                ),
+                                              )),
+                                              DataCell(Text(
+                                                "\$ ${player.price}",
+                                                style: CustomStyles.dataTitle,
+                                              )),
+                                              DataCell(GestureDetector(
+                                                child: const Icon(
+                                                  Icons.info_outline,
+                                                  color: Colors.green,
+                                                ),
+                                                onTap: () {
+                                                  Logger().w(player.id);
+                                                  statisticController.getPlayers(player.id!);
+                                                  statisticController
+                                                      .callPLayerDetailPage(statisticController.players!, context);
+                                                },
+                                              )),
+                                            ]);
+                                      },
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

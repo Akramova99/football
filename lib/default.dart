@@ -14,7 +14,6 @@ class CreateLeaguePage extends StatefulWidget {
   State<CreateLeaguePage> createState() => _CreateLeaguePageState();
 }
 
-
 class _CreateLeaguePageState extends State<CreateLeaguePage> {
   final controller = Get.find<CreateLeagueController>();
   bool isChooseImg = false;
@@ -62,14 +61,14 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
               const SizedBox(height: 10),
               !isChooseImg
                   ? InkWell(
-                onTap: () async {
-                  await controller.chooseImage();
-                  setState(() {
-                    isChooseImg = true;
-                  });
-                },
-                child: _buildImagePicker(),
-              )
+                      onTap: () async {
+                        await controller.chooseImage();
+                        setState(() {
+                          isChooseImg = true;
+                        });
+                      },
+                      child: _buildImagePicker(),
+                    )
                   : _buildSelectedImage(),
               const SizedBox(height: 16.0),
               _buildNameField(),
@@ -126,6 +125,7 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
       ],
     );
   }
+
   Widget _buildImagePicker() {
     return Container(
       height: 65,
@@ -175,27 +175,27 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
                 child: ClipOval(
                     child: controller.isUpload
                         ? Image.file(
-                      controller.imageFile!,
-                      width: 90,
-                      height: 87,
-                      fit: BoxFit.cover,
-                    )
+                            controller.imageFile!,
+                            width: 90,
+                            height: 87,
+                            fit: BoxFit.cover,
+                          )
                         : SizedBox()
-                  // CachedNetworkImage(
-                  //   imageUrl:
-                  //       "http://46.101.131.127:8080/api/v1/files/${controller.img}",
-                  //   width: 90,
-                  //   height: 87,
-                  //   fit: BoxFit.cover,
-                  //   placeholder: (context, url) => Image.asset(
-                  //     "assets/images/home/player_img.png",
-                  //   ),
-                  //   errorWidget: (context, url, error) => Image.asset(
-                  //     "assets/images/home/player_img.png",
-                  //     width: 54,
-                  //   ),
-                  // ),
-                ),
+                    // CachedNetworkImage(
+                    //   imageUrl:
+                    //       "http://46.101.131.127:8080/api/v1/files/${controller.img}",
+                    //   width: 90,
+                    //   height: 87,
+                    //   fit: BoxFit.cover,
+                    //   placeholder: (context, url) => Image.asset(
+                    //     "assets/images/home/player_img.png",
+                    //   ),
+                    //   errorWidget: (context, url, error) => Image.asset(
+                    //     "assets/images/home/player_img.png",
+                    //     width: 54,
+                    //   ),
+                    // ),
+                    ),
               ),
             ],
           ),
@@ -230,59 +230,59 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
     );
   }
 
-
   Widget _buildDropdowns() {
     return GetBuilder<CreateLeagueController>(
         builder: (_) => Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<int>(
-                key: const ValueKey("Start"),
-                value: controller.leagueStart,
-                decoration: InputDecoration(
-                  labelText: 'Start Liga',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<int>(
+                    key: const ValueKey("Start"),
+                    value: controller.leagueStart,
+                    decoration: InputDecoration(
+                      labelText: 'Start Liga',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    items: _buildDropdownItems(),
+                    onChanged: (newValue) {
+                      //  controller.onWeekChange(true, newValue!);
+                      controller.onWeekChange(true, 1);
+                      Logger().w("Bosildi");
+                      setState(() {});
+                    },
                   ),
                 ),
-                items: _buildDropdownItems(),
-                onChanged: (newValue) {
-                  //  controller.onWeekChange(true, newValue!);
-                  controller.onWeekChange(true, 1);
-                  Logger().w("Bosildi");
-                  setState(() {});
-                },
-              ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: DropdownButtonFormField<int>(
-                key: const ValueKey("End"),
-                value: controller.leagueEnd,
-                decoration: InputDecoration(
-                  labelText: 'End Liga',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: DropdownButtonFormField<int>(
+                    key: const ValueKey("End"),
+                    value: controller.leagueEnd,
+                    decoration: InputDecoration(
+                      labelText: 'End Liga',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    items: _buildDropdownItems(),
+                    onChanged: (newValue) {
+                      //  controller.onWeekChange(false, newValue!);
+                      controller.onWeekChange(false, newValue!);
+                      Logger().w("Bosildi2");
+                      setState(() {});
+                    },
                   ),
                 ),
-                items: _buildDropdownItems(),
-                onChanged: (newValue) {
-                  //  controller.onWeekChange(false, newValue!);
-                  controller.onWeekChange(false, newValue!);
-                  Logger().w("Bosildi2");
-                  setState(() {});
-                },
-              ),
-            ),
-          ],
-        ));
+              ],
+            ));
   }
+
   List<DropdownMenuItem<int>> _buildDropdownItems() {
     return List.generate(controller.weeks.length, (index) => index + 1)
         .map((value) => DropdownMenuItem<int>(
-      value: value,
-      child: Text("${controller.weeks[value - 1].weekNumber ?? ""}"),
-    ))
+              value: value,
+              child: Text("${controller.weeks[value - 1].weekNumber ?? ""}"),
+            ))
         .toList();
   }
 // Rest of your widget methods (_buildImagePicker, _buildSelectedImage, _buildDropdowns)...

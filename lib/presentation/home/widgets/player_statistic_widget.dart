@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:get/get.dart';
@@ -83,21 +84,21 @@ class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
                   ),
                 ],
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 28.0),
-              //   child: CachedNetworkImage(
-              //     height: 143,
-              //     width: 127,
-              //     imageUrl: controller.players.isNotEmpty
-              //         ? controller.players[widget.index].jersey!
-              //         : "",
-              //     placeholder: (context, url) =>
-              //         Image.asset('assets/images/team/placeholder.png'),
-              //     errorWidget: (context, url, error) => Image.asset(
-              //       'assets/images/team/placeholder.png',
-              //     ),
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(right: 28.0),
+                child: CachedNetworkImage(
+                  height: 143,
+                  width: 127,
+                  imageUrl: controller.statics.isNotEmpty
+                      ? controller.statics[widget.index].clubLogo
+                      : "",
+                  placeholder: (context, url) =>
+                      Image.asset('assets/images/team/placeholder.png'),
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/team/placeholder.png',
+                  ),
+                ),
+              ),
             ],
           ),
         ),

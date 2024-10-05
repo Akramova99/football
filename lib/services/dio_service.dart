@@ -106,6 +106,9 @@ class DioService {
   static postImage(String userId) {
     return "/api/v1/users/$userId/upload-image";
   }
+  static getMatch(int matchId) {
+    return "/api/v1/event-statistics/$matchId/game-statistics";
+  }
 
   static sellPLayer(userid, teamid, playerid) {
     return "/api/v1/transfers/$userid/sell/$playerid/$teamid";
@@ -117,6 +120,9 @@ class DioService {
 
   static setFirebaseToken(String userId) {
     return "/api/v1/users/$userId/save-token";
+  }
+  static chooseImg(String userId) {
+    return "/api/v1/users/$userId/upload-image";
   }
 
   static getPlayerDetails(int playerId) {
@@ -149,7 +155,7 @@ class DioService {
   static const GET_MATCH_TEAMS_API = "/api/calendars/matchWeek/";
   static const LOG_OUT_API = "/auth/logout?email=";
   static const POINT_STATISTICS_API = "/api/v1/teams/stats";
-  static const UPDATE_USERDATA_API = "/api/v1/teams/stats";
+  static const UPDATE_USERDATA_API = "/api/v1/users/update/";
   static const PLAYER_FILTER = "/api/v1/players/filter";
   static const TRANSFER_SUMMARY = "/api/v1/users/tranfer-summary/";
   static const ALL_ClUBS = "/api/football-teams/all";

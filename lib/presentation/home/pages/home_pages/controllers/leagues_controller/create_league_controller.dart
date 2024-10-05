@@ -56,6 +56,7 @@ class CreateLeagueController extends GetxController {
     // Assuming no other data is required, pass the image as a parameter
     var response = await DioService.POST2(DioService.UPLOAD_IMAGE, null, image);
     img = response;
+    update();
     Logger().i(response);
   }
 

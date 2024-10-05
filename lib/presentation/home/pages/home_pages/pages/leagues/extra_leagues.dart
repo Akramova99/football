@@ -79,8 +79,10 @@ class _ExtraLeaguesPageState extends State<ExtraLeaguesPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset("assets/images/home/league1.png",
-                            height: 221,fit: BoxFit.cover,),
+                          Center(
+                            child: Image.asset("assets/images/home/league1.png",
+                              height: 221,fit: BoxFit.cover,),
+                          ),
                           Text(
                             "Open Asia Championship (MW1-MW4) ",
                             style: const TextStyle(

@@ -20,11 +20,11 @@ class MatchModel {
   DateTime? matchDate;
 
   MatchModel({
-    this.id,
     this.home,
     this.away,
     this.matchWeek,
-    this.startTime,
+    this.startTime,    this.id,
+
     this.matchDate,
   });
 
