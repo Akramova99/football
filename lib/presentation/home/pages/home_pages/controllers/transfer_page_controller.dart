@@ -267,7 +267,7 @@ class TransferPageController extends GetxController {
     var path = clubsIndex != 0
         ? "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice&clubId=${clubs[clubsIndex].id}"
         : "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice";
-    print(path);
+    // print(path);
     isLoadingPLayer = true;
     update();
     try {
