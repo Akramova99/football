@@ -160,7 +160,7 @@ class TransferPageController extends GetxController {
   }
 
   sellPLayer(Player player) async {
-    Logger().i("selling");
+   // Logger().i("selling");
 
     int index = primaryTeam.indexOf(player);
     if (index != -1) {
