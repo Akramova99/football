@@ -284,7 +284,7 @@ class TransferPageController extends GetxController {
         print(response.statusMessage);
       }
     } on DioException catch (e) {
-      print(e);
+      Logger().e(e);
     }
   }
 
