@@ -72,9 +72,9 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           home:
-          // DbService.getLoggedIn()
-          //     ? const BasePage()
-          //     : const
+          DbService.getLoggedIn()
+              ? const BasePage()
+              : const
           BaseIntroPage(),
           initialBinding: RootBinding(),
           routes: {
