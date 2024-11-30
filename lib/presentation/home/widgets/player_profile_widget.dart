@@ -11,7 +11,7 @@ class PlayerDetailWidget extends StatelessWidget {
   //i need PlayerDetailModel
 
   final PlayerDetailController controller;
-  final  StatisticModel playerModel;
+  final StatisticModel playerModel;
 
   const PlayerDetailWidget({
     super.key,
@@ -27,12 +27,14 @@ class PlayerDetailWidget extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-     //   height: 109,
+        //   height: 109,
         decoration: BoxDecoration(
           color: AppColors.statistic,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        padding: const EdgeInsets.all( 12,),
+        padding: const EdgeInsets.all(
+          12,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +58,6 @@ class PlayerDetailWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     SizedBox(
                       width: 10,
                     ),
@@ -67,7 +68,6 @@ class PlayerDetailWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 Stack(
                   children: [
                     Image.asset(
@@ -78,9 +78,7 @@ class PlayerDetailWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 14.0, top: 12),
                       child: Text(
-                        playerModel.playerNumber
-                                .toString() ??
-                            "",
+                        playerModel.playerNumber.toString() ?? "",
                         style: CustomStyles.appBarStyle
                             .copyWith(color: Colors.white),
                       ),
@@ -99,35 +97,34 @@ class PlayerDetailWidget extends StatelessWidget {
             //       fontWeight: FontWeight.w500),
             // ),
             Row(
- mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Row(
-                  children: [
-                    const Text(
-                      "Narxi:",
-                      style: TextStyle(
-                          fontSize: 13.14,
-                          color: AppColors.textColor,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w500),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        "${controller.modelCurrent?.player?.price.toString()}\$",
-                        style: const TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Narxi:",
+                        style: TextStyle(
                             fontSize: 13.14,
-                            color: Colors.white,
+                            color: AppColors.textColor,
                             fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.w500),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "${controller.modelCurrent?.player?.price.toString()}\$",
+                          style: const TextStyle(
+                              fontSize: 13.14,
+                              color: Colors.white,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-
                 Row(
                   children: [
                     const Text(
@@ -141,7 +138,7 @@ class PlayerDetailWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
-                        controller.modelCurrent?.player?.position!??"",
+                        controller.modelCurrent?.player?.position! ?? "",
                         style: const TextStyle(
                             fontSize: 13.14,
                             color: Colors.white,

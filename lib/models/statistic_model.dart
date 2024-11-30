@@ -9,32 +9,46 @@ List<StatisticModel> statisticModelFromJson(String str) {
 }
 
 class StatisticModel {
-  int? playerId;
+  int playerId;
   String playerName;
-  int? playerNumber;
+  int playerNumber;
+  int playerTotalScore;
+  String playerJersey;
   String position;
   String clubName;
   String clubLogo;
-  String playerJersey;
 
   StatisticModel({
-    this.playerId,
+    required this.playerId,
     required this.playerName,
-    this.playerNumber,
+    required this.playerNumber,
+    required this.playerTotalScore,
+    required this.playerJersey,
     required this.position,
     required this.clubName,
     required this.clubLogo,
-    required this.playerJersey,
   });
 
   factory StatisticModel.fromJson(Map<String, dynamic> json) => StatisticModel(
-      playerId: json['playerId'] ?? 0,
-      // Provide a default value or make it nullable
-      playerName: json['playerName'] ?? '',
-      playerNumber: json['playerNumber'] ?? 0,
-      // Provide a default value or make it nullable
-      position: json['position'] ?? '',
-      clubName: json['clubName'] ?? '',
-      clubLogo: json['clubLogo'] ?? '',
-      playerJersey: json['playerJersey']??"http://46.101.131.127:8080/api/v1/files/league_a431ea45-f1e6-40fa-8850-24e22d33a769.png");
+    playerId: json['playerId'] ?? 0,
+    playerName: json['playerName'] ?? '',
+    playerNumber: json['playerNumber'] ?? 0,
+    playerTotalScore: json['playerTotalScore'] ?? 0,
+    playerJersey: json['playerJersey'] ?? '',
+    position: json['position'] ?? '',
+    clubName: json['clubName'] ?? '',
+    clubLogo: json['clubLogo'] ?? '',
+  );
+
+  Map<String, dynamic> toJson() => {
+    'playerId': playerId,
+    'playerName': playerName,
+    'playerNumber': playerNumber,
+    'playerTotalScore': playerTotalScore,
+    'playerJersey': playerJersey,
+    'position': position,
+    'clubName': clubName,
+    'clubLogo': clubLogo,
+  };
 }
+

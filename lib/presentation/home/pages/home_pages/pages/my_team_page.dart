@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/my_team_controller.dart';
-import 'package:football/presentation/widgets/players_card_widget.dart';
 import 'package:football/presentation/widgets/team_name_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../../utils/constants/img_roots.dart';
 import '../../../../widgets/change_player_football_field.dart';
-
 import '../../settings_pages/controllers/profile_page_controller.dart';
 
 class MyTeamPage extends StatefulWidget {
@@ -19,7 +18,8 @@ class MyTeamPage extends StatefulWidget {
 
 class _MyTeamPageState extends State<MyTeamPage> {
   final controller = Get.find<MyTeamController>();
-  final profileController = Get.find<ProfilePageController>(); // Get the profile controller
+  final profileController =
+      Get.find<ProfilePageController>(); // Get the profile controller
 
   @override
   void initState() {
@@ -81,36 +81,34 @@ class _MyTeamPageState extends State<MyTeamPage> {
                       ),
                       !controller.isLoading
                           ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                              child: CircularProgressIndicator(),
+                            )
                           : Column(
-                        children: [
-                          // Use name and icon from profileController
-                          GetBuilder<ProfilePageController>(
-                            builder: (_) {
-                              return TeamNameWidget2(
-                                icon: profileController.user.image ?? "",
-                                name: profileController.name ?? "",
-                                controller: controller,
-                              );
-                            },
-                          )
-                          ,
-                          SizedBox(
-                            height: 5,
-                          ),
-                          ChangePlayerFootballField(
-                            controller: controller,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          PlayersCardWidget2(
-                            players: controller.selectivePlayers,
-                            function: controller.assignPlayer,
-                          ),
-                        ],
-                      ),
+                              children: [
+                                // Use name and icon from profileController
+                                GetBuilder<ProfilePageController>(
+                                  builder: (_) {
+                                    return TeamNameWidget2(
+                                      icon: profileController.user.image ?? "",
+                                      name: profileController.name ?? "",
+                                      controller: controller,
+                                    );
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                ChangePlayerFootballField(),
+                                const SizedBox(height: 5),
+                                // PlayersCardWidget2(
+                                //   players: controller.withoutFiledPlayers,
+                                //   function: (player) {
+                                //     controller.assignPlayer(player,
+                                //         context: context);
+                                //   },
+                                // ),
+                              ],
+                            ),
                     ],
                   ),
                 ),

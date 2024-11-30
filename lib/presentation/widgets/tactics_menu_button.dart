@@ -85,7 +85,7 @@ class TacticsMenuButton2 extends StatelessWidget {
             ),
             dropdownColor: Colors.black.withOpacity(0.56),
             items: List<DropdownMenuItem<int>>.generate(
-              4,
+              8,
               (int index) => DropdownMenuItem<int>(
                 value: index,
                 child: Container(
@@ -117,7 +117,10 @@ class TacticsMenuButton2 extends StatelessWidget {
               ];
             },
             onChanged: (index) {
+              controller.getTeam();
+              //controller.changeTacticGetTeam(context: context);
               controller.onTacticsChange(index);
+
             },
             icon: const Icon(null, color: Colors.white),
           ),

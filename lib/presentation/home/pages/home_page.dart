@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/controllers/home_page_controller.dart';
@@ -11,9 +13,9 @@ import 'package:football/utils/constants/app_colors.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 import '../controllers/deadline_controller.dart';
+import 'home_pages/controllers/leagues_controller/extra_leagues_page_controller.dart';
 import 'home_pages/pages/leagues/leagues_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,15 +29,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = Get.find<HomePageController>();
+  final leagueController = Get.find<ExtraLeaguesPageController>();
   final deadController = Get.find<DeadlineController>();
   late StreamSubscription _streamSubscription;
   bool isDeviceConnect = false;
   bool isAlert = false;
 
-
-
   internetConnection() => _streamSubscription =
-      Connectivity().onConnectivityChanged.listen((result) async {
+          Connectivity().onConnectivityChanged.listen((result) async {
         isDeviceConnect = await InternetConnectionChecker().hasConnection;
         if (!isDeviceConnect && isAlert == false) {
           showDialogBox();
@@ -48,27 +49,37 @@ class _HomePageState extends State<HomePage> {
   showDialogBox() => showCupertinoDialog(
       context: context,
       builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text("You appear to be offline"),
-          content: Text(
-              "You can't use this app until ypu're connected to the internet"),
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  setState(() {
-                    isAlert = false;
-                  });
-                  isDeviceConnect =
-                  await InternetConnectionChecker().hasConnection;
-                  if (!isDeviceConnect && isAlert == false) {
-                    showDialogBox();
-                    setState(() {
-                      isAlert = true;
-                    });
-                  }
-                },
-                child: Text("OK"))
+        return Stack(
+          children: [
+            Image.asset(
+              "assets/images/internet_not_found/img.png",
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+            ),
+            CupertinoAlertDialog(
+              title: Text("You appear to be offline"),
+              content: Text(
+                  "You can't use this app until ypu're connected to the internet"),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      setState(() {
+                        isAlert = false;
+                      });
+                      isDeviceConnect =
+                          await InternetConnectionChecker().hasConnection;
+                      if (!isDeviceConnect && isAlert == false) {
+                        showDialogBox();
+                        setState(() {
+                          isAlert = true;
+                        });
+                      }
+                    },
+                    child: Text("OK"))
+              ],
+            ),
           ],
         );
       });
@@ -80,15 +91,17 @@ class _HomePageState extends State<HomePage> {
     controller.getUserData();
     controller.getNotification();
     Get.lazyPut<DeadlineController>(() => DeadlineController());
-
+    leagueController.getMyLeaguesDetails();
     deadController.getDeadlineData();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _streamSubscription.cancel();
   }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomePageController>(builder: (_) {
@@ -291,166 +304,214 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 20,
                   ),
-
-                  InkWell(
-                    onTap: () {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LeaguesPage()),
-                        );
-                      });
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Stack(
+                  GetBuilder<ExtraLeaguesPageController>(
+                    builder: (_) {
+                      var league = leagueController.myExtraLeagues;
+                      return Column(
                         children: [
-                          // The actual image
-                          Image.asset("assets/images/home/league1.png"),
-
-                          // Glassmorphism overlay
-                          BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 2.0),
-                            // Adjust blur intensity
-                            child: Container(
-                              color:
-                                  Colors.white.withOpacity(0.4), // 40% opacity
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 22,
-                                  decoration: const BoxDecoration(
-                                      color: AppColors.HRed,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: MaterialButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "UzbCup League".tr,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontFamily: "Poppins"),
+                          InkWell(
+                            onTap: () {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LeaguesPage()),
+                                );
+                              });
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Stack(
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: league.image ?? "",
+                                    placeholder: (context, url) {
+                                      return Image.asset(
+                                        "assets/images/home/league1.png",
+                                        height: 221,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                    errorWidget: (context, url, error) {
+                                      print("+++++++++++++++++++++++$error");
+                                      print("+++++++++++++++++++++++$url");
+                                      return Image.asset(
+                                        "assets/images/home/league1.png",
+                                        height: 221,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
+                                  // Glassmorphism overlay
+                                  BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 1.0, sigmaY: 2.0),
+                                    // Adjust blur intensity
+                                    child: Container(
+                                      color: Colors.white
+                                          .withOpacity(0.4), // 40% opacity
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 90,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "As it happened: Spain win final".tr,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w800),
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 22,
+                                          decoration: const BoxDecoration(
+                                              color: AppColors.HRed,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: MaterialButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              "UzbCup League".tr,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 90,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "As it happened: Spain win final"
+                                                  .tr,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                  fontFamily: "Poppins",
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            Text(
+                                              "As it happened: Spain win final"
+                                                  .tr,
+                                              style: TextStyle(
+                                                  color: Colors.white
+                                                      .withOpacity(0.6),
+                                                  fontSize: 11,
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      "As it happened: Spain win final".tr,
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.6),
-                                          fontSize: 11,
-                                          fontFamily: "Poppins"),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LeaguesPage()),
-                        );
-                      });
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Stack(
-                        children: [
-                          // The actual image
-                          Image.asset("assets/images/home/league2.png"),
-
-                          // Glassmorphism overlay
-                          BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 2.0),
-                            // Adjust blur intensity
-                            child: Container(
-                              color:
-                                  Colors.white.withOpacity(0.4), // 40% opacity
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 22,
-                                  decoration: const BoxDecoration(
-                                      color: AppColors.HRed,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(10))),
-                                  child: MaterialButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Uzb Sila League".tr,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontFamily: "Poppins"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LeaguesPage()),
+                                );
+                              });
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Stack(
+                                children: [
+                                  // The actual image
+
+                                  CachedNetworkImage(
+                                    imageUrl: league.image ?? "",
+                                    placeholder: (context, url) {
+                                      return Image.asset(
+                                          "assets/images/home/league2.png");
+                                    },
+                                    errorWidget: (context, url, error) {
+                                      print("+++++++++++++++++++++++$error");
+                                      print("+++++++++++++++++++++++$url");
+                                      return Image.asset(
+                                          "assets/images/home/league2.png");
+                                    },
+                                  ),
+                                  // Glassmorphism overlay
+                                  BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 1.0, sigmaY: 2.0),
+                                    // Adjust blur intensity
+                                    child: Container(
+                                      color: Colors.white
+                                          .withOpacity(0.4), // 40% opacity
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 80,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Quarter - Finals ties set".tr,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w800),
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 22,
+                                          decoration: const BoxDecoration(
+                                              color: AppColors.HRed,
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10))),
+                                          child: MaterialButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              "Uzb Sila League".tr,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 80,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Quarter - Finals ties set".tr,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 11,
+                                                  fontFamily: "Poppins",
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            Text(
+                                              homeTex.tr,
+                                              style: TextStyle(
+                                                  color: Colors.white
+                                                      .withOpacity(0.6),
+                                                  fontSize: 11,
+                                                  fontFamily: "Poppins"),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                     homeTex.tr,
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.6),
-                                          fontSize: 11,
-                                          fontFamily: "Poppins"),
-                                    ),
-                                  ],
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
-                          )
+                          ),
+                          // Blur effektini qo'shish
                         ],
-                      ),
-                    ),
-                  ),
-                  // Blur effektini qo'shish
+                      );
+                    },
+                  )
+
                   //SizedBox(height: 200,),
                 ],
               ),

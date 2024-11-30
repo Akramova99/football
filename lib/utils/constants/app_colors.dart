@@ -7,10 +7,13 @@ class AppColors {
   static const Color redy = Color(0xFFCA1818);
   static const Color red1 = Color(0xFFDA020E);
   static const Color baseColor = Color(0xFF9B86F2);
+  static const Color leagueColor = Color(0xFF3B3D62);
   static const Color lBlack = Color(0xFF222232);
   static const Color lGrey = Color(0xFFF3F3F3);
- // static const Color red = Color(0xFF#9B86F2);
-  //static const Color red = Color(0xFFF9A785);
+  static const Color green1 = Color(0xFF14C57B);
+  static const Color yellow = Color(0xFFFAC16B);
+  static const Color cyan1 = Color(0xFF29E7CD);
+  static const Color red2 = Color(0xFFED0423);
   static const Color red = Color(0xFF9B86F2);
   static const Color cE8E8E8 = Color(0xFFE8E8E8);
   static const Color tableColor = Color(0xFF2E2F3E);

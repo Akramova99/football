@@ -1,13 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:football/models/player_detail_model.dart';
 import 'package:football/presentation/home/widgets/player_profile_widget.dart';
 import 'package:football/presentation/widgets/player_table_widget.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:get/get.dart';
-import 'package:logger/web.dart';
+import 'package:logger/logger.dart';
 
-import '../../../../../models/team_model.dart';
 import '../../../../../utils/constants/img_roots.dart';
 import '../../../../../utils/constants/styles.dart';
 import '../../../widgets/line_chart_sample.dart';
@@ -15,7 +13,11 @@ import '../controllers/player_detail_controller.dart';
 import '../controllers/statistics_page_controller.dart';
 
 class PlayerDetailPage extends StatefulWidget {
-  const PlayerDetailPage({super.key, required this.player,required this.controller,required this.index});
+  const PlayerDetailPage(
+      {super.key,
+      required this.player,
+      required this.controller,
+      required this.index});
 
   final PlayerDetail player;
   final StatisticsPageController controller;
@@ -27,14 +29,16 @@ class PlayerDetailPage extends StatefulWidget {
 
 class _PlayerDetailPageState extends State<PlayerDetailPage> {
   final controller = Get.find<PlayerDetailController>();
-PlayerDetail cn= PlayerDetail();
+  PlayerDetail cn = PlayerDetail();
+
   @override
   void initState() {
     super.initState();
     cn.id;
     controller.getPlayerDetails(widget.player.id!);
     controller.getPlayerHistoryDetails(widget.player.id!);
-   // Logger().d(widget.controller.statics[widget.index].runtimeType);
+
+     Logger().d(widget.controller.statics[widget.index]);
   }
 
   @override
@@ -54,47 +58,53 @@ PlayerDetail cn= PlayerDetail();
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 40.0,right: 30),
+                    padding: const EdgeInsets.only(top: 40.0, right: 30),
                     child: Row(
-
                       children: [
-                        IconButton(onPressed: (){
-                          Navigator.pop(context);
-                        }, icon: Icon(Icons.arrow_back_ios_new_rounded,size: 20,)),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              size: 20,
+                            )),
                         Spacer(),
                         Text(
-                          "O'yinchilar profili",
+                          "O'yinchilar profili".tr,
                           style: CustomStyles.pageTitle,
                         ),
                         Spacer(),
                       ],
                     ),
                   ),
-                   PlayerDetailWidget(controller: controller, playerModel: widget.controller.statics[widget.index],),
+                  PlayerDetailWidget(
+                    controller: controller,
+                    playerModel: widget.controller.statics[widget.index],
+                  ),
                   Container(
                     width: 380,
                     height: 368,
                     margin: EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
-                      color: AppColors.chartC,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child:  LineChartSample2() ,
+                        color: AppColors.chartC,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: LineChartSample2(playerId: widget.player.id.toString(),),
                   ),
                   controller.pageIndex == 0
                       ? Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 10),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: PlayerDataTable(
-                                              model: controller.current,
-                                            ),
-                        ),
-                      )
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: PlayerDataTable(
+                              model: controller.current,
+                            ),
+                          ),
+                        )
                       : PlayerDataTable(
-                    model: controller.history,
-                  ),
-
+                          model: controller.history,
+                        ),
                 ],
               ),
             ),
@@ -104,8 +114,6 @@ PlayerDetail cn= PlayerDetail();
     });
   }
 }
-
-
 
 // DefaultTabController(
 //         length: 2, // Number of tabs

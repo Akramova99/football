@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:football/models/team_model.dart';
+
 PlayerDetailModel playerDetailModelFromJson(String str) => PlayerDetailModel.fromJson(json.decode(str));
 PlayerDetail playerDetailFromJson(String str) => PlayerDetail.fromJson(json.decode(str));
 
@@ -139,4 +141,21 @@ class ScoreDetails {
     "YELLOW": yellow,
     "GOAL": goal,
   };
+}
+
+
+PlayerDetail mapPlayerToPlayerDetail(Player player) {
+  return PlayerDetail(
+    id: player.id,
+    name: player.name,
+    position: player.position,
+    playerNumber: player.playerNumber,
+    clubName: player.clubName,
+    price: player.price,
+    currentScore: player.currentScore,
+    totalScore: 0,  // Assign default or calculated values as needed
+    selectionRate: 0.0, // Default or calculated values
+    jersey: player.jersey,
+    playerKey: "",  // Assign default or calculated values as needed
+  );
 }

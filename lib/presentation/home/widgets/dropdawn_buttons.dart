@@ -55,36 +55,36 @@ class _DropdownButState extends State<DropdownBut> {
               value: widget.isClub
                   ? createTeamController.clubsIndex
                   : positionIndex,
-              menuMaxHeight: 200.h,
+              menuMaxHeight: 650.h,
               items: widget.isClub
                   ? List.generate(
                      21,
                       (index) {
                         var club = createTeamController.clubs.isNotEmpty? createTeamController.clubs[index]:null;
+
+
                         return DropdownMenuItem(
                           value: index,
                           child: Center(
                             child: Row(
                               children: [
-                                // Padding(
-                                //   padding: const EdgeInsets.only(left: 12.0,right: 3),
-                                //   child: CachedNetworkImage(
-                                //     height: 15,
-                                //     width: 15,
-                                //     imageUrl:  club.logo??
-                                //         "",
-                                //     placeholder: (context, url) =>
-                                //         Image.asset('assets/images/test/img.png'),
-                                //     errorWidget: (context, url, error) => Image.asset(
-                                //       'assets/images/test/img.png',
-                                //     ),
-                                //   ),
-                                // ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12.0,right: 3),
+                                  child: CachedNetworkImage(
+                                    height: 15,
+                                    width: 15,
+                                    imageUrl:club!=null?  club.logo??
+                                        "":"",
+                                    placeholder: (context, url) =>
+                                        SizedBox(),
+                                    errorWidget: (context, url, error) =>SizedBox(),
+                                  ),
+                                ),
                                 Text(
                                   index == 0
-                                      ? "Clubs"
+                                      ? "Klublar".tr
                                       : club != null
-                                          ? club.teamName!.split(" ").first
+                                          ? club.teamName!.split(" ").first.tr
                                           : "1",
                                   style: const TextStyle(color: Colors.black87),
                                   textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class _DropdownButState extends State<DropdownBut> {
                             child: Padding(
                               padding:  EdgeInsets.only(left: 8.w),
                               child: Text(
-                                position[index],
+                                position[index].tr,
                                 style: const TextStyle(color: Colors.black87),
                                 textAlign: TextAlign.center,
                               ),
@@ -124,26 +124,24 @@ class _DropdownButState extends State<DropdownBut> {
                             child: Center(
                               child: Row(
                                 children: [
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 12.0,right: 3),
-                                  //   child: CachedNetworkImage(
-                                  //     height: 15,
-                                  //     width: 15,
-                                  //     imageUrl:  club.logo??
-                                  //         "",
-                                  //     placeholder: (context, url) =>
-                                  //         Image.asset('assets/images/test/img.png'),
-                                  //     errorWidget: (context, url, error) => Image.asset(
-                                  //       'assets/images/test/img.png',
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12.0,right: 3),
+                                    child: CachedNetworkImage(
+                                      height: 15,
+                                      width: 15,
+                                      imageUrl: club!=null?  club.logo??
+                                          "":"",
+                                      placeholder: (context, url) =>
+                                          SizedBox(),
+                                      errorWidget: (context, url, error) => SizedBox(),
+                                    ),
+                                  ),
                                   SizedBox(width: 10,),
                                   Text(
                                     index == 0
-                                        ? "Clubs"
+                                        ? "Klublar".tr
                                         : club.teamName != null
-                                            ? club.teamName!.split(" ").first
+                                            ? club.teamName!.split(" ").first.tr
                                             : "1",
                                     style: const TextStyle(color: Colors.white),
                                   ),
@@ -158,7 +156,7 @@ class _DropdownButState extends State<DropdownBut> {
                           child: Padding(
                             padding:  EdgeInsets.only(left: 8.0.w),
                             child: Text(
-                              position[index],
+                              position[index].tr,
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),

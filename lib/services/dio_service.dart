@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/web.dart';
 
@@ -10,8 +11,8 @@ class DioService {
     try {
       var response = await dio.post<String>(api, data: data);
       Logger().d("status code ${response.statusCode}api$api");
-      if (response.statusCode == 200) {
 
+      if (response.statusCode == 200) {
         return "${response.data}";
       } else {
         print(response.statusMessage);
@@ -21,7 +22,9 @@ class DioService {
       return "$e";
     }
   }
-  static Future<String> POST2(String api, Map<String, dynamic>? data, XFile? image) async {
+
+  static Future<String> POST2(
+      String api, Map<String, dynamic>? data, XFile? image) async {
     try {
       FormData formData = FormData();
 
@@ -32,36 +35,50 @@ class DioService {
       }
 
       if (image != null) {
-        formData.files.add(MapEntry(
-          'file', // Ensure this key matches your backend's expected parameter
-          await MultipartFile.fromFile(image.path, filename: image.name),
-        ));
-      }
+        String fileName = image.name;
+        String filePath = image.path;
 
-      // Log formData to see what's being sent
-      Logger().i(formData.fields);
-      Logger().i(formData.files);
+        Logger().i("Image selected: $filePath");
+        Logger().i("File name selected: $fileName");
+
+        if (filePath.endsWith('.jpg') ||
+            filePath.endsWith('.png') ||
+            filePath.endsWith('.jpeg')) {
+          formData.files.add(
+            MapEntry(
+              'file',
+              await MultipartFile.fromFile(
+                filePath,
+                filename: fileName,
+                contentType: MediaType('image', 'jpeg'),
+              ),
+            ),
+          );
+        } else {
+          Logger().e("Selected file is not a valid image");
+          return "Error: Invalid image format. Please upload a .jpg or .png file.";
+        }
+      }
 
       var response = await dio.post<String>(api, data: formData);
 
       if (response.statusCode == 200) {
-        Logger().i(response.statusCode);
-        Logger().i(response);
-        return "${response.data}";
+        Logger().i("Response data: ${response.data}");
+        return response.data ?? "Success";
       } else {
-        Logger().e("Status code: ${response.statusCode}, Message: ${response.statusMessage}");
-        return "${response.statusMessage}";
+        Logger().e("Error: ${response.statusCode}, ${response.statusMessage}");
+        return "Error: ${response.statusMessage}";
       }
     } on DioException catch (e) {
-      Logger().e("DioError: $e");
-      return "$e";
+      Logger().e("DioException: $e");
+      return "Error: $e";
     } catch (e) {
       Logger().e("Exception: $e");
-      return "$e";
+      return "Error: $e";
     }
   }
 
-
+// Image picker bilan rasm tanlash funksiyasi
 
   static Future<String> GET(String api, Map? data) async {
     try {
@@ -88,7 +105,6 @@ class DioService {
       return "$e";
     }
   }
-
 
   static Future<String> PUT(String api, Map? data) async {
     try {
@@ -120,8 +136,13 @@ class DioService {
   static postImage(String userId) {
     return "/api/v1/users/$userId/upload-image";
   }
+
   static getMatch(int matchId) {
     return "/api/v1/event-statistics/$matchId/game-statistics";
+  }
+
+  static getLeagueStatistic(String leagueId) {
+    return "/api/v1/leagues/leagues/$leagueId/statistics";
   }
 
   static sellPLayer(userid, teamid, playerid) {
@@ -135,14 +156,21 @@ class DioService {
   static setFirebaseToken(String userId) {
     return "/api/v1/users/$userId/save-token";
   }
+
   static getPayment(String userId) {
     return "/api/v1/users/$userId/payment-history";
   }
+
+  static getChartScore(String playerId) {
+    return "/api/v1/players/$playerId/match-week-scores/chart";
+  }
+
   static chooseImg(String userId) {
     return "/api/v1/users/$userId/upload-image";
   }
-  static chartApi(String userId,int year) {
-   // return "/api/v1/users/1/buy-transfer-history/chart?year=$year";
+
+  static chartApi(String userId, int year) {
+    // return "/api/v1/users/1/buy-transfer-history/chart?year=$year";
     return "/api/v1/users/$userId/buy-transfer-history/chart?year=$year";
   }
 
@@ -157,7 +185,8 @@ class DioService {
   static joinLeagueApi(String leagueId, String userId) {
     return "/api/v1/users/$leagueId/join?userId=$userId";
   }
-  static balanceForTransfer( String userId,String type) {
+
+  static balanceForTransfer(String userId, String type) {
     return "/api/v1/users/generatePaymentUrl/$userId/$type";
   }
 
@@ -184,11 +213,12 @@ class DioService {
   static const TRANSFER_SUMMARY = "/api/v1/users/tranfer-summary/";
   static const ALL_ClUBS = "/api/football-teams/all";
   static const CURRENT_MATCHWEEK = "/api/matchweeks/current";
-  static const PLAYER_STATISTIC = "/api/v1/players/api/players/statistics?position=";
+  static const PLAYER_STATISTIC =
+      "/api/v1/players/api/players/statistics?position=";
   static const BALANCE_API = "/api/v1/transfers/available-transfers-packs";
   static const SEARCH_Players = "/api/v1/players/search/";
   static const STANDING_PLAYERS = "/api/v1/standings/standings";
-
+  static const ASSIGN_CAPITAN = "/api/v1/teams/assign-capitan/";
   static const LEAGUE_EXTRA_API = "/api/v1/leagues";
   static const LEAGUE_DETAIL_API = "/api/v1/leagues/";
   static const LEAGUE_PAID_API = "/api/v1/leagues/available";
@@ -197,7 +227,5 @@ class DioService {
   static const MY_LEAUGE = "/api/v1/users/myLeagues";
   static const DEADLINE = "/api/calendars/get-start-match-week";
 
-
-  //transfer buy
-
+//transfer buy
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../../../../utils/constants/app_colors.dart';
 import '../../../../../utils/constants/constants.dart';
@@ -146,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           },
                         ),
                         const SizedBox(height: 20),
-                        _buildPasswordField(),
+                        _buildPasswordField(controller),
                         const SizedBox(height: 20),
                         CustomButton(
                           text: "O\'zgartirish".tr,
@@ -297,7 +298,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildPasswordField() {
+  Widget _buildPasswordField(ProfilePageController controller) {
+    Logger().i(controller.passwordCont.text);
     return Container(
       height: 64,
       padding: const EdgeInsets.all(10),

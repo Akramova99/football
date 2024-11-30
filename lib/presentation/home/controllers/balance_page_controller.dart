@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:football/models/transfer_maket_model.dart';
 import 'package:football/presentation/widgets/toast.dart';
@@ -18,6 +16,7 @@ class BalancePageController extends GetxController {
   List<PaymentHistory> payment = [];
   List<YearlyPayment> chart = [];
   String paymentUrl = '';
+
   ///api/v1/transfers/available-transfers-packs
 
   getUserData() async {
@@ -32,7 +31,7 @@ class BalancePageController extends GetxController {
     userId = DbService.getUserId();
     DateTime year = DateTime.now();
 
-    int currentYear =year.year;
+    int currentYear = year.year;
     var response =
         await DioService.GET(DioService.chartApi(userId, currentYear), null);
     chart = yearlyPaymentsFromJson(response);
@@ -41,11 +40,12 @@ class BalancePageController extends GetxController {
     update();
   }
 
-  postPayment(String packetName)async{
+  postPayment(String packetName) async {
     userId = DbService.getUserId();
-    paymentUrl = await DioService.POST(DioService.balanceForTransfer(userId, packetName), null);
-   // var response = await DioService.POST(DioService.balanceForTransfer(userId, packetName), null);
-   //  paymentUrl = jsonDecode(response);
+    paymentUrl = await DioService.POST(
+        DioService.balanceForTransfer(userId, packetName), null);
+    // var response = await DioService.POST(DioService.balanceForTransfer(userId, packetName), null);
+    //  paymentUrl = jsonDecode(response);
     Logger().i(paymentUrl);
   }
 

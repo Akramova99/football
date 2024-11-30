@@ -20,8 +20,8 @@ class PlayerWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(5),
       margin: EdgeInsets.all(5),
-      height: 75,
-      width: 60,
+      height: 75.h,
+      width: 60.w,
       decoration: BoxDecoration(
         color: AppColors.purple.withOpacity(0.5),
         borderRadius: BorderRadius.circular(10),
@@ -450,7 +450,7 @@ class PlayerTransferWidget extends StatelessWidget {
                 onTap: () {
                   Get.find<TransferPageController>().selectPlayer(player);
                   Get.find<TransferPageController>()
-                      .searchPlayers(player.position);
+                      .searchPlayers2(player.position!);
                 },
               ),
             ),

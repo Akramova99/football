@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/leagues_controller/create_league_controller.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/widgets/create_button.dart';
+import 'package:football/presentation/widgets/toast.dart';
 import 'package:get/get.dart';
 import 'package:logger/web.dart';
 
@@ -78,7 +79,8 @@ class _CreateLeaguePageState extends State<CreateLeaguePage> {
               CreateButton(
                 text: "Liga yaratish",
                 onPress: () {
-                  controller.createLeague(context);
+                  controller.nameController.text.isNotEmpty?
+                  controller.createLeague(context):ToastService.showError("Ligani nomlang".tr);
                 },
                 color: AppColors.cyan,
               ),

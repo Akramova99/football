@@ -120,7 +120,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                               Text(
+                              Text(
                                 "BUDGET".tr,
                                 style: TextStyle(
                                     fontSize: 11,
@@ -248,7 +248,6 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                     "Narxi",
                                     style: CustomStyles.dataTitle,
                                   )),
-
                                 ],
                                 rows: List.generate(
                                   controller.playersDetails.length,
@@ -259,9 +258,38 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                         color: WidgetStateProperty.all(
                                             AppColors.tableColor),
                                         cells: [
-                                          DataCell(Text(
-                                            "${index + 1}",
-                                            style: CustomStyles.dataTitle,
+                                          DataCell(Row(
+                                            children: [
+                                              Text(
+                                                "${index + 1}",
+                                                style: CustomStyles.dataTitle,
+                                              ),
+                                              if (player.jersey != null)
+                                                CachedNetworkImage(
+                                                  imageUrl: player.jersey!,
+                                                  width: 30,
+                                                  height: 30,
+                                                  placeholder: (context, url) {
+                                                    return Stack(
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/images/home/player_img.png")
+                                                      ],
+                                                    );
+                                                  },
+                                                  errorWidget:
+                                                      (context, url, error) {
+                                                    print(
+                                                        "+++++++++++++++++++++++$error");
+                                                    print(
+                                                        "+++++++++++++++++++++++$url");
+                                                    return Image.asset(
+                                                      "assets/images/home/player_img.png",
+                                                      width: 54,
+                                                    );
+                                                  },
+                                                ),
+                                            ],
                                           )),
                                           DataCell(GestureDetector(
                                             onTap: () {
@@ -272,58 +300,23 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    if (player.jersey != null)
-                                                      CachedNetworkImage(
-                                                        imageUrl:
-                                                            player.jersey!,
-                                                        width: 30,
-                                                        height: 30,
-                                                        placeholder:
-                                                            (context, url) {
-                                                          print(
-                                                              "+++++++++++++++++++++++");
-                                                          return Stack(
-                                                            children: [
-                                                              Image.asset(
-                                                                  "assets/images/home/player_img.png")
-                                                            ],
-                                                          );
-                                                        },
-                                                        errorWidget: (context,
-                                                            url, error) {
-                                                          print(
-                                                              "+++++++++++++++++++++++$error");
-                                                          print(
-                                                              "+++++++++++++++++++++++$url");
-                                                          return Image.asset(
-                                                            "assets/images/home/player_img.png",
-                                                            width: 54,
-                                                          );
-                                                        },
-                                                      ),
-                                                    Text(
-                                                      player.name!.length > 11
-                                                          ? '${player.name!
-                                                                  .substring(
-                                                                      0, 11)}...'
-                                                          : player.name!,
-                                                      style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontFamily: "Poppins",
-                                                      ),
-                                                    ),
-                                                  ],
+                                                Text(
+                                                  player.name!.length > 11
+                                                      ? '${player.name!.substring(0, 11)}...'
+                                                      : player.name!,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: "Poppins",
+                                                  ),
                                                 ),
                                                 Text(
                                                   "  ${player.clubName ?? ""}"
                                                               .length >
                                                           14
-                                                      ? '${"  ${player.clubName ?? ""}"
-                                                              .substring(
-                                                                  0, 14)}...'
+                                                      ? '${"  ${player.clubName ?? ""}".substring(0, 14)}...'
                                                       : "  ${player.clubName ?? ""}",
                                                   style: const TextStyle(
                                                     color: Colors.white,
@@ -337,7 +330,6 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                                             "\$ ${player.price}",
                                             style: CustomStyles.dataTitle,
                                           )),
-
                                         ]);
                                   },
                                 ),
@@ -424,7 +416,7 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                           ),
                           // Fix dropdown layout issue
                           Container(
-                            width: 150,
+
                             decoration: BoxDecoration(
                               color: AppColors.HRed,
                               borderRadius: BorderRadius.circular(10),
@@ -438,30 +430,62 @@ class _CreateTeamPageState extends State<CreateTeamPage> {
                               underline: const SizedBox(),
                               value: controller.clubsIndex,
                               menuWidth: 200,
-                              items: List.generate(
+                              items: (controller.clubs.isNotEmpty
+                                  ? List.generate(
                                 controller.clubs.length,
-                                (index) {
+                                    (index) {
                                   var club = controller.clubs[index];
                                   return DropdownMenuItem(
                                     value: index,
-                                    child: Text(
-                                      index == 0
-                                          ? "Clubs"
-                                          : club.teamName != null
+                                    child: Row(
+                                      children: [
+                                        index == 0
+                                            ? const SizedBox()
+                                            : CachedNetworkImage(
+                                          imageUrl: club.logo ?? '',
+                                          width: 23.w,
+                                          height: 27.h,
+                                          placeholder: (context, url) {
+                                            return Image.asset(
+                                              "assets/images/home/player_img.png",
+                                              width: 30.w,
+                                              height: 30.h,
+                                            );
+                                          },
+                                          errorWidget: (context, url, error) => Image.asset(
+                                            "assets/images/home/player_img.png",
+                                            width: 30.w,
+                                            height: 30.h,
+                                          ),
+                                        ),
+                                        Text(
+                                          index == 0
+                                              ? "Clubs"
+                                              : club.teamName != null
                                               ? club.teamName!.split(" ").first
                                               : "",
-                                      style:
-                                          const TextStyle(color: Colors.black),
+                                          style: const TextStyle(color: Colors.black),
+                                        ),
+                                      ],
                                     ),
                                   );
                                 },
-                              ),
+                              )
+                                  : [
+                                const DropdownMenuItem(
+                                  value: 0,
+                                  child: Text(
+                                    "No Clubs Available",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                )
+                              ]),
                               onChanged: (int? value) {
                                 controller.onClubChange(value);
                               },
-                              isExpanded:
-                                  false, // Ensure the dropdown expands to fit the text
+                              isExpanded: false, // Ensure the dropdown expands to fit the text
                             ),
+
                           ),
                         ],
                       ),

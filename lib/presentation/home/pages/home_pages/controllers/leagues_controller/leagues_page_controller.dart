@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:logger/web.dart';
 
 import '../../../../../../models/league_model.dart';
+import '../../pages/leagues/my_leagues.dart';
 
 class LeaguesPageController extends GetxController {
   List<LeagueModel> leagues = [];
@@ -17,21 +18,18 @@ class LeaguesPageController extends GetxController {
 
     try {
       // Fetch leagues from the API using the userId as a query parameter
-      var response = await DioService.dio.get<String>(
-          DioService.MY_LEAUGE,
-          queryParameters: {"userId": userId}
-      );
+      var response = await DioService.dio.get<String>(DioService.MY_LEAUGE,
+          queryParameters: {"userId": userId});
 
       if (response.statusCode == 200) {
         var list = leagueModelFromJson(response.data!);
         leagues = list;
-        update();  // Update UI
+        update(); // Update UI
       }
     } on Exception catch (e) {
       print("$e");
     }
   }
-
 
   deleteLeague() async {
     var userId = DbService.getUserId();
@@ -48,18 +46,25 @@ class LeaguesPageController extends GetxController {
     }
   }
 
-  callLeagueDetail(LeagueModel league, context) {
+  callLeagueDetai(LeagueModel league, context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return LeagueDetailPage(id: league.id!);
+    }));
+  }
+
+  callLeagueDetail(LeagueModel league, context, name) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return MyLeagues(
+        leagueId: league.id ?? "",
+      );
     }));
   }
 
   callNextPage(Widget widget, context) async {
     await Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) {
-          return widget;
-        }));
-    getLeagues();  // Refresh leagues after returning from next page
+      return widget;
+    }));
+    getLeagues(); // Refresh leagues after returning from next page
   }
 }
-

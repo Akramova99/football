@@ -42,22 +42,26 @@ class CreateLeagueController extends GetxController {
   }
 
   chooseImage() async {
+    isUpload = false;
     XFile? image = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 50, // Compresses the image to 50% quality
+      imageQuality: 50, // Tasvir sifatini pasaytirish (optional)
     );
 
     if (image != null) {
+
       imageFile = File(image.path);
       isUpload = true;
-      Logger().i("file");
-    } // Store the image file
-
-    // Assuming no other data is required, pass the image as a parameter
-    var response = await DioService.POST2(DioService.UPLOAD_IMAGE, null, image);
-    img = response;
-    update();
-    Logger().i(response);
+      // Serverga rasmni yuborish
+      var response =
+          await DioService.POST2(DioService.UPLOAD_IMAGE, null, image);
+      img = response;
+     // isUpload = true;
+      update();
+      Logger().i(response);
+    } else {
+      Logger().i("Image selection canceled");
+    }
   }
 
   createLeague(context) async {

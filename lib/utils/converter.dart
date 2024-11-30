@@ -10,7 +10,7 @@ PlayerSelectionModel convertToPlayerSelectionModel(Player player) {
     clubName: player.clubName,
     price: player.price,
     currentScore: player.currentScore,
-    score: player.score,
+    score: player.totalScore,
     jersey: player.jersey,
   );
 }
@@ -25,7 +25,7 @@ Player convertToPlayer(PlayerSelectionModel player) {
     clubLogo: player.clubLogo,
     price: player.price,
     currentScore: player.currentScore,
-    score: player.score,
+    totalScore: player.score,
     jersey: player.jersey,
   );
 }
@@ -62,7 +62,7 @@ List<Player> combinePlayers(
         clubName: selection.clubName,
         price: selection.price,
         currentScore: selection.currentScore,
-        score: selection.score,
+        totalScore: selection.score,
         jersey: selection.jersey,
       ));
       playerIds.add(selection.id);

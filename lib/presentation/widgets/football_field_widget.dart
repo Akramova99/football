@@ -8,14 +8,10 @@ import 'package:football/utils/constants/constants.dart';
 import 'package:football/utils/converter.dart';
 
 import '../../../utils/size.dart';
-
-
 import 'change_player_football_field.dart';
 
 class CreateTeamWidget extends StatelessWidget {
-  const 
-  
-  CreateTeamWidget({super.key, required this.controller});
+  const CreateTeamWidget({super.key, required this.controller});
 
   final CreateTeamController controller;
 
@@ -25,11 +21,12 @@ class CreateTeamWidget extends StatelessWidget {
       aspectRatio: 1501 / 1700, //2400
       child: Stack(
         children: [
-           Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: Center(
               child: Image(
-                image: const AssetImage("assets/images/team/football_field.png"),
+                image:
+                    const AssetImage("assets/images/team/football_field.png"),
                 fit: BoxFit.cover,
                 width: 370.w,
                 height: 423.h,
@@ -55,16 +52,17 @@ class CreateTeamWidget extends StatelessWidget {
     var goalKeeper = 2;
 
     list.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(
-          goalKeeper,
-          (i) => GestureDetector(
-            onTap: () {
-              controller.selectPlayer(reversePosition[0]!, 0 + i);
-            },
-            child: PlayerWidget(player: controller.playersInField[0 + i]),
-          ),
-        )));
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(
+        goalKeeper,
+        (i) => GestureDetector(
+          onTap: () {
+            controller.selectPlayer(reversePosition[0]!, 0 + i);
+          },
+          child: PlayerWidget(player: controller.playersInField[0 + i]),
+        ),
+      ),
+    ));
 
     var defender = 5;
     list.add(buildRow(defender, 1, goalKeeper));
@@ -92,7 +90,6 @@ class CreateTeamWidget extends StatelessWidget {
   }
 }
 
-
 class CapitanSelectionWidget extends StatelessWidget {
   const CapitanSelectionWidget({super.key, required this.controller});
 
@@ -105,7 +102,7 @@ class CapitanSelectionWidget extends StatelessWidget {
       child: Stack(
         children: [
           Center(
-            child:  Image(
+            child: Image(
               width: 370.w,
               height: 462.h,
               image: AssetImage("assets/images/team/football_field.png"),

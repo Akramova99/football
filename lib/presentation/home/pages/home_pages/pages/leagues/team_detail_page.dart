@@ -42,46 +42,48 @@ class _TeamDetailPageState extends State<TeamDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (controller.isLoading) const CircularProgressIndicator() else Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            margin: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                color: AppColors.field.withOpacity(0.45),
-                                border: Border.all(color: Colors.white),
-                                borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(
-                                      10,
-                                    ),
-                                    bottomLeft: Radius.circular(10))),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    controller.team.name ?? "",
-                                    style: CustomStyles.pageTitle!.copyWith(color: Colors.white),
-                                  ),
+                if (controller.isLoading)
+                  const CircularProgressIndicator()
+                else
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: AppColors.field.withOpacity(0.45),
+                            border: Border.all(color: Colors.white),
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(
+                                  10,
                                 ),
-                                Spacer(),
-                                CachedNetworkImage(
-                                  height: 32,
-                                  width: 27,
-                                  imageUrl:  controller.team.logo ?? "",
-                                  placeholder: (context, url) => Container(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
+                                bottomLeft: Radius.circular(10))),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                controller.team.name ?? "",
+                                style: CustomStyles.pageTitle!.copyWith(color: Colors.white),
+                              ),
                             ),
-                          ),
-
-                          TeamDetailWidget(
-                            controller: controller,
-                          ),
-                        ],
-                      )
+                            Spacer(),
+                            CachedNetworkImage(
+                              height: 32,
+                              width: 27,
+                              imageUrl: controller.team.logo ?? "",
+                              placeholder: (context, url) => Container(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      TeamDetailWidget(
+                        controller: controller,
+                      ),
+                    ],
+                  )
               ],
             ),
           ),
@@ -145,10 +147,18 @@ class TeamDetailWidget extends StatelessWidget {
 
   buildRow(int playerNumber, int index) {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(
-          playerNumber,
-          (i) => PointsPlayerWidget1(player: controller.players[index + i]),
-        ));
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: List.generate(
+        playerNumber,
+            (i) => PointsPlayerWidget1(
+          player: controller.players[index + i],
+          onPressed: () {},
+          myTeam: controller.team,
+          onInitPlayer: () {
+            // controller.changeReserve(controller.players[index + i], controller.team.id);
+          },
+        ),
+      ),
+    );
   }
 }

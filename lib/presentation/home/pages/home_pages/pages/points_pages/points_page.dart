@@ -7,11 +7,16 @@ import 'package:football/presentation/widgets/points_player_widget.dart';
 import 'package:football/utils/constants/styles.dart';
 import 'package:get/get.dart';
 
-import '../../../../../utils/constants/app_colors.dart';
-import '../../../../../utils/constants/img_roots.dart';
+import '../../../../../../models/team_reyting_model.dart';
+import '../../../../../../utils/constants/app_colors.dart';
+import '../../../../../../utils/constants/img_roots.dart';
+import '../../../settings_pages/controllers/profile_page_controller.dart';
 
 class PointsPage extends StatefulWidget {
-  const PointsPage({super.key});
+  final bool isHaveLeague;
+  TeamRatingModel? user;
+
+  PointsPage({super.key, required this.isHaveLeague, this.user});
 
   @override
   State<PointsPage> createState() => _PointsPageState();
@@ -19,11 +24,14 @@ class PointsPage extends StatefulWidget {
 
 class _PointsPageState extends State<PointsPage> {
   final controller = Get.find<PointsPageController>();
+  final profileController =
+      Get.find<ProfilePageController>(); // Get the profile controller
 
   @override
   void initState() {
     super.initState();
     controller.getTeam();
+    profileController.getData(); // En
   }
 
   @override
@@ -98,34 +106,66 @@ class _PointsPageState extends State<PointsPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor:
-                                                  const Color(0xff414158),
-                                              child: CachedNetworkImage(
-                                                height: 45.h,
-                                                width: 41.w,
-                                                imageUrl: controller.team.logo,
-                                                placeholder: (context, url) =>
-                                                    Image.asset(
-                                                  'assets/images/team/placeholder.png',
+                                        GetBuilder<ProfilePageController>(
+                                          builder: (_) {
+                                            return Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundColor:
+                                                      const Color(0xff414158),
+                                                  radius: 25,
+                                                  // Adjust the radius to control the size of the avatar
+                                                  child: ClipOval(
+                                                    child: CachedNetworkImage(
+                                                      height: 45.h,
+                                                      width: 41.w,
+                                                      fit: BoxFit.cover,
+                                                      // Ensures the image fills the circle
+                                                      imageUrl:
+                                                          widget.isHaveLeague &&
+                                                                  widget.user !=
+                                                                      null
+                                                              ? widget.user!
+                                                                      .logo ??
+                                                                  ""
+                                                              : profileController
+                                                                      .user
+                                                                      .image ??
+                                                                  "",
+                                                      placeholder:
+                                                          (context, url) =>
+                                                              Image.asset(
+                                                        'assets/images/team/placeholder.png',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                        'assets/images/team/placeholder.png',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Image.asset(
-                                                  'assets/images/team/placeholder.png',
+                                                SizedBox(
+                                                  width: 20.w,
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 20.w,
-                                            ),
-                                            Text(controller.teamName,
-                                                style: CustomStyles.appBarStyle
-                                                    .copyWith(
-                                                        color: Colors.white)),
-                                          ],
+                                                Text(
+                                                    widget.isHaveLeague &&
+                                                            widget.user != null
+                                                        ? widget.user!.name ??
+                                                            ""
+                                                        : profileController
+                                                                .name ??
+                                                            "",
+                                                    style: CustomStyles
+                                                        .appBarStyle
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.white)),
+                                              ],
+                                            );
+                                          },
                                         ),
                                         Row(
                                           children: [

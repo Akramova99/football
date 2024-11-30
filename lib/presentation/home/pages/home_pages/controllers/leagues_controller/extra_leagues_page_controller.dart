@@ -5,6 +5,7 @@ import 'package:football/services/db_service.dart';
 import 'package:get/get.dart';
 import 'package:logger/web.dart';
 
+import '../../../../../../models/joined_team_model.dart';
 import '../../../../../../models/league_detail_model.dart';
 import '../../../../../../models/league_model.dart';
 import '../../../../../../services/dio_service.dart';
@@ -13,6 +14,11 @@ import '../../../../../widgets/toast.dart';
 class ExtraLeaguesPageController extends GetxController {
   List<LeagueModel> leagues = [];
   var userId = DbService.getUserId();
+  LeagueModel myLeague = LeagueModel();
+  LeagueModel myExtraLeagues = LeagueModel();
+  JoinedTeamModel joinTeam = JoinedTeamModel();
+  bool isJoin = false;
+  String leagueId = "";
 
   getLeagues() async {
     print(userId);
@@ -30,8 +36,6 @@ class ExtraLeaguesPageController extends GetxController {
     }
   }
 
-  LeagueModel myLeague = LeagueModel();
-
   getMyLeagues() async {
     var response = await DioService.dio
         .get<String>("/api/v1/users/myLeagues?userId=$userId");
@@ -40,6 +44,30 @@ class ExtraLeaguesPageController extends GetxController {
       if (result.isNotEmpty) {
         myLeague = result.last;
       }
+      update();
+    }
+  }
+
+  getMyLeaguesDetails() async {
+    var response =
+        await DioService.dio.get<String>("/api/v1/leagues/available");
+    if (response.statusCode == 200) {
+      var result = leagueModelFromJson(response.data!);
+      Logger().d(result);
+      if (result.isNotEmpty) {
+        myExtraLeagues = result.last;
+      }
+      update();
+    }
+  }
+
+  getJoinedTeam() async {
+    var response = await DioService.dio
+        .get<String>(DioService.getLeagueStatistic(leagueId));
+    if (response.statusCode == 200) {
+      var result = joinedTeamFromJson(response.data!);
+      Logger().d(result);
+      joinTeam = result;
       update();
     }
   }
@@ -63,7 +91,8 @@ class ExtraLeaguesPageController extends GetxController {
 
   getLeague() async {
     var id = leagues.first.id;
-    print("liga id :$id}");
+    leagueId = leagues.last.id ?? "";
+    Logger().e("liga id :${leagues.last.id}}");
     try {
       var response = await DioService.dio
           .get<String>(DioService.LEAGUE_DETAIL_API + id.toString());
@@ -83,6 +112,7 @@ class ExtraLeaguesPageController extends GetxController {
 
   joinLeague(context) async {
     String? errorMessage = "";
+    isJoin = false;
     var userId = DbService.getUserId();
     if (league.id != null) {
       try {
@@ -91,6 +121,7 @@ class ExtraLeaguesPageController extends GetxController {
 
         if (response.statusCode == 200) {
           ToastService.showSuccess("Siz ligaga qo'shildingiz");
+          isJoin = true;
         } else {
           errorMessage = response.statusMessage;
           Logger().e(errorMessage);

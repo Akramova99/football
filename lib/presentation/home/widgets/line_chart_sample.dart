@@ -1,16 +1,33 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
+import '../../../models/week_chart_model.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../pages/home_pages/pages/points_pages/drop_down_of_chart.dart';
+import '../pages/home_pages/pages/points_pages/player_chart_controller.dart';
 
 class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({super.key});
+  String? playerId;
+   LineChartSample2({super.key,this.playerId});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
+
+  late final PlayerChartController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.put(PlayerChartController()); // Register controller here
+
+    //controller.getPlayerChartData(widget.playerId??"2");
+
+  }
   List<Color> gradientColors = [
   //  AppColors.contentColorCyan,
     AppColors.HRed,
@@ -22,64 +39,130 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        SizedBox(
-          height: 350, // Set the desired height
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 18,
-              left: 12,
-              top: 24,
-              bottom: 12,
-            ),
-            child: LineChart(
-              showAvg ? avgData() : mainData(),
-            ),
+    return  GetBuilder<PlayerChartController>(builder: (_) {
+      return ListView(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                // width: 60,
+                // height: 34,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      showAvg = !showAvg;
+                    });
+                  },
+                  child: Text(
+                    'avg',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+               DropdownButOfChart(
+                text: "1-3 tur",
+                playerId: widget.playerId??"0",
+
+              ),
+            ],
           ),
-        ),
-        SizedBox(
-          width: 60,
-          height: 34,
-          child: TextButton(
-            onPressed: () {
-              setState(() {
-                showAvg = !showAvg;
-              });
-            },
-            child: Text(
-              'avg',
-              style: TextStyle(
-                fontSize: 12,
-                color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+          SizedBox(
+            height: 300, // Set the desired height
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 18,
+                left: 12,
+
+              ),
+              child: LineChart(
+                showAvg ? avgData(controller) : mainData(controller),
               ),
             ),
           ),
-        ),
-      ],
-    );
+
+        ],
+      );
+    })
+      ;
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.white,
-      fontSize: 16,
+      fontSize: 10,
     );
     Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
+    Logger().d(widget.playerId);
+    // Hozirgi oyni aniqlash
+    int currentMonth = DateTime.now().month;
+
+    // Agar hozirgi oy oktabrdan oldin bo'lsa birinchi switch ishlaydi
+    if (currentMonth < 10) {
+      switch (value.toInt()) {
+        case 2:
+          text = const Text('MAR', style: style);
+          break;
+        case 5:
+          text = const Text('JUN', style: style);
+          break;
+        case 8:
+          text = const Text('SEP', style: style);
+          break;
+        case 7:
+          text = const Text('AUG', style: style);
+          break;
+        case 6:
+          text = const Text('JUL', style: style);
+          break;
+        case 9:
+          text = const Text('OCT', style: style);
+          break;
+        case 3:
+          text = const Text('APR', style: style);
+          break;
+        case 4:
+          text = const Text('MAY', style: style);
+          break;
+        default:
+          text = const Text('', style: style);
+          break;
+      }
+    } else {
+      // Aks holda (oktabrdan keyingi oylarda) ikkinchi switch ishlaydi
+      switch (value.toInt()) {
+        case 2:
+          text = const Text('OCT', style: style);
+          break;
+        case 3:
+          text = const Text('NOV', style: style);
+          break;
+        case 4:
+          text = const Text('DEC', style: style);
+          break;
+        case 5:
+          text = const Text('JAN', style: style);
+          break;
+        case 6:
+          text = const Text('FEB', style: style);
+          break;
+        case 7:
+          text = const Text('MAR', style: style);
+          break;
+        case 8:
+          text = const Text('APR', style: style);
+          break;
+        case 9:
+          text = const Text('MAY', style: style);
+          break;
+        default:
+          text = const Text('', style: style);
+          break;
+      }
     }
 
     return SideTitleWidget(
@@ -87,6 +170,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       child: text,
     );
   }
+
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -121,7 +205,18 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(PlayerChartController controller) {
+    List<MatchScore> list = controller.matchScore;
+
+    // FlSpot obyektlarini yaratish
+    List<FlSpot> spots = List.generate(10, (index) {
+      // Agar list bo'sh bo'lsa, `y` qiymati 0 bo'ladi, bo'sh bo'lmasa list dan olinadi
+      double yValue = (list.isNotEmpty && index < list.length)
+          ? list[index].totalScore.toDouble()
+          : 0.0;
+      return index>1? FlSpot(index.toDouble(), yValue):FlSpot(0,3);
+    });
+
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -171,20 +266,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: 10, // Ko'rsatilgan maksimal x qiymati
       minY: 0,
       maxY: 12,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: spots,
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
@@ -197,9 +284,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
             ),
           ),
         ),
@@ -207,7 +292,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
     );
   }
 
-  LineChartData avgData() {
+
+  LineChartData avgData(PlayerChartController controller) {
+    List<MatchScore> list = controller.matchScore;
+
+    // FlSpot obyektlarini yaratish
+    List<FlSpot> spots = List.generate(10, (index) {
+      // Agar list bo'sh bo'lsa, `y` qiymati 3.44 bo'ladi, bo'sh bo'lmasa list dan olinadi
+      double yValue = (list.isNotEmpty && index < list.length)
+          ? list[index].totalScore.toDouble()
+          : 3.44;
+      return FlSpot(index.toDouble(), yValue);
+    });
+
     return LineChartData(
       lineTouchData: const LineTouchData(enabled: false),
       gridData: FlGridData(
@@ -258,20 +355,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: 11, // Ko'rsatilgan maksimal x qiymati
       minY: 0,
       maxY: 12,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
+          spots: spots,
           isCurved: true,
           gradient: LinearGradient(
             colors: [
@@ -303,6 +392,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       ],
     );
   }
+
 }
 
 

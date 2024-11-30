@@ -67,6 +67,8 @@ class LoginRegisterController extends GetxController {
         ToastService.showSuccess("Xush kelibsiz");
         var userData = loginResponseModelFromJson(response.data!);
         userId = userData.userId.toString();
+        print(response);
+        print("Here is userId: $userId");
 
         var firebaseToken = DbService.getFirebaseToken();
         print(firebaseToken);
@@ -74,7 +76,6 @@ class LoginRegisterController extends GetxController {
             DioService.setFirebaseToken(userId),
             data: {"token": firebaseToken});
         if (responseFirebase.statusCode == 200) {
-          print(responseFirebase.statusCode);
 
           //sent notification
           sentNotification("/api/v1/notifications/welcome/", userId);
@@ -82,7 +83,13 @@ class LoginRegisterController extends GetxController {
           print(response.statusMessage);
         }
         var balance = DbService.getBalance();
-        await DioService.dio.post("/api/v1/users/set-balance/$userId/$balance");
+        if(balance!=null){
+          await DioService.dio.post("/api/v1/users/set-balance/$userId/$balance");
+        }else{
+          await DioService.dio.post("/api/v1/users/set-balance/$userId/100");
+        }
+
+
         DbService.saveUserid(userId.toString());
 
         DbService.setLoggedIn(true);

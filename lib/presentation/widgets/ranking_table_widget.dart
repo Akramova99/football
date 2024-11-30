@@ -42,7 +42,7 @@ class _SoccerRankingTableState extends State<SoccerRankingTable> {
     return GetBuilder<TransferPageController>(builder: (_) {
       return SingleChildScrollView(
           child: Column(
-           children: [
+        children: [
           Container(
             decoration: const BoxDecoration(
               color: AppColors.lBlack,
@@ -69,7 +69,8 @@ class _SoccerRankingTableState extends State<SoccerRankingTable> {
                         },
                         child: Text(
                           "Hammasini ko\'rish".tr,
-                          style: CustomStyles.dataTitle!.copyWith(color: AppColors.baseColor),
+                          style: CustomStyles.dataTitle!
+                              .copyWith(color: AppColors.baseColor),
                         ),
                       )
                     : SizedBox()
@@ -145,45 +146,39 @@ class _SoccerRankingTableState extends State<SoccerRankingTable> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                width: 150.w,
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/home/circle.png",
-                                        width: 8,
-                                        fit: BoxFit.cover,
+                              Center(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      (index + 1).toString(),
+                                      style: CustomStyles.dataTitle,
+                                    ),
+                                    // if (player.countryName !=
+                                    //     null)
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: player.teamBadge,
+                                        width: 23.w,
+                                        height: 27.h,
+                                        placeholder: (context, url) {
+                                          return SizedBox();
+                                        },
+                                        errorWidget: (context, url, error) =>
+                                            SizedBox(),
                                       ),
-                                      // if (player.countryName !=
-                                      //     null)
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.all(4.0),
-                                          child:
-                                          CachedNetworkImage(
-                                            imageUrl: player.teamBadge,
-                                            width: 23.w,
-                                            height: 27.h,
-                                            placeholder: (context, url) {
-                                            return SizedBox();
-                                            },
-                                            errorWidget: (context, url, error) =>      SizedBox(),
-                                          ),
-                                        ),
-                                      SizedBox(
-                                        width: 110.w,
-                                        child: Text(
-                                          player.teamName,
-                                          style: CustomStyles.dataTitle!
-                                              .copyWith(
-                                                  overflow: TextOverflow.fade),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(
+                                      width: 110.w,
+                                      child: Text(
+                                        player.teamName,
+                                        style: CustomStyles.dataTitle!.copyWith(
+                                            overflow: TextOverflow.fade),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ],
@@ -204,106 +199,7 @@ class _SoccerRankingTableState extends State<SoccerRankingTable> {
           ),
         ],
       )
-          // ClipRRect(
-          //   borderRadius: const BorderRadius.all(Radius.circular(10)),
-          //   child: DataTable(
-          //     headingRowColor:  WidgetStateProperty.resolveWith<Color?>(
-          //           (Set<WidgetState> states) {
-          //         // Set the color of the row to black
-          //         return AppColors.lBlack;
-          //       },
-          //     ),
-          //     columnSpacing: 10,
-          //     border: TableBorder(
-          //       bottom: BorderSide(color: Colors.grey.shade100, width: 0.5),
-          //       horizontalInside: BorderSide(color: Colors.grey.shade100, width: 0.5),
-          //     ),
-          //     clipBehavior: Clip.hardEdge,
-          //     dividerThickness: 1,
-          //     columns:  [
-          //       DataColumn(label: Text('#',style: CustomStyles.dataTitle,)),
-          //       DataColumn(
-          //         label: Text('Jamoalar',style: CustomStyles.dataTitle,),
-          //       ),
-          //       DataColumn(label: Text('M',style: CustomStyles.dataTitle,)),
-          //       DataColumn(label: Text('PTS',style: CustomStyles.dataTitle,)),
-          //     ],
-          //     rows: List.generate(
-          //       widget.teams.length,
-          //           (index) {
-          //         final team = widget.teams[index];
-          //         return DataRow(
-          //           onLongPress: () {
-          //             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-          //               return TeamDetailPage(id: team.id ?? 0);
-          //             }));
-          //           },
-          //           color: WidgetStateProperty.resolveWith<Color?>(
-          //                 (Set<WidgetState> states) {
-          //               // Set the color of the row to black
-          //               return AppColors.lBlack;
-          //             },
-          //           ),
-          //           cells: [
-          //             DataCell(Text((index + 1).toString(), style: TextStyle(color: Colors.white))),
-          //             DataCell(Row(
-          //               children: [
-          //                 SizedBox(
-          //                   height: 25,
-          //                   width: 25,
-          //                   child: team.logo != null
-          //                       ?ClipOval(
-          //                     child: CachedNetworkImage(
-          //                       width: 54,
-          //                       height: 54,
-          //                       fit: BoxFit.cover,
-          //                       // Bu rasmning to'liq joylashishiga yordam beradi
-          //                       placeholder: (context, url) {
-          //                         print("+++++++++++++++++++++++");
-          //                         return Stack(
-          //                           children: [
-          //                             Image.asset(
-          //                               "assets/images/home/player_img.png",
-          //                               width: 54,
-          //                               height: 54,
-          //                             ),
-          //                           ],
-          //                         );
-          //                       },
-          //                       errorWidget: (context, url, error) => Image.asset(
-          //                         "assets/images/home/player_img.png",
-          //                         width: 54,
-          //                         height: 54,
-          //                       ),
-          //                       imageUrl:
-          //                       profile.user.image??'http://46.101.131.127:8080/api/v1/files/league_eeb750ce-6ce1-4622-a713-5bc6e826bce0.png',
-          //                     ),
-          //                   )
-          //                       : Image.asset(teamLogos[Random().nextInt(teamLogos.length)]),
-          //                 ),
-          //                 const SizedBox(width: 5),
-          //                 SizedBox(
-          //                   width: 120,
-          //                   child:  Text(
-          //                     textAlign: TextAlign.center,
-          //                     index==0?    profile.name?? "":team.name??"",
-          //                     style: const TextStyle(
-          //                         color: Colors.white,
-          //                         fontSize: 16,
-          //                         fontWeight: FontWeight.w700),
-          //                   ),
-          //                 ),
-          //               ],
-          //             )),
-          //             DataCell(Text(team.currentScore!.toString(), style: TextStyle(color: Colors.white))),
-          //             DataCell(Text(team.totalScore!.toString(), style: TextStyle(color: Colors.white))),
-          //           ],
-          //         );
-          //       },
-          //     ),
-          //   )
-          //   ,
-          // ),
+
           );
     });
   }

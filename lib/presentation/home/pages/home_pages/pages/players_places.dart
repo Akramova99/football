@@ -4,38 +4,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:football/models/team_model.dart';
 import 'package:football/presentation/home/pages/home_pages/controllers/points_page_controller.dart';
+import 'package:football/presentation/home/pages/statistics/controllers/statistics_page_controller.dart';
 import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
+import 'package:logger/web.dart';
 
 import '../../../../../utils/constants/app_colors.dart';
 import '../../../../widgets/change_player_football_field.dart';
 import '../controllers/my_team_controller.dart';
 
-class PointsPlayerWidget1 extends StatelessWidget {
+class PointsPlayerWidget1 extends StatefulWidget {
   final Player player;
+  final VoidCallback onPressed;
+  final void Function()? onInitPlayer;
+  final TeamModel? myTeam;
 
-  const PointsPlayerWidget1({super.key, required this.player});
+  const PointsPlayerWidget1({
+    super.key,
+    this.myTeam,
+    this.onInitPlayer,
+    required this.player,
+    required this.onPressed,
+  });
+
+  @override
+  State<PointsPlayerWidget1> createState() => _PointsPlayerWidget1State();
+}
+
+class _PointsPlayerWidget1State extends State<PointsPlayerWidget1> {
+  _onInitPlayer() {
+    if (widget.onInitPlayer != null) {
+      widget.onInitPlayer!();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _onInitPlayer();
+  }
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<MyTeamController>();
+    final controller2 = Get.find<StatisticsPageController>();
 
     return GetBuilder<MyTeamController>(
       builder: (_) {
+        //  Logger().d(controller.isOne);
+        controller2.getPlayers(widget.player.id??2);
         return Container(
           padding: EdgeInsets.all(5),
           margin: EdgeInsets.all(5),
           height: 75.h,
-          width:controller.isOne? 55.w:60.w,
+          width: controller.isOne ? 55.w : 60.w,
           decoration: BoxDecoration(
             color: AppColors.purple.withOpacity(0.5),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: player.name != null
+          child: widget.player.name != null
               ? Stack(
             alignment: Alignment.center,
             children: [
-              if (player.isCapitan ?? false)
+              if (widget.player.isCapitan ?? false)
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
@@ -49,38 +80,45 @@ class PointsPlayerWidget1 extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        player.isCapitan! ? "C" : "",
-                        style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: CupertinoColors.white),
+                        widget.player.isCapitan! ? "C" : "",
+                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: CupertinoColors.white),
                       ),
                     ),
                   ],
                 ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  player.jersey != null
-                      ? Flexible(
-                    child: CachedNetworkImage(
-                      imageUrl: player.jersey!,
-                      width: 60.w,
-                      height: 54.h,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Image.asset(
-                        "assets/images/home/player_img.png",
-                        width: 40,
+              InkWell(
+                onLongPress: () async {
+                  // Spesifik asinxron funksiyani bajarishni boshlash uchun async kalit so'zini qo'shish
+                     await controller.changeCapitan(widget.player.id!,);
+                  // `await` dan foydalanib `changeCapitan` tugashini kutib turadi
+                    await  controller.getTeam();
+                  // `changeCapitan` tugagandan keyin `getTeam` chaqiriladi
+                },
+                onTap: widget.onPressed,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    widget.player.jersey != null
+                        ? Flexible(
+                      child: CachedNetworkImage(
+                        imageUrl: widget.player.jersey!,
+                        width: 60.w,
+                        height: 54.h,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Image.asset(
+                          "assets/images/home/player_img.png",
+                          width: 40,
+                        ),
                       ),
+                    )
+                        : Image.asset(
+                      "assets/images/home/player_img.png",
+                      width: 40,
+                      height: 60,
+                      fit: BoxFit.cover,
                     ),
-                  )
-                      : Image.asset(
-                    "assets/images/home/player_img.png",
-                    width: 40,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
                 width: 60.w,
@@ -97,9 +135,8 @@ class PointsPlayerWidget1 extends StatelessWidget {
                               alignment: Alignment.center,
                               color: const Color.fromRGBO(55, 0, 60, 1),
                               child: Text(
-                                "${player.playerNumber ?? ""}",
-                                style: const TextStyle(
-                                    fontSize: 7, color: Colors.white),
+                                "${widget.player.totalScore ?? ""}",
+                                style: const TextStyle(fontSize: 7, color: Colors.white),
                               ),
                             )),
                         Expanded(
@@ -107,16 +144,12 @@ class PointsPlayerWidget1 extends StatelessWidget {
                           child: Container(
                             height: 15.h,
                             alignment: Alignment.center,
-                            color: player.name != null
-                                ? CupertinoColors.white
-                                : Colors.transparent,
+                            color: widget.player.name != null ? CupertinoColors.white : Colors.transparent,
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                player.name ?? "",
-                                style: const TextStyle(
-                                    color: CupertinoColors.black,
-                                    fontSize: 5),
+                                widget.player.name ?? "",
+                                style: const TextStyle(color: CupertinoColors.black, fontSize: 5),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 textAlign: TextAlign.center,
@@ -133,7 +166,7 @@ class PointsPlayerWidget1 extends StatelessWidget {
                     Container(
                       height: 10.h,
                       color: Colors.white,
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "MCI(A)",
                           style: TextStyle(color: Colors.red, fontSize: 5),
@@ -160,8 +193,7 @@ class PointsPlayerWidget1 extends StatelessWidget {
           ),
         );
       },
-    )
-    ;
+    );
   }
 }
 
@@ -217,7 +249,10 @@ class PointsPageFootballField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(
         playerNumber,
-            (i) => PointsPlayerWidget1(player: controller.primaryTeam[index + i]),
+            (i) => PointsPlayerWidget1(
+          player: controller.primaryTeam[index + i],
+          onPressed: () {},
+        ),
       ),
     );
   }
@@ -240,6 +275,7 @@ class PointsPlayerCardWidget extends StatelessWidget {
         itemBuilder: (ctx, index) {
           return PointsPlayerWidget1(
             player: players[index],
+            onPressed: () {},
           );
         },
       ),

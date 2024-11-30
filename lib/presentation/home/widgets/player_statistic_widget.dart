@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:football/utils/constants/app_colors.dart';
 import 'package:get/get.dart';
 
+import '../controllers/search_controller.dart';
 import '../pages/statistics/controllers/statistics_page_controller.dart';
 
 class PlayerStatisticWidget extends StatefulWidget {
@@ -20,6 +21,7 @@ class PlayerStatisticWidget extends StatefulWidget {
 class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
   final controller = Get.find<StatisticsPageController>();
 
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +35,7 @@ class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
         onTap: () {
         widget.controller
               .callPLayerDetailPage(controller.players!, context,widget.controller,widget.index);
+
         },
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 5, horizontal: 18),
@@ -67,7 +70,7 @@ class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
                         fontFamily: "Poppins"),
                   ),
                   Text(
-                    controller.statics[widget.index].position,
+                    controller.statics[widget.index].position.tr,
                     style: const TextStyle(
                         fontSize: 8,
                         color: AppColors.textColor,
@@ -75,7 +78,7 @@ class _PlayerStatisticWidgetState extends State<PlayerStatisticWidget> {
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    controller.statics[widget.index].playerNumber.toString(),
+                    controller.statics[widget.index].playerTotalScore.toString(),
                     style: const TextStyle(
                         fontSize: 21,
                         color: AppColors.textColor2,

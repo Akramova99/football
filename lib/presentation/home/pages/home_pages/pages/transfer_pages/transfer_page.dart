@@ -11,6 +11,7 @@ import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/constants/img_roots.dart';
 import '../../../../../../utils/constants/styles.dart';
 import '../../../../../widgets/change_player_football_field.dart';
+import '../../../settings_pages/controllers/profile_page_controller.dart';
 import '../../../statistics/controllers/statistics_page_controller.dart';
 
 class TransferPage extends StatefulWidget {
@@ -23,17 +24,19 @@ class TransferPage extends StatefulWidget {
 class _TransferPageState extends State<TransferPage> {
   final controller = Get.find<TransferPageController>();
   final controller2 = Get.find<StatisticsPageController>();
+  final profileController = Get.find<ProfilePageController>();
 
   @override
   void initState() {
     super.initState();
     controller.getTeam();
     controller.getTransferSummary();
-    controller.searchPlayers("Forward".toUpperCase());
+    controller.searchPlayers();
+    profileController.getData(); // En
     controller.getClubs();
     controller.getStanding();
   }
-
+String selectClubName="";
   @override
   Widget build(BuildContext context) {
     return GetBuilder<TransferPageController>(builder: (_) {
@@ -114,41 +117,50 @@ class _TransferPageState extends State<TransferPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
-                                        children: [
-                                          GetBuilder<StatisticsPageController>(
-                                              builder: (_) {
-                                            return CircleAvatar(
-                                              backgroundColor:
-                                                  const Color(0xff414158),
-                                              child: CachedNetworkImage(
-                                                height: 45.h,
-                                                width: 41.w,
-                                                imageUrl: controller2.players !=
-                                                        null
-                                                    ? controller2
-                                                        .players!.jersey!
-                                                    : "http://46.101.131.127:8080/api/v1/files/league_a431ea45-f1e6-40fa-8850-24e22d33a769.png",
-                                                placeholder: (context, url) =>
-                                                    Image.asset(
-                                                  'assets/images/team/placeholder.png',
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Image.asset(
-                                                  'assets/images/team/placeholder.png',
+                                      GetBuilder<ProfilePageController>(
+                                        builder: (_) {
+                                          return Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                    const Color(0xff414158),
+                                                radius: 25,
+                                                // Adjust the radius to control the size of the avatar
+                                                child: ClipOval(
+                                                  child: CachedNetworkImage(
+                                                    height: 45.h,
+                                                    width: 41.w,
+                                                    fit: BoxFit.cover,
+                                                    // Ensures the image fills the circle
+                                                    imageUrl: profileController
+                                                            .user.image ??
+                                                        "",
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Image.asset(
+                                                      'assets/images/team/placeholder.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    errorWidget:
+                                                        (context, url, error) =>
+                                                            Image.asset(
+                                                      'assets/images/team/placeholder.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            );
-                                          }),
-                                          SizedBox(
-                                            width: 20.w,
-                                          ),
-                                          Text(controller.teamName,
-                                              style: CustomStyles.appBarStyle
-                                                  .copyWith(
-                                                      color: Colors.white)),
-                                        ],
+                                              SizedBox(
+                                                width: 20.w,
+                                              ),
+                                              Text(profileController.name ?? "",
+                                                  style: CustomStyles
+                                                      .appBarStyle
+                                                      .copyWith(
+                                                          color: Colors.white)),
+                                            ],
+                                          );
+                                        },
                                       ),
                                       Row(
                                         children: [
@@ -618,6 +630,7 @@ class _TransferPageState extends State<TransferPage> {
                                             (index) {
                                               var club =
                                                   controller.clubs[index];
+                                              selectClubName =club.teamName??"";
                                               return DropdownMenuItem(
                                                 value: index,
                                                 child: Row(
@@ -652,7 +665,7 @@ class _TransferPageState extends State<TransferPage> {
                                             },
                                           ),
                                           onChanged: (int? value) {
-                                            controller.onClubChange(value);
+                                            controller.onClubChange(selectClubName);
                                           },
                                           isExpanded:
                                               false, // Ensure the dropdown expands to fit the text

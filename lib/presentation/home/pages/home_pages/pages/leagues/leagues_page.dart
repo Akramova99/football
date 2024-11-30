@@ -11,11 +11,13 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
 import '../../../../../../default.dart';
+import '../../../../../../models/league_model.dart';
 import '../../../../../../utils/constants/app_colors.dart';
 import '../../../../../../utils/constants/img_roots.dart';
 import '../../../../../intro/controllers/create_team_controller.dart';
 import '../../controllers/leagues_controller/create_league_controller.dart';
 import '../../controllers/leagues_controller/extra_leagues_page_controller.dart';
+import 'join_league_page.dart';
 
 class LeaguesPage extends StatefulWidget {
   const LeaguesPage({super.key});
@@ -82,14 +84,11 @@ class _LeaguesPageState extends State<LeaguesPage> {
                 return Stack(
                   children: [
                     Center(
-                      child: Positioned(
-                        top: 0,
-                        child: Image.asset(
-                          ImgRoots.bg3,
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height,
-                          fit: BoxFit.cover,
-                        ),
+                      child: Image.asset(
+                        ImgRoots.bg3,
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Column(
@@ -147,13 +146,13 @@ class _LeaguesPageState extends State<LeaguesPage> {
     );
   }
 
-  Widget _buildLeaguesList(LeaguesPageController controller1) {
+  Widget _buildLeaguesList(LeaguesPageController controller) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
+        color: AppColors.tableColor,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.shade500,
@@ -168,22 +167,25 @@ class _LeaguesPageState extends State<LeaguesPage> {
           _buildLeaguesHeader(),
           GetBuilder<CreateLeagueController>(
             builder: (_) {
-              return   Expanded(
-                child: controller1.leagues.isEmpty
-                    ? Center(child: Text('Hech qanday liga mavjud emas'.tr))
+              if (controller.leagues == null) {
+                return Center(child: CircularProgressIndicator()); // Loading indicator
+              }
+
+              return Expanded(
+                child: controller.leagues.isEmpty
+                    ? Center(child: Text('Hech qanday liga mavjud emas'.tr,style: CustomStyles.dataTitle,))
                     : ListView.builder(
-                  itemCount: controller1.leagues.length,
+                  itemCount: controller.leagues.length,
                   itemBuilder: (ctx, index) {
-                    var league = controller1.leagues[index];
+                    var league = controller.leagues[index];
                     return _buildLeagueItem(league, index);
                   },
                 ),
               );
             },
-          )
-        ,
+          ),
         ],
-      ),
+      )
     );
   }
 
@@ -195,9 +197,9 @@ class _LeaguesPageState extends State<LeaguesPage> {
         children: [
           Row(
             children: [
-              Text("#"),
+              Text("#",style: CustomStyles.dataTitle,),
               const SizedBox(width: 20),
-              Text("Ligalar".tr),
+              Text("Ligalar".tr,style: CustomStyles.dataTitle,),
             ],
           ),
           Divider(),
@@ -206,22 +208,24 @@ class _LeaguesPageState extends State<LeaguesPage> {
     );
   }
 
-  Widget _buildLeagueItem(league, int index) {
+  Widget _buildLeagueItem(LeagueModel  league, int index) {
     return GestureDetector(
       onLongPress: () {
         controller1.deleteLeague(); // Correct deletion handling needed here
+
       },
       onTap: () {
-        controller1.callLeagueDetail(league, context); // Navigate to league details
+        controller1.callLeagueDetail(league, context,league.name ?? "Unnamed League"); // Navigate to league details
       },
       child: Container(
+
         padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
-                Text("${index + 1}"),
+                Text("${index + 1}",style: CustomStyles.dataTitle,),
                 const SizedBox(width: 10),
                 ClipOval(
                   child: CachedNetworkImage(
@@ -230,17 +234,17 @@ class _LeaguesPageState extends State<LeaguesPage> {
                     height: 30,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Image.asset(
-                      "assets/images/home/player_img.png",
+                      "assets/images/team/placeholder.png",
                       width: 54,
                     ),
                     errorWidget: (context, url, error) => Image.asset(
-                      "assets/images/home/player_img.png",
+                      "assets/images/team/placeholder.png",
                       width: 54,
                     ),
                   ),
                 ),
                 const SizedBox(width: 20),
-                Text(league.name ?? "Unnamed League"),
+                Text(league.name ?? "Unnamed League",style: CustomStyles.dataTitle,),
               ],
             ),
             Divider(),
@@ -274,7 +278,7 @@ class _LeaguesPageState extends State<LeaguesPage> {
               showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                builder: (context) => const CreateLeaguePage(),
+                builder: (context) => const JoinLeaguePage() ,
               ).whenComplete(() {
                 // Additional logic can go here if necessary when the bottom sheet is dismissed
                 Navigator.pop(context);
@@ -293,22 +297,34 @@ class _LeaguesPageState extends State<LeaguesPage> {
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: controller1.leagues.last.id!));
               },
-              child: Row(
+              child:Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    controller1.leagues.last.id!,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
+                  if (controller1.leagues.isNotEmpty) // Check if leagues list is not empty
+                    Text(
+                      controller1.leagues.last.id!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  else
+                    Text(
+                      'No ID available', // Display an alternative message if list is empty
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
                   const SizedBox(width: 20),
                   const Icon(Icons.content_copy, color: Colors.white, size: 24),
                 ],
-              ),
+              )
+
             ),
           )
               : const SizedBox(),

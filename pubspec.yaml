@@ -36,7 +36,8 @@ dependencies:
   easy_localization: ^3.0.7
   internet_connection_checker: ^1.0.0+1
   connectivity_plus: ^6.0.5
-
+  rename: ^3.0.2
+  http_parser: ^4.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -54,11 +55,13 @@ flutter:
     - assets/images/team/
     - assets/images/home/
     - assets/images/bottom_navigation/
+    - assets/images/internet_not_found/
     - assets/images/settings/
     - assets/images/test/
     - assets/images/balance/
     - assets/images/transfer/
     - assets/images/league/
+    - assets/images/app_icon/
     - assets/poppins/
   #   - images/a_dot_ham.jpeg
   fonts:

@@ -38,7 +38,7 @@ class CreateTeamController extends GetxController {
         balance = budget;
         DbService.saveBalance(balance);
         isTeamFool = 15;
-        getTeam();
+        await getTeam();
       }
     } on DioException catch (e) {
       Logger().e(e);
@@ -84,8 +84,6 @@ class CreateTeamController extends GetxController {
   }
 
   List<PlayerSelectionModel> randomPlayers = [];
-
-
 
   List<PlayerSelectionModel> selectTeam(List<PlayerSelectionModel> players) {
     List<PlayerSelectionModel> selectedPlayers = [];
@@ -193,6 +191,12 @@ class CreateTeamController extends GetxController {
     var clubList = clubModelFromJson(response);
     clubs.add(ClubModel());
     clubs.addAll(clubList);
+
+    // for(var item in nomalru ){
+    //
+    // }
+    Logger().d(clubs.toString()+" Club");
+
     update();
   }
 
@@ -241,23 +245,18 @@ class CreateTeamController extends GetxController {
   String previousPosition = "";
 
   selectPlayer(String position, int index) {
-    List<PlayerSelectionModel> list = [];
-    chosen = List.generate(15, (_) => false); // Reset chosen list
-    chosen[index] = true;
+    // Update only the selected player in 'chosen' and retain previous selections
+    chosen = List.generate(chosen.length, (i) => i == index);
 
-    for (var i = 0; i < players.length; i++) {
-      if (players[i].position == position.toUpperCase()) {
-        list.add(players[i]);
-      }
-    }
-
-    //selectivePlayer.clear();
-    selectivePlayer = list;
-    update();
     if (position.toUpperCase() != previousPosition) {
+      selectivePlayer = players
+          .where((player) => player.position == position.toUpperCase())
+          .toList();
       searchPlayers(position.toUpperCase());
+      previousPosition = position.toUpperCase();
     }
-    previousPosition = position.toUpperCase();
+
+    update(); // Only update relevant widgets
   }
 
   assignPlayer(PlayerSelectionModel player) async {
@@ -289,5 +288,4 @@ class CreateTeamController extends GetxController {
       }
     }
   }
-
 }

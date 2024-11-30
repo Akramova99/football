@@ -112,7 +112,7 @@ class _PlayerDetailPageState extends State<CalendarSheet> {
                   child: GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: controller.calendarMatch.goalscorers!.length,
+                    itemCount:controller.calendarMatch.goalscorers!=null? controller.calendarMatch.goalscorers!.length:0,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, // This creates two items per row
                       mainAxisSpacing: 10, // Spacing between rows

@@ -80,6 +80,13 @@ class _JoinLeaguePageState extends State<JoinLeaguePage> {
 
                     controllerJoin.joinLeague(context);
                     Navigator.pop(context);
+                    if(controllerJoin.isJoin){
+                      controller.linkController.text="";
+                      setState(() {
+
+                      });
+                    }
+
                   },
                   color: AppColors.cyan),
             ],

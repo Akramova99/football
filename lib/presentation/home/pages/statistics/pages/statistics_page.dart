@@ -65,15 +65,15 @@ class _StatisticsPageState extends State<StatisticsPage> {
                       style: CustomStyles.pageTitle,
                     ),
                   ),
-                  const Row(
+                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       DropdownBut(
-                        text: "Clubs",
+                        text: "Klublar".tr,
                         isClub: true,
                       ),
                       DropdownBut(
-                        text: "Position",
+                        text: "Pozitsiya".tr,
                         isClub: false,
                       ),
                     ],

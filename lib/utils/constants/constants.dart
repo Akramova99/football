@@ -3,7 +3,7 @@ import 'package:football/models/team_model.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/calendar_pages/calendar_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/leagues/leagues_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/my_team_page.dart';
-import 'package:football/presentation/home/pages/home_pages/pages/points_page.dart';
+import 'package:football/presentation/home/pages/home_pages/pages/points_pages/points_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/rating_page.dart';
 import 'package:football/presentation/home/pages/home_pages/pages/transfer_pages/transfer_page.dart';
 import 'package:football/presentation/home/pages/settings_pages/pages/introduction_game.dart';
@@ -13,6 +13,50 @@ import 'package:football/presentation/home/pages/settings_pages/pages/profile_pa
 import '../../presentation/home/pages/settings_pages/pages/invite_friends_page.dart';
 
 const position = ["FORWARD", "MIDFIELDER", "DEFENDER", "GOALKEEPER"];
+
+const clubsUz = [
+  "Chelsi",
+  "Liverpul",
+  "Manchester",
+  "Everton",
+  "Lester",
+  "Fulxem",
+  "Tottenxem",
+  "Brayton",
+  "Bornmut",
+  "Vest Xem",
+  "Kristal Pelas",
+  "Arsenal",
+  "Nottingem",
+  "Brentford",
+  "Vulverxempton",
+  "Sautgempton",
+  "Nyukasl",
+  "Ipsvich",
+  "Aston Villa"
+];
+const clubsRu = [
+  "Челси",
+  "Ливерпуль",
+  "Манчестер",
+  "Эвертон",
+  "Лестер",
+  "Фулхэм",
+  "Тоттенхэм",
+  "Брайтон",
+  "Борнмут",
+  "Вест Хэм",
+  "Кристал Пэлас",
+  "Арсенал",
+  "Ноттингем",
+  "Брентфорд",
+  "Вулверхэмптон",
+  "Саутгемптон",
+  "Ньюкасл",
+  "Ипсвич",
+  "Астон Вилла"
+];
+
 const intro = [
   {
     'image': "assets/images/intro/intro_img_2.png",
@@ -48,12 +92,13 @@ const List bottomNavigation = [
   },
 ];
 
-const List homeMenuItems = [
+List homeMenuItems = [
   {
     "image": "assets/images/home/m_points_img.png",
     "label": "Ochkolar",
     "rout": PointsPage(
       key: PageStorageKey("PointsPage"),
+      isHaveLeague: true,
     )
   },
   {
@@ -204,15 +249,28 @@ String formatPhoneNumber(String phoneNumber) {
   );
 }
 
-var tactics = [
+List<List<int>> tactics = [
   [1, 3, 4, 3],
   [1, 3, 5, 2],
   [1, 4, 5, 1],
-  [1, 4, 4, 2]
+  [1, 4, 4, 2],
+  [1, 4, 3, 3],
+  [1, 5, 3, 2],
+  [1, 5, 4, 1],
+  [1, 5, 2, 3]
 ];
 
-var tacticsString = ['1-3-4-3', '1-3-5-2', '1-4-5-1', '1-4-4-2'];
-
+var tacticsString = [
+  '1-3-4-3',
+  '1-3-5-2',
+  '1-4-5-1',
+  '1-4-4-2',
+  '1-4-3-3',
+  '1-5-3-2',
+  '1-5-4-1',
+  "1-5-2-3"
+];
+List<Widget> allList = [];
 Map<int, String> reversePosition = {
   0: "goalkeeper",
   1: "defender",
@@ -224,7 +282,11 @@ var tacticValues = {
   '1-3-4-3': [1, 3, 4, 3],
   '1-3-5-2': [1, 3, 5, 2],
   '1-4-5-1': [1, 4, 5, 1],
-  '1-4-4-2': [1, 4, 4, 2]
+  '1-4-4-2': [1, 4, 4, 2],
+  '1-4-3-3': [1, 4, 3, 3],
+  '1-5-3-2': [1, 5, 3, 2],
+  '1-5-4-1': [1, 5, 4, 1],
+  '1-5-2-3': [1, 5, 2, 3],
 };
 
 List<Player> fillTeamWithRequiredPositions(

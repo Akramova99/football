@@ -26,7 +26,7 @@ class StatisticsPageController extends GetxController {
     var response = await DioService.GET(
         "${DioService.PLAYER_STATISTIC}$position&clubId=$clubId", null);
     statics = statisticModelFromJson(response);
-    Logger().d(response);
+    Logger().w(response);
     update();
   }
 

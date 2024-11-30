@@ -84,17 +84,24 @@ class TransferPageController extends GetxController {
   getStanding() async {
     var response = await DioService.GET(DioService.STANDING_PLAYERS, null);
     standing = standingModelFromJson(response);
-    Logger().i(standing[0].leagueId);
+    //  Logger().i(standing[0].leagueId);
     update();
   }
 
   String previous = "Forward";
 
-  onClubChange(int? index) {
-    clubsIndex = index ?? 0;
-    searchPlayers(previous.toUpperCase());
+  onClubChange( String clubName) {
+   // clubsIndex = index ?? 0;
+    Logger().d(clubsIndex);
+
+    // playersDetails ro'yxatini clubName asosida saralash
+    playersDetails = playersDetails
+        .where((player) => player.clubName!.contains(clubName))
+        .toList();
+
     update();
   }
+
 
   Map<String, int> getTactics() {
     var tatcic = tacticValues[team.tactic];
@@ -152,7 +159,7 @@ class TransferPageController extends GetxController {
         chosen[index] = true;
       }
       previous = player.position!;
-      searchPlayers(player.position);
+      searchPlayers2(player.position!);
       selectivePlayers.clear();
       playersDetails.clear();
     }
@@ -160,7 +167,7 @@ class TransferPageController extends GetxController {
   }
 
   sellPLayer(Player player) async {
-   // Logger().i("selling");
+    // Logger().i("selling");
 
     int index = primaryTeam.indexOf(player);
     if (index != -1) {
@@ -263,28 +270,61 @@ class TransferPageController extends GetxController {
 
   bool isLoadingPLayer = false;
 
-  searchPlayers(position) async {
-    var path = clubsIndex != 0
-        ? "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice&clubId=${clubs[clubsIndex].id}"
-        : "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice";
-    // print(path);
-    isLoadingPLayer = true;
-    update();
-    try {
-      var response = await DioService.dio.get<String>(path);
-      if (response.statusCode == 200) {
-        print("Searching");
-        var jsonData = (response.data!);
-        var players = playerModelFromJson(jsonData);
-        playersDetails = convertPlayerSelectionModelListToPlayerList(players);
-        selectivePlayers = playersDetails;
-        isLoadingPLayer = false;
-        update();
-      } else {
-        print(response.statusMessage);
+  searchPlayers() async {
+    for (int i = 0; i < 4; i++) {
+      String position = listPositionHeader[i].toUpperCase();
+      var path = clubsIndex != 0
+          ? "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice&clubId=${clubs[clubsIndex].id}"
+          : "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice";
+      // print(path);
+      isLoadingPLayer = true;
+      update();
+      try {
+        var response = await DioService.dio.get<String>(path);
+        Logger().w(response.statusCode);
+        if (response.statusCode == 200) {
+          print("Searching");
+          var jsonData = (response.data!);
+          var players = playerModelFromJson(jsonData);
+          playersDetails
+              .addAll(convertPlayerSelectionModelListToPlayerList(players));
+          selectivePlayers = playersDetails;
+          isLoadingPLayer = false;
+          update();
+        } else {
+          print(response.statusMessage);
+        }
+      } on DioException catch (e) {
+        Logger().e(e);
       }
-    } on DioException catch (e) {
-      Logger().e(e);
+    }
+  }
+
+  searchPlayers2(String position) async {
+    for (int i = 0; i < 4; i++) {
+      String position = listPositionHeader[i];
+      var path = clubsIndex != 0
+          ? "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice&clubId=${clubs[clubsIndex].id}"
+          : "/api/v1/players/filter?position=$position&minPrice=$minPrice&maxPrice=$maxPrice";
+      // print(path);
+      isLoadingPLayer = true;
+      update();
+      try {
+        var response = await DioService.dio.get<String>(path);
+        if (response.statusCode == 200) {
+          print("Searching");
+          var jsonData = (response.data!);
+          var players = playerModelFromJson(jsonData);
+          playersDetails = convertPlayerSelectionModelListToPlayerList(players);
+          selectivePlayers = playersDetails;
+          isLoadingPLayer = false;
+          update();
+        } else {
+          print(response.statusMessage);
+        }
+      } on DioException catch (e) {
+        Logger().e(e);
+      }
     }
   }
 

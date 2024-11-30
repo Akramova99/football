@@ -78,13 +78,15 @@ bool isUpload =false;
       "username": username,
       "email": phoneNumber,
       "password": password
-    };
-
-    if (username.isNotEmpty && password.isNotEmpty && phoneNumber.isNotEmpty) {
+    };//
+    Logger().i(phoneNumber.isNotEmpty);
+    if (username.isNotEmpty  && phoneNumber.isNotEmpty) {
+      userId = DbService.getUserId();
       var response = await DioService.dio
           .put(DioService.UPDATE_USERDATA_API + userId, data: data);
+      Logger().i(response.statusCode);
       if (response.statusCode == 200) {
-        ToastService.showSuccess("Malumotlar o'zgartisrildi");
+        ToastService.showSuccess("Malumotingiz o'zgartirildi");
       }
       if (response.statusCode == 409) {
         ToastService.showError("Bu telefon raqami ro'yhatdan otgan");

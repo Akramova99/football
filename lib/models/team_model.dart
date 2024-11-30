@@ -7,7 +7,9 @@ import 'dart:convert';
 TeamModel teamModelFromJson(String str) => TeamModel.fromJson(json.decode(str));
 
 String teamModelToJson(TeamModel data) => json.encode(data.toJson());
-
+List<Player> playerProfileFromJson(String str) =>
+    List<Player>.from(
+        json.decode(str).map((x) => Player.fromJson(x)));
 class TeamModel {
   int? id;
   String? name;
@@ -54,7 +56,7 @@ class Player {
   String? clubName;
   String? clubLogo;
   String? jersey;
-  int? score;
+  int? totalScore;
   double? price;
   bool? isCapitan;
   bool? isPrimary;
@@ -69,7 +71,7 @@ class Player {
     this.clubName,
     this.clubLogo,
     this.jersey,
-    this.score,
+    this.totalScore,
     this.price,
     this.isCapitan,
     this.isPrimary,
@@ -85,7 +87,7 @@ class Player {
     clubName: json["clubName"],
     clubLogo: json["clubLogo"],
     jersey: json["jersey"],
-    score: json["score"],
+    totalScore: json["totalScore"],
     price: json["price"]?.toDouble(),
     isCapitan: json["isCapitan"],
     isPrimary: json["isPrimary"],
@@ -101,7 +103,7 @@ class Player {
     "clubName": clubName,
     "clubLogo": clubLogo,
     "jersey": jersey,
-    "score": score,
+    "totalScore": totalScore,
     "price": price,
     "isCapitan": isCapitan,
     "isPrimary": isPrimary,

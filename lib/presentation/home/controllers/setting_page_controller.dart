@@ -8,7 +8,8 @@ import 'package:logger/web.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SettingPageController extends GetxController {
-  bool isLogout= false;
+  bool isLogout = false;
+
   logOut(context) async {
     var email = DbService.getUserEmail();
     print(email);
