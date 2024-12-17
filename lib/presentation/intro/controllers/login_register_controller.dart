@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:football/models/log_reg_response_model.dart';
@@ -71,10 +73,11 @@ class LoginRegisterController extends GetxController {
         print("Here is userId: $userId");
 
         var firebaseToken = DbService.getFirebaseToken();
-        print(firebaseToken);
+        log(firebaseToken+" ++++++");
         var responseFirebase = await DioService.dio.post(
             DioService.setFirebaseToken(userId),
             data: {"token": firebaseToken});
+        log(responseFirebase.statusCode.toString());
         if (responseFirebase.statusCode == 200) {
 
           //sent notification

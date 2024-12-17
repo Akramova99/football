@@ -36,7 +36,7 @@ class _LeaguesPageState extends State<LeaguesPage> {
   void initState() {
     super.initState();
     // Set TabController in the controller
-    controller.createTeam();
+
     controller.getClubs();
     controller.searchPlayers("FORWARD");
     controller1.getLeagues();

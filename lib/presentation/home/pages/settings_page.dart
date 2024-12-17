@@ -15,7 +15,10 @@ import '../../../utils/constants/constants.dart';
 import '../../../utils/constants/img_roots.dart';
 import '../../widgets/custom_diolog.dart';
 import '../../widgets/language_dialog.dart';
+import '../controllers/deadline_controller.dart';
+import '../controllers/home_page_controller.dart';
 import 'home_pages/controllers/leagues_controller/create_league_controller.dart';
+import 'home_pages/controllers/leagues_controller/extra_leagues_page_controller.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -312,6 +315,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                     button1Text: "Ha".tr,
                                     button2Text: "Yo'q".tr,
                                     button1Function: () {
+                                      // Ensure all controllers are registered before usage
+
+                                      Get.delete<HomePageController>();
+                                      Get.delete<DeadlineController>();
+                                      Get.delete<ExtraLeaguesPageController>();
                                       controller.logOut(context);
                                     },
                                     button2Function: () {

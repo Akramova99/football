@@ -19,18 +19,18 @@ import 'home_pages/controllers/leagues_controller/extra_leagues_page_controller.
 import 'home_pages/pages/leagues/leagues_page.dart';
 
 class HomePage extends StatefulWidget {
-  final PageController pageController;
-
-  const HomePage({super.key, required this.pageController});
+  const HomePage({
+    super.key,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = Get.find<HomePageController>();
-  final leagueController = Get.find<ExtraLeaguesPageController>();
-  final deadController = Get.find<DeadlineController>();
+  final controller = Get.put(HomePageController());
+  final leagueController =Get.put(ExtraLeaguesPageController()) ;
+  final deadController = Get.put(DeadlineController());
   late StreamSubscription _streamSubscription;
   bool isDeviceConnect = false;
   bool isAlert = false;
@@ -87,10 +87,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     internetConnection();
     controller.getUserData();
     controller.getNotification();
-    Get.lazyPut<DeadlineController>(() => DeadlineController());
     leagueController.getMyLeaguesDetails();
     deadController.getDeadlineData();
   }
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               width: 32,
               height: 32,
               margin: EdgeInsets.only(right: 20),
-              padding: EdgeInsets.only(top: 4, right: 4),
+              padding: const EdgeInsets.only(top: 4, right: 4),
               decoration: BoxDecoration(
                   color: AppColors.HRed,
                   borderRadius: BorderRadius.circular(8)),
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                 child: Stack(
                   alignment: Alignment.topRight,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.notifications_outlined,
                       color: Colors.white,
                     ),
@@ -176,349 +176,381 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 100.0),
-            child: Container(
-              //  height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
+        body: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 100.0),
+              child: Container(
+                //  height: MediaQuery.of(context).size.height,
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
 
-                  GetBuilder<DeadlineController>(builder: (_) {
-                    String formattedDateTime =
-                        deadController.deadline.replaceAll('T', ' ');
-                    return Text(
-                      "${"Liga vaqti".tr}: $formattedDateTime",
+                    GetBuilder<DeadlineController>(
+                      builder: (_) {
+                        if (deadController.deadline.isEmpty) {
+                          return const Text(
+                            "Loading...",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Colors.black54,
+                                fontSize: 16),
+                          );
+                        }
+
+                        String formattedDateTime =
+                            deadController.deadline.replaceAll('T', ' ');
+                        return Text(
+                          "${"Liga vaqti".tr}: $formattedDateTime",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              color: Colors.black.withOpacity(0.4),
+                              fontSize: 16),
+                        );
+                      },
+                    ),
+                    Text(
+                      "Sovrinli ligalar".tr,
                       style: TextStyle(
                           fontWeight: FontWeight.w900,
-                          color: Colors.black.withOpacity(0.4),
+                          color: Colors.black,
                           fontSize: 16),
-                    );
-                  }),
-
-                  Text(
-                    "Sovrinli ligalar".tr,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                        fontSize: 16),
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        TabElement(
-                          text: "PREMIER LEAGUE".tr,
-                          onPress: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NavigateLeaguePage()),
-                            );
-                          },
-                          imgPath: "central_img",
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        TabElement(
-                            text: "UEFA Yevropa\nLigasi".tr,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          TabElement(
+                            text: "PREMIER LEAGUE".tr,
                             onPress: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const LeaguesPage()),
+                                    builder: (context) =>
+                                        const NavigateLeaguePage()),
                               );
                             },
-                            imgPath: "central_p2"),
-                      ],
+                            imgPath: "central_img",
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          TabElement(
+                              text: "UEFA Yevropa\nLigasi".tr,
+                              onPress: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const LeaguesPage()),
+                                );
+                              },
+                              imgPath: "central_p2"),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Qoshimcha ma\'lumotlar".tr,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                        fontSize: 16),
-                  ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Qoshimcha ma\'lumotlar".tr,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                          fontSize: 16),
+                    ),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          CustomHomeMenuItem(
+                            data: homeMenuItems[0],
+                            data2: homeMenuTitle[0],
+                          ),
+                          CustomHomeMenuItem(
+                            data: homeMenuItems[1],
+                            data2: homeMenuTitle[1],
+                          ),
+                          CustomHomeMenuItem(
+                            data: homeMenuItems[2],
+                            data2: homeMenuTitle[2],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
                       children: [
                         CustomHomeMenuItem(
-                          data: homeMenuItems[0],
-                          data2: homeMenuTitle[0],
+                          data: homeMenuItems[3],
+                          data2: homeMenuTitle[3],
                         ),
                         CustomHomeMenuItem(
-                          data: homeMenuItems[1],
-                          data2: homeMenuTitle[1],
+                          data: homeMenuItems[4],
+                          data2: homeMenuTitle[4],
                         ),
                         CustomHomeMenuItem(
-                          data: homeMenuItems[2],
-                          data2: homeMenuTitle[2],
+                          data: homeMenuItems[5],
+                          data2: homeMenuTitle[5],
                         ),
                       ],
                     ),
-                  ),
-                  Row(
-                    children: [
-                      CustomHomeMenuItem(
-                        data: homeMenuItems[3],
-                        data2: homeMenuTitle[3],
-                      ),
-                      CustomHomeMenuItem(
-                        data: homeMenuItems[4],
-                        data2: homeMenuTitle[4],
-                      ),
-                      CustomHomeMenuItem(
-                        data: homeMenuItems[5],
-                        data2: homeMenuTitle[5],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Bizning ligalar".tr,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                        fontSize: 16),
-                  ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Bizning ligalar".tr,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black,
+                          fontSize: 16),
+                    ),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  GetBuilder<ExtraLeaguesPageController>(
-                    builder: (_) {
-                      var league = leagueController.myExtraLeagues;
-                      return Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LeaguesPage()),
-                                );
-                              });
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Stack(
-                                children: [
-                                  CachedNetworkImage(
-                                    imageUrl: league.image ?? "",
-                                    placeholder: (context, url) {
-                                      return Image.asset(
-                                        "assets/images/home/league1.png",
-                                        height: 221,
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                    errorWidget: (context, url, error) {
-                                      print("+++++++++++++++++++++++$error");
-                                      print("+++++++++++++++++++++++$url");
-                                      return Image.asset(
-                                        "assets/images/home/league1.png",
-                                        height: 221,
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
-                                  ),
-                                  // Glassmorphism overlay
-                                  BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 1.0, sigmaY: 2.0),
-                                    // Adjust blur intensity
-                                    child: Container(
-                                      color: Colors.white
-                                          .withOpacity(0.4), // 40% opacity
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GetBuilder<ExtraLeaguesPageController>(
+                      builder: (_) {
+                        var league = leagueController.myExtraLeagues;
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LeaguesPage()),
+                                  );
+                                });
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Stack(
+                                  children: [
+                                    CachedNetworkImage(
+                                      imageUrl: league.image ?? "",
+                                      placeholder: (context, url) {
+                                        return Image.asset(
+                                          "assets/images/home/league1.png",
+                                          height: 221,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                      errorWidget: (context, url, error) {
+                                        print("+++++++++++++++++++++++$error");
+                                        print("+++++++++++++++++++++++$url");
+                                        return Image.asset(
+                                          "assets/images/home/league1.png",
+                                          height: 221,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 22,
-                                          decoration: const BoxDecoration(
-                                              color: AppColors.HRed,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: MaterialButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              "UzbCup League".tr,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 11,
-                                                  fontFamily: "Poppins"),
+                                    // Glassmorphism overlay
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 1.0, sigmaY: 2.0),
+                                      // Adjust blur intensity
+                                      child: Container(
+                                        color: Colors.white
+                                            .withOpacity(0.4), // 40% opacity
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 22,
+                                            decoration: const BoxDecoration(
+                                                color: AppColors.HRed,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            child: MaterialButton(
+                                              onPressed: () {},
+                                              child: Text(
+                                                "UzbCup League".tr,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 11,
+                                                    fontFamily: "Poppins"),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 90,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              "As it happened: Spain win final"
-                                                  .tr,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 11,
-                                                  fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w800),
-                                            ),
-                                            Text(
-                                              "As it happened: Spain win final"
-                                                  .tr,
-                                              style: TextStyle(
-                                                  color: Colors.white
-                                                      .withOpacity(0.6),
-                                                  fontSize: 11,
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                          SizedBox(
+                                            height: 90,
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(
+                                                "As it happened: Spain win final"
+                                                    .tr,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 11,
+                                                    fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w800),
+                                              ),
+                                              Text(
+                                                "As it happened: Spain win final"
+                                                    .tr,
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                        .withOpacity(0.6),
+                                                    fontSize: 11,
+                                                    fontFamily: "Poppins"),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LeaguesPage()),
-                                );
-                              });
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Stack(
-                                children: [
-                                  // The actual image
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LeaguesPage()),
+                                  );
+                                });
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Stack(
+                                  children: [
+                                    // The actual image
 
-                                  CachedNetworkImage(
-                                    imageUrl: league.image ?? "",
-                                    placeholder: (context, url) {
-                                      return Image.asset(
-                                          "assets/images/home/league2.png");
-                                    },
-                                    errorWidget: (context, url, error) {
-                                      print("+++++++++++++++++++++++$error");
-                                      print("+++++++++++++++++++++++$url");
-                                      return Image.asset(
-                                          "assets/images/home/league2.png");
-                                    },
-                                  ),
-                                  // Glassmorphism overlay
-                                  BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 1.0, sigmaY: 2.0),
-                                    // Adjust blur intensity
-                                    child: Container(
-                                      color: Colors.white
-                                          .withOpacity(0.4), // 40% opacity
+                                    CachedNetworkImage(
+                                      imageUrl: league.image ?? "",
+                                      placeholder: (context, url) {
+                                        return Image.asset(
+                                            "assets/images/home/league2.png");
+                                      },
+                                      errorWidget: (context, url, error) {
+                                        print("+++++++++++++++++++++++$error");
+                                        print("+++++++++++++++++++++++$url");
+                                        return Image.asset(
+                                            "assets/images/home/league2.png");
+                                      },
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 22,
-                                          decoration: const BoxDecoration(
-                                              color: AppColors.HRed,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: MaterialButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Uzb Sila League".tr,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 11,
-                                                  fontFamily: "Poppins"),
+                                    // Glassmorphism overlay
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 1.0, sigmaY: 2.0),
+                                      // Adjust blur intensity
+                                      child: Container(
+                                        color: Colors.white
+                                            .withOpacity(0.4), // 40% opacity
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 22,
+                                            decoration: const BoxDecoration(
+                                                color: AppColors.HRed,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            child: MaterialButton(
+                                              onPressed: () {},
+                                              child: Text(
+                                                "Uzb Sila League".tr,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 11,
+                                                    fontFamily: "Poppins"),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 80,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Quarter - Finals ties set".tr,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 11,
-                                                  fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w800),
-                                            ),
-                                            Text(
-                                              homeTex.tr,
-                                              style: TextStyle(
-                                                  color: Colors.white
-                                                      .withOpacity(0.6),
-                                                  fontSize: 11,
-                                                  fontFamily: "Poppins"),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                          SizedBox(
+                                            height: 80,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Quarter - Finals ties set".tr,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 11,
+                                                    fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w800),
+                                              ),
+                                              Text(
+                                                homeTex.tr,
+                                                style: TextStyle(
+                                                    color: Colors.white
+                                                        .withOpacity(0.6),
+                                                    fontSize: 11,
+                                                    fontFamily: "Poppins"),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          // Blur effektini qo'shish
-                        ],
-                      );
-                    },
-                  )
+                            // Blur effektini qo'shish
+                          ],
+                        );
+                      },
+                    )
 
-                  //SizedBox(height: 200,),
-                ],
+                    //SizedBox(height: 200,),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       );
     });
   }
 }
+
+// class HomePage extends StatefulWidget {
+//   const HomePage({super.key});
+//
+//   @override
+//   State<HomePage> createState() => _HomePageState();
+// }
+//
+// class _HomePageState extends State<HomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return  Scaffold(
+//       appBar: AppBar(
+//         title: Text("data"),
+//       ),
+//     );
+//   }
+// }
+

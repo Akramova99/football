@@ -221,9 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   controller.isUpload = false;
                   isChooseImg = false;
                 });
-
                 await Future.delayed(const Duration(milliseconds: 100));
-
                 await controller.chooseImage();
                 controller.getData();
                 setState(() {

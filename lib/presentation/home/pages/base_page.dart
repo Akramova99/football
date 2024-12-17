@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -11,8 +11,11 @@ import 'package:football/presentation/widgets/custom_bottom_navigation_item.dart
 import 'package:football/utils/constants/constants.dart';
 import 'package:get/get.dart';
 
+import '../../../services/db_service.dart';
+
 class BasePage extends StatefulWidget {
   static const String id = "basepage";
+
   const BasePage({super.key});
 
   @override
@@ -23,15 +26,23 @@ class _BasePageState extends State<BasePage> {
   final controller = Get.find<BasePageController>();
 
   @override
+  void initState() {
+    super.initState();
+    log("init ${DbService.getFirebaseToken()}");
+
+    //  controller = Get.put(BasePageController());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<BasePageController>(builder: (_) {
+      log(controller.pageController.initialPage.toString() + " initial");
       return Scaffold(
         body: PageView(
           controller: controller.pageController,
           children: [
             HomePage(
               key: PageStorageKey("home"),
-              pageController: controller.pageController,
             ),
             const StatisticsPage(
               key: PageStorageKey("statistics"),
@@ -39,7 +50,6 @@ class _BasePageState extends State<BasePage> {
             const BalancePage(
               key: PageStorageKey("balance"),
             ),
-
             const SettingsPage(
               key: PageStorageKey("setting"),
             )
@@ -54,7 +64,7 @@ class _BasePageState extends State<BasePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10.0,right: 10,bottom: 10),
+              padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: BackdropFilter(
@@ -69,7 +79,7 @@ class _BasePageState extends State<BasePage> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: BottomAppBar(
-                      color:Colors.black87,
+                      color: Colors.black87,
 
                       //  color: Colors.transparent,
                       child: Row(
