@@ -2,8 +2,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="FantasyUz"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:name="com.football.fantasyUz.MainActivity">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,9 +24,9 @@
                 android:name="firebase_analytics_collection_enabled"
                 android:value="false" />
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
 
 
             <intent-filter>
